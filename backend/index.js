@@ -1,8 +1,9 @@
 const express = require("express");
+const path = require("path")
 const bodyParser = require("body-parser");
-const session = require("express-session")
+// const session = require("express-session")
 const cookieParser = require("cookie-parser");
-const ObjectID = require("mongoose").Types.ObjectId;
+// const ObjectID = require("mongoose").Types.ObjectId;
 const cors = require("cors");
 const fs = require("fs");
 const userRoutes = require("./routes/user.routes");
@@ -13,15 +14,11 @@ require("dotenv").config({ path: ".env" });
 
 
 
-const path = require("path")
+
+
 // const multer = require('multer');
 
 const app = express();
-
-const dir = "images";
-if (!fs.existsSync(dir)) {fs.mkdirSync(dir)}
-const dirpicture = "images/default";
-if (!fs.existsSync(dirpicture)) {fs.mkdirSync(dirpicture)}
 
 // Cors parametre \\ 
 
@@ -36,6 +33,7 @@ const corsOptions = {
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   preflightContinue: false,
 };
+
 app.use(cors(corsOptions));
 
 // parser \\
@@ -50,7 +48,6 @@ app.get('*', checkUser
 // ,(req,res)=>{ console.log(res.locals.user._id);res.send(res.locals.user._id)}
 ); // TODO 
 app.get('/jwtid', requireAuth, (req,res)=>{
-  console.log(req);
   if(req.user === ''){
     res.status(201).json(res.data = 'notoken')
   }else{
@@ -58,14 +55,17 @@ app.get('/jwtid', requireAuth, (req,res)=>{
 }
 });
 
+const dir = "images";
+if (!fs.existsSync(dir)) {fs.mkdirSync(dir)}
+const dirpicture = "images/default";
+if (!fs.existsSync(dirpicture)) {fs.mkdirSync(dirpicture)}
 
-
+// static image express \\
+app.use('/images', express.static(path.resolve(__dirname,'..','images')))
+ 
 // routes\\
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
-
-// static image express \\
-app.use('/images', express.static(path.join(__dirname, 'images')))
 
 // config serveur \\
 app.listen(process.env.PORT, (port) =>

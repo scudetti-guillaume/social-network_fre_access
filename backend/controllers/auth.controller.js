@@ -2,7 +2,7 @@ const UserModel = require("../models/user.model");
 const EmployeesModel = require("../models/employee.model");
 const jwt = require("jsonwebtoken");
 const { signUpErrors, signInErrors } = require("../utils/errors.utils");
-const { log } = require("console");
+
 
 // valid token jwt duration \\
 
@@ -28,7 +28,9 @@ exports.signUp = async (req, res, next) => {
     email: email,
     badge: badge,
   }).count();
-  console.log(find);
+  //* option controller des users \\
+  //* pour descacitver commenter cette conditon ( n'oublier pas de commenter' }' du else ligne 60)
+  //* --------------------------------------------------------------------- \\
   if (find != 1) {
     return res
       .status(401)
@@ -37,6 +39,7 @@ exports.signUp = async (req, res, next) => {
           "echec veuillez réessayer, si le probleme persiste contacter un administrateur",
       });
   } else {
+    //* --------------------------------------------------------------------- \\
     try {
       const userNew = new UserModel({
         lastname: lastname,
@@ -51,7 +54,6 @@ exports.signUp = async (req, res, next) => {
 
       return res.status(201).json(userNew);
     } catch (err) {
-      console.log(err);
 
       const errors = signUpErrors(err);
     }

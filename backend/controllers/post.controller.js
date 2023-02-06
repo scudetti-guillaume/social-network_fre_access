@@ -33,8 +33,9 @@ exports.createPost = async (req, res) => {
   const finalDate = `posté le ${days} à ${hours}h${minutes}`;
   const followerIdArray = req.body.posterFollower.split(",");
   const followingIdArray = req.body.posterFollowing.split(",");
-
-  const newPost = new PostModel({
+    console.log(req.file);
+  const newPost = new PostModel(
+   {
     posterId: req.body.posterId,
     posterfirstname: req.body.posterfirstname,
     posterlastname: req.body.posterlastname,
@@ -52,6 +53,7 @@ exports.createPost = async (req, res) => {
     date: finalDate,
     posterfollower: followerIdArray != null ? followerIdArray : [],
     posterfollowing: followingIdArray != null ? followingIdArray : [],
+     
   });
   try {
     post = await newPost.save();
