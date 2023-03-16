@@ -687,7 +687,9 @@ export default {
       import(/* webpackChunkName:"Postcreate"*/ "./index/postcreate.vue"),
     modify: () => import("./index/modifytest.vue"),
     deletepost: () =>
-      import(/* webpackChunkName:"deletepost"*/ "./index/deletetest.vue"),
+      import(/* webpackChunkName:"deletepost"*/ "./index/deletetest.vue"), 
+    pageadmin: () =>
+      import(/* webpackChunkName:"pageadmin:"*/ "./adminPage.vue"),
   },
   props: {
     // keytest : ['post._id']

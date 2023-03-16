@@ -13,7 +13,11 @@
       <div   id="flag-admin-signal-profil"><v-icon id="flag-admin-signal-icon-profil" size="30px">mdi-check-underline-circle</v-icon> 
                 </div>
               </button>
-              <div v-else id="btn-flag-admin-bis" ></div>
+              <button v-else id="btn-flag-admin-all" @click="(showBan = !showBan), banUserId(userid)" >Bannir <div   id="flag-admin-signal-profil"><v-icon id="flag-admin-signal-icon-profil">mdi-flag</v-icon> 
+                  <div  class="buble-report-profil">
+                    <!-- <span id="number-report-profil">{{ this.userReport.length }}</span> -->
+                  </div>
+                  </div></button>
     </v-card-text>
 
     <v-card-text v-if="url == '' && urlpic == '' || url == '' && urlpic === undefined" class="card-profil-name-admin">
@@ -690,6 +694,22 @@ font-size: large;
 font-style: italic;
 }
 
+#btn-flag-admin-all{
+display: flex;
+flex-direction: row;
+justify-content: space-around;
+align-items: center;
+height: 40px;
+width: 120px;
+background-color: $primary;
+border-radius: 20px;
+border: solid 2px $primary;
+color:$tertiary;
+font-weight: bold;
+font-size: large;
+font-style: italic;
+}
+
 #btn-flag-admin-ban{
 display: flex;
 flex-direction: row;
@@ -725,6 +745,7 @@ width: 130px;
   font-style: italic;
   color: $primary;
   margin-left: 15%;
+
 }
 
 div.v-card__text.card-profil-name {
@@ -740,35 +761,6 @@ div.v-card__text.card-profil-name {
   background-color: $tertiary;
 }
 
-// .card-profil-name-url {
-//   display: flex;
-//   justify-content: center;
-//   background-color: $tertiary;
-// }
-
-// .block-btn-pic-profil {
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-between;
-//   align-items: center;
-//   width: 175px;
-//   margin-left: 30px;
-// }
-
-// button#btn-del-pic-profil {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin-left: 0%;
-//   border: solid 2px $secondary;
-//   border-radius:15px;
-//   color: $secondary;
-//   &:hover {
-//     border-radius: 10px;
-//     background-color: $secondary;
-//     color: $tertiary;
-//   }
-// }
 
 button#btn-del-pic-profil-bis {
   position: relative;
@@ -844,23 +836,6 @@ button#btn-confirm-pic-profil-post {
     cursor: pointer;
   }
 }
-
-// .lab-pic-custom-url {
-//   position: relative;
-//   top: 70px;
-//   left: 140px;
-//   height: 38px;
-//   width: 38px;
-//   background-color: $tertiary;
-//   border-radius: 50%;
-//   border: solid 2px $primary;
-//   padding-bottom: 2%;
-//   padding-right: 2%;
-
-//   &:hover {
-//     cursor: pointer;
-//   }
-// }
 
 .fullname-url {
   padding-top: 1%;

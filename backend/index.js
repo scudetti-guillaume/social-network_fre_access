@@ -71,4 +71,3 @@ app.use("/api/post", postRoutes);
 app.listen(process.env.PORT, (port) =>
   console.log(`listening on port ${process.env.PORT}`)
 );
-

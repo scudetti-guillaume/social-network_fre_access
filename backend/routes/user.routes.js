@@ -3,12 +3,15 @@ const image = require("../middleware/photo.user.middleware");
 const { multerErrors } = require("../utils/errors.utils");
 const router = express.Router();
 const authController = require("../controllers/auth.controller");
+const authAdminController = require("../controllers/authadmin.controller");
 const userController = require("../controllers/user.controller");
 const uploadController = require("../controllers/upload.controller");
 const { requireAuth } = require("../middleware/auth.middleware");
+const { requireAuthAdmin } = require("../middleware/authadmin.middleware");
 
 router.post("/register", authController.signUp);
 router.post("/login", authController.signIn);
+router.post("/loginadmin",requireAuthAdmin, authAdminController.signIn);
 router.get("/logout", authController.logout);
 
 //user  \\

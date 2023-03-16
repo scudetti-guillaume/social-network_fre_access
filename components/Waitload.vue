@@ -1,7 +1,7 @@
 <template>
    <div class="overlay-load">
     <img id="logo" src="../logo/logo.png" />
-    <div id="groupo">Groupomania</div>
+    <div id="groupo">Soc-Net</div>
     <!-- <v-col class="overlaybis-load" justify="center" align="center"> test</v-col> -->
     <!-- <div id="nuxt-loading" aria-live="polite" role="status"><div>Loading...</div></div> -->
    </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="overlay">
-    <v-col class="overlaybis" justify="center" align="center">
+    <div class="overlaybis" justify="center" align="center">
       <div>
         <SignUp v-show="showSignUp" @close-modal="showSignUp = false" />
       </div>
@@ -29,7 +29,7 @@
             <div class="form-popup" id="popup-Form">
               <form @submit.prevent class="form-container">
                 <label for="email">
-                  <h2>Votre mail Groupomania</h2>
+                  <h2>Votre mail Soc-Net</h2>
                 </label>
                 <v-spacer />
                 <input
@@ -54,7 +54,7 @@
                 />
                 <v-spacer />
                 <label for="psw">
-                  <h2>Mot de passe Groupomania-socialnetwork</h2>
+                  <h2>Mot de passe Soc-Net</h2>
                 </label>
                 <v-spacer />
                 <input
@@ -69,7 +69,7 @@
                 <div class="errormsg">{{ infomsg }}</div>
                 <div v-if="successreg" class="successmsg">{{ successreg }}</div>
                 <button
-                  class="btn-valid"
+                  class="btn-valid-login"
                   @click="verifyUser"
                   :disabled="validatedForm"
                   type="submit"
@@ -81,7 +81,7 @@
           </v-card-text>
         </v-col>
       </v-card>
-    </v-col>
+    </div>
   </div>
 </template>
 
@@ -159,27 +159,35 @@ export default {
 </script>
 
 <style lang="scss">
-.overlay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  top: 0px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  position: fixed;
-  visibility: visible;
-  opacity: 1;
-  background-color: rgba(0, 0, 0, 0.7);
-  transition: opacity 0.4s;
-  z-index: 10;
-}
+
+// #modal-signin {
+//   width: 100%;
+
+
+// }
+
+// .overlay {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   width: 100%;
+//   top: 0px;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+//   position: fixed;
+//   visibility: visible;
+//   opacity: 1;
+//   background-color: rgba(0, 0, 0, 0.7);
+//   transition: opacity 0.4s;
+//   z-index: 10;
+// }
 
 .overlaybis{
   display: flex;
   flex-direction: column;
-  width: 80%;
+  max-width: 800px;
+  width: 50vw;
   height: auto;
   
 }
@@ -192,6 +200,7 @@ export default {
   width: auto;
   height: auto;
   border: solid 5px $secondary;
+  border-radius: 10px;
   margin-bottom: 2px;
   background: $tertiary;
 }
@@ -224,9 +233,10 @@ h2.h2-sign-in {
 #body-index {
   border: solid 5px $secondary;
   background: $tertiary;
+  border-radius: 10px;
 }
 
-.btn-valid:disabled {
+.btn-valid-login:disabled {
   padding-right: 1rem;
   padding-left: 1rem;
   border-radius: 15px;
@@ -234,17 +244,19 @@ h2.h2-sign-in {
   border: solid 2px $secondary;
   background: #ccc;
   &:hover {
+    border-radius: 15px;
     cursor: none;
     background: #ccc;
     color: red;
   }
 }
 
-.btn-valid {
+.btn-valid-login {
   height: 50px;
   padding-right: 1rem;
   padding-left: 1rem;
-  border-radius: 15px;
+  // border-radius: 15px;
+   border-radius: 10px;
   margin-top: 20px;
   border: solid 2px $secondary;
   &:hover {

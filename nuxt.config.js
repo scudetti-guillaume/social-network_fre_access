@@ -8,8 +8,8 @@ export default ({
 // export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: 'groupamania',
-    title: 'Groupomania',
+    titleTemplate: 'Soc-Net',
+    title: 'Soc-Net',
     htmlAttrs: {
       lang: 'fr',
   

@@ -41,6 +41,12 @@
         </v-btn> -->
       </router-link>
 
+       <router-link v-if="this.role != undefined"  id="btn-post-router" to="/adminPage" title="page admin">
+     
+          <v-icon>mdi-shield-crown</v-icon>
+ 
+        </router-link>
+ 
       <!-- <v-btn @click="showpost = !showpost" id="btn-post-nav" alt="menu">
         <v-icon>mdi-newspaper-plus </v-icon>
         </v-btn>  -->
@@ -159,6 +165,8 @@ export default {
       avatarpicempty: "",
       userjwtid: "",
       urlpic: "",
+      id:"",
+      role:"",
       right: true,
       drawer: false,
       miniVariant: false,
@@ -202,25 +210,25 @@ export default {
         },
       ],
       items: [
-        {
-          icon: " mdi-newspaper-variant-multiple-outline",
-          title: "le Groupo-book",
-          to: "/",
-        },
+        // {
+        //   icon: " mdi-newspaper-variant-multiple-outline",
+        //   title: "le Groupo-book",
+        //   to: "/",
+        // },
         //   {
         //   icon: "mdi-newspaper-plus ",
         //   title: "creer votre post",
         //   to: "/postpage",
         // },
-        {
-          icon: " mdi-chat",
-          title: "le Groupo-chat",
-          to: "/postpage",
-        },
+        // {
+        //   icon: "mdi-shield-crown",
+        //   title: "le Groupo-chat",
+        //   to: "/adminpage",
+        // },
       ],
 
       // icon: "../logo/logo.png",
-      title: "Groupomania",
+      title: "Soc-Net",
     };
   },
 
@@ -243,8 +251,8 @@ export default {
             .then((data) => {
               this.firstname = data.data.firstname;
               this.urlpic = data.data.photo;
-              console.log("monted" + this.firstname);
-              console.log(typeof this.firstname);
+              this.id = data.data.id;
+              this.role = data.data.role;
               this.getcolor();
             })
             .catch((error) => {
