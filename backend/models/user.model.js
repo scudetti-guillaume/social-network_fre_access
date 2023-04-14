@@ -94,7 +94,7 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    comment: {
+    comments: {
       type: [
         {
           commentId: {

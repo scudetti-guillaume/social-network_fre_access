@@ -23,8 +23,7 @@ exports.createPost = async (req, res) => {
   UserModel.findById(req.user).then((doc)=>{
     if(!doc) res.status(400).send('utilisateur inconnu')})
   const connectedUser = req.user
-  const postedBy = req.body._id
-console.log(process.env.ADMINID);
+  const postedBy = req.body.posterId
   if (req.role === 'admin'|| connectedUser === postedBy) {
 
     const date = new Date(Date.now());
@@ -34,7 +33,6 @@ console.log(process.env.ADMINID);
   const finalDate = `posté le ${days} à ${hours}h${minutes}`;
   const followerIdArray = req.body.posterFollower.split(",");
   const followingIdArray = req.body.posterFollowing.split(",");
-    console.log(req.file);
   const newPost = new PostModel(
    {
     posterId: req.body.posterId,
@@ -511,21 +509,18 @@ exports.commentPost = (req, res) => {
         UserModel.findByIdAndUpdate(
           req.user,
           {
-            $addToSet: {
+            $push: {
               comments: {
-                postCommentId: req.body.postCommentId,
-                commenterId: req.body.commenterId,
-                commenterFirstname: req.body.commenterFirstname,
-                commenterLastname: req.body.commenterLastname,
-                commenterFullname: req.body.commenterFullname,
-                commenterPicture: req.body.commenterPicture,
-                commentLikers: req.body.commentLikers,
+                commentId: req.body.postCommentId,
+                postCommentId: req.body.commenterId,
+                postCommentFullname: req.body.commenterFullname,
+                // commenterPicture: req.body.commenterPicture,
                 comment: req.body.comment,
                 commentDate: finalDate,
               },
             },
           },
-          { new: true },
+          { new: true, upsert: true, setDefaultsOnInsert: true },
           (err, docs) => {
             if (err) res.send(err);
             // if (!err) return res.send(docs);

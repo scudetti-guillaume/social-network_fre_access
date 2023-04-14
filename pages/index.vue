@@ -804,6 +804,23 @@ export default {
   },
   events: {},
   methods: {
+    getPictureComment(){
+    axios.get('http://localhost:5000/api/user/')
+    .then((res)=>{
+    let data = res.data
+    data.forEach(pic => {
+         console.log(pic.photo);
+        //  console.log(posts);
+    });
+
+    
+    
+    
+    
+    })
+    
+    },
+  
     selectPost(index) {
       if (this.seetest.index === index) {
         this.seetest.see = !this.seetest.see;
@@ -819,7 +836,7 @@ export default {
       const select = document.querySelectorAll(".deploy-commentUser-card");
       const selectAll = select.forEach((att) => {
         att.attributes[1].textContent = "display: none";
-        console.log(att.attributes[1].textContent);
+
       });
     },
 
@@ -831,7 +848,7 @@ export default {
         const select = document.querySelectorAll(".deploy-commentUser-card");
         const selectAll = select.forEach((att) => {
           att.attributes[1].textContent = "display: none";
-          console.log(att.attributes[1].textContent);
+
         });
       }
     },
@@ -849,10 +866,10 @@ export default {
       } else {
         if (controle == "v-show='writecomment'") {
           this.PostCommentClose(index);
-          console.log("openpost");
+
         } else {
           this.PostCommentOpen(postid, index);
-          console.log("closepost");
+
         }
       }
     },
@@ -906,13 +923,10 @@ export default {
     },
     controleComment() {
       let testRegex = this.CommentMessage.split(" ").join("");
-      console.log(testRegex);
       if (testRegex != "") {
-        console.log("pasok");
         this.commentValid = true;
         return true;
       } else {
-        console.log("ok");
         this.commentValid = false;
         return false;
       }
@@ -920,7 +934,6 @@ export default {
     controlePostComment(postid, index) {
       let testRegex = this.CommentMessage.split(" ").join("");
       if (testRegex != "") {
-        console.log(testRegex);
         let data = {
           postCommentId: postid,
           commenterId: this.userid,
@@ -1337,6 +1350,7 @@ export default {
       })
       .then(() => {
         this.getRefresh();
+       this.getPictureComment()
       })
       .catch((error) => {
         console.log(error);

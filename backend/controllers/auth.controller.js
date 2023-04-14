@@ -98,6 +98,7 @@ exports.logout = (req, res) => {
   // console.log(res.cookie)
   
   res.cookie("jwt", "", { maxAge: durationTokenLogout });
+  res.cookie("jwtadmin", "", { maxAge: durationTokenLogout });
   
   res.redirect("./");
 };

@@ -13,7 +13,7 @@
                 <li ><button class="friend-btn" @click="$emit('close-modale-sort-follower')" >Mes Abonné(e)s</button></li>
                 <li ><button class="postlike-btn" @click="$emit('close-modale-sort-like')" >Mes Likes</button></li>
                 <li ><button class="postall-btn" @click="$emit('close-modale-sort-all')" >Toutes les publications</button></li>
-                <li v-if="admin == true"><button class="postadmin-btn" @click="$emit('close-modale-sort-signal')" >Signalement</button></li>
+                <li v-if="admin"><button class="postadmin-btn" @click="$emit('close-modale-sort-signal')" >Signalement</button></li>
 
                </div>
                 <p class="comfirm-span-delete"></p>
@@ -48,10 +48,7 @@ export default {
              .get(`http://localhost:5000/jwtid`)
              .then((res) => {
                this.userjwtid = res.data;
-               if(res.data.role != undefined)
-               {setTimeout(() => {
-                this.admin = true
-               }, 0.5);}
+           
                // TODO => Insert loader \\
              })
              .catch((error) => {
@@ -63,6 +60,11 @@ export default {
              .then((docs) => {
                this.role = docs.data.role;
                this.userid = docs.data._id;
+                  if (docs.data.role != undefined) {
+                    setTimeout(() => {
+                        this.admin = true
+                    }, 0.5);
+                }
              })
              .catch((error) => {
                console.log(error);

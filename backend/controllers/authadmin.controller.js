@@ -42,6 +42,6 @@ exports.signIn = async (req, res) => {
 // logout end point \\
 
 exports.logout = (req, res) => {
-  res.cookie("jwt", "", { maxAge: durationTokenLogout });
+  res.cookie("jwtadmin", "", { maxAge: durationTokenLogout });
   res.redirect("./");
 };

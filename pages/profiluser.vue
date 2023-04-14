@@ -208,11 +208,9 @@ export default {
       followId: '',
       followingId: '',
       infoAbo: [],
-
       publication: "Vous n'avez rien publier",
       publications: [],
       pub: [],
-
       lastname: "",
       firstname: "",
       followLastname:"",
@@ -223,25 +221,17 @@ export default {
       userid: "",
       posted: "",
       modifyPictureUserInprogress : false,
-
-      // followkey: 0,
-
       showdel: false,
       showmodify: false,
       warningRecord:false,
       warningEmpty: false,
       warningDelete :false,
       warningDelPic : false,
-
       bioValid:false,
       showloader:true,
 
       scTimer: 0,
       scY: 0,
-
-    
-
-
     };
   },
   computed: {
@@ -273,9 +263,6 @@ export default {
   },
 
   methods: {
-    // reloadPage () {
-    //     replace('/profiluser')
-    //   },
 
     getBio(){
        axios
@@ -347,7 +334,6 @@ export default {
           this.bioValid = true
         },2000)
         return false
-       
         }
     },
 
@@ -376,26 +362,26 @@ export default {
 
        axios
         .put(`http://localhost:5000/api/user/${this.userid}`, formData)
-        .then(() => {
-          axios.get(`http://localhost:5000/api/post`).then((post) => {
-            post.data.forEach((doc) => {
-              if (doc.posterId === this.userid) {
-                const id = [];
-                id.push(doc._id);
-                id.forEach((postid) => {
-                  // console.log(postid);
-                  // console.log(this.photo);
-                  let formData = new FormData();
-                  formData.append("picture", this.photo);
-                  axios.put(
-                    `http://localhost:5000/api/post/photo/${postid}`,
-                    formData
-                  );
-                });
-              }
-            });
-          });
-        })
+        // .then(() => {
+        //   axios.get(`http://localhost:5000/api/post`).then((post) => {
+        //     post.data.forEach((doc) => {
+        //       if (doc.posterId === this.userid) {
+        //         const id = [];
+        //         id.push(doc._id);
+        //         id.forEach((postid) => {
+        //           // console.log(postid);
+        //           // console.log(this.photo);
+        //           let formData = new FormData();
+        //           formData.append("picture", this.photo);
+        //           axios.put(
+        //             `http://localhost:5000/api/post/photo/${postid}`,
+        //             formData
+        //           );
+        //         });
+        //       }
+        //     })
+        //   })
+        // })
         .catch((errors, test) => {
           this.maxsize = errors.response.data.errors.maxsize;
           this.format = errors.response.data.errors.format;
@@ -413,6 +399,11 @@ export default {
           },1500);
         })
       },
+      
+      
+      
+      
+      
 
     deletePicUser(){
       this.showloader = true
@@ -422,31 +413,31 @@ export default {
        let formData = new FormData();
       formData.append("photo", this.photo);
       formData.append("posterId",this.userid)
-
        axios
         .put(`http://localhost:5000/api/user/${this.userid}`, formData)
-        .then(() => {
+        // .then(() => {
           
-            axios.get(`http://localhost:5000/api/post`).then((post) => {
-            post.data.forEach((doc) => {
-              if (doc.posterId === this.userid) {
-                const id = [];
-                id.push(doc._id);
-                id.forEach((postid) => {
-                  // console.log(postid);
-                  // console.log(this.photo);
-                  let formData = new FormData();
-                  formData.append("picture", this.photo);
-                  console.log(this.photo);
-                  axios.put(
-                    `http://localhost:5000/api/post/photo/${postid}`,
-                    formData
-                  );
-                });
-              }
-            });
-          })
-        }).then(( )=>{
+        //     axios.get(`http://localhost:5000/api/post`).then((post) => {
+        //     post.data.forEach((doc) => {
+        //       if (doc.posterId === this.userid) {
+        //         const id = [];
+        //         id.push(doc._id);
+        //         id.forEach((postid) => {
+        //           let formData = new FormData();
+        //           formData.append("picture", this.photo);
+        //           axios.put(
+        //             `http://localhost:5000/api/post/photo/${postid}`,
+        //             formData
+        //           );
+        //         });
+        //       }
+        //     });
+        //   })
+        // })
+        .catch((errors, test) => {
+          console.log(errors);
+        })
+        .then(( )=>{
           setTimeout(() => {
             window.location.reload();
           },1500);
@@ -455,8 +446,6 @@ export default {
 
     picPreview(e) {
       this.modifyPictureUserInprogress = true
-      console.log(e);
-      console.log(this.modifyPictureUserInprogress);
       e.target.value[0].split(" ");
       const pic = e.target.files[0];
       this.photo = pic;
@@ -481,17 +470,13 @@ export default {
       localStorage.setItem('categories', parse);
     },
 
-
     getPosts() {
-      
       axios.get(`http://localhost:5000/api/post/postby/${this.userjwtid}`)
         .then((doc)=>{
           this.pub= doc.data
           console.log(doc.data);
         })
     },
-
-    
 
     getFollowBack(id) {
       axios.patch(`http://localhost:5000/api/user/follow/${this.userid}`, { idToFollow: id })
@@ -501,7 +486,6 @@ export default {
             .then((docs) => {
               this.follower = docs.data.followers;
               this.following = docs.data.following;
-           
             })
             .catch((error) => {
               console.log(error);
@@ -562,12 +546,6 @@ export default {
           behavior: "smooth"
         });
       },
-
-    
-
-
-
-
   },
 
   async mounted() {

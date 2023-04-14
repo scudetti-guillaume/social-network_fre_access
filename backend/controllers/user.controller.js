@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 
 exports.getAllUsers = async (req, res) => {
   // const badge =  await UserModel.find().select("-badge");
-  const users = await UserModel.find().select("-password").select("-badge");
+  const users = await UserModel.find().select("-password").select("-badge").select("-role");
 
   res.status(200).json(users);
 };
@@ -23,7 +23,8 @@ exports.userInfo = async (req, res) => {
     else console.log("utilisateur inconnu: " + err);
   })
     .select("-password")
-    .select("-badge");
+    .select("-badge")
+    
 };
 
 // update user end point \\
@@ -43,7 +44,29 @@ exports.updateUser = async (req, res) => {
             }`
           : ``,
     };
+    
+    const updatePicture = (
+      req.file != null
+          ? `${req.protocol}://${req.get("host")}/images/default/${
+              req.file.filename
+            }`
+          : ``
+    )
     try {
+
+await PostModel.updateMany(
+  { "comments.commenterId": req.params.id },
+  { $set: { "comments.$[elem].commenterPicture": updatePicture } },
+  { arrayFilters: [{ "elem.commenterId": req.params.id }], multi: true }
+);
+
+await PostModel.updateMany(
+  { posterId: req.params.id },
+  { $set: { posterpicture: updatePicture } },
+  {new : true}
+  // { arrayFilters: [{ "elem.commenterId": req.params.id }], multi: true }
+);
+    
       await UserModel.findByIdAndUpdate(
         req.params.id,
         { $set: updatedData },
@@ -51,9 +74,13 @@ exports.updateUser = async (req, res) => {
       )
         .then((docs) => res.json("profil mise a jour"))
         .catch((err) => res.status(500).send({ message: err }));
+        
+    
+            
     } catch (err) {
       return res.status(400).json({ message: err });
     }
+  
   } else {
     res.cookie("jwt", "", { session: false, maxAge: 1 });
     res.status(400).json("non autoriser");
@@ -200,6 +227,8 @@ exports.delPicUser = (req, res) => {
             }
           });
         });
+        
+        
       } else {
         res.cookie("jwt", "", { session: false, maxAge: 1 });
         res.status(400).json("nocookie");

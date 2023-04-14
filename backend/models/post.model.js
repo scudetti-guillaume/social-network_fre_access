@@ -71,46 +71,24 @@ const PostSchema = new mongoose.Schema(
             type: String
         },
         comments: {
-            type: [
+           type :[ 
                 {
-                    postCommentId: {
-                       type: String,
-                       required : true
-                    },
-                    commenterId: {
-                       type: String,
-                       required : true
-                    },
-                    commenterFirstname:{
-                        type: String,
-                        required : true
-                     },
-                    commenterLastname:{
-                        type: String,
-                        required : true
-                     },
-                    commenterFullname: {
-                        type: String,
-                        required : true
-                     },
-                     commenterPicture: {
-                       type: String
-                    },
-                     comment: {
+                    postCommentId: String,
+                    commenterId:String,
+                    commenterFirstname:  String,
+                    commenterLastname:String,
+                    commenterFullname: String,
+                     commenterPicture: String,
+                     comment:  {
                      type: String,
                      trim: true,
                      maxlenght: 200,
                      required : true
                      },
-                    commentLikers:{ 
-                       type: [String]
-                    },
-                    commentDate : {
-                        type: String
-                    },
-                    
-                }
-            ],
+                    commentLikers: [String],
+                    commentDate :  String,
+                    }
+                    ]
         },
     },
     {

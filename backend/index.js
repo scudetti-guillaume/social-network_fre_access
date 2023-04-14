@@ -9,12 +9,9 @@ const fs = require("fs");
 const userRoutes = require("./routes/user.routes");
 const postRoutes = require("./routes/post.routes");
 const { checkUser, requireAuth } = require("./middleware/auth.middleware");
+const { requireAuthAdmin } = require("./middleware/authadmin.middleware");
 require("./config/db");
 require("dotenv").config({ path: ".env" });
-
-
-
-
 
 // const multer = require('multer');
 
@@ -48,6 +45,14 @@ app.get('*', checkUser
 // ,(req,res)=>{ console.log(res.locals.user._id);res.send(res.locals.user._id)}
 ); // TODO 
 app.get('/jwtid', requireAuth, (req,res)=>{
+  if(req.user === ''){
+    res.status(201).json(res.data = 'notoken')
+  }else{
+  res.status(200).send(res.locals.user._id)
+}
+});
+
+app.get('/jwtidadmin',requireAuthAdmin, (req,res)=>{
   if(req.user === ''){
     res.status(201).json(res.data = 'notoken')
   }else{

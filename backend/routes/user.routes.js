@@ -11,13 +11,13 @@ const { requireAuthAdmin } = require("../middleware/authadmin.middleware");
 
 router.post("/register", authController.signUp);
 router.post("/login", authController.signIn);
-router.post("/loginadmin",requireAuthAdmin, authAdminController.signIn);
+router.post("/loginadmin",requireAuth, authAdminController.signIn);
 router.get("/logout", authController.logout);
 
 //user  \\
 
 router.get("/", userController.getAllUsers);
-router.get('/:id', userController.userInfo);
+router.get('/:id',requireAuthAdmin, userController.userInfo);
 router.put("/:id",requireAuth,(req, res, next) => {image(req, res, function (err) {if (err) {console.log(err.message); const errors = multerErrors(err);res.status(400).json({ errors });
 } else {next();}
   });
@@ -25,7 +25,7 @@ router.put("/:id",requireAuth,(req, res, next) => {image(req, res, function (err
 router.patch("/banuser/:id",requireAuth,userController.banuser)
 router.patch("/unbanuser/:id",requireAuth,userController.unbanuser)
 router.patch("/signalUser/:id",requireAuth,userController.signalUser)
-router.patch("/deleteuserpicture/:id",requireAuth,userController.delPicUser)
+// router.patch("/deleteuserpicture/:id",requireAuth,userController.delPicUser)
 // router.delete("/:id", userController.userDelete);
 router.patch("/follow/:id",requireAuth, userController.follow);
 router.patch("/unfollow/:id",requireAuth, userController.unfollow);
