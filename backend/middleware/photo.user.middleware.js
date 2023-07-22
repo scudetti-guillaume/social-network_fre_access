@@ -9,9 +9,9 @@ function fileFilter(req, file, cb) {
     return cb(new Error('invalid format'));
   }
 }
-  const storage = multer.diskStorage({destination : (req,res,cb)=> {cb(null,`images/default`)},
+const storage = multer.diskStorage({
+  destination: (req, res, cb) => { cb(null, `${process.env.BASE_SERVER}/profil`)},
     filename: function (req, file, cb) { 
-       // id du user pour le name \\
        const name = req.params.id + ".jpg"
         cb(null,name);
       },

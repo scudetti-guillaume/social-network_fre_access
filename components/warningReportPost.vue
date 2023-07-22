@@ -3,7 +3,7 @@
     <v-col v-if="!reportcheck.includes(userFromId )" class="d-flex justify-center align-center">
       <v-card class="popup-report-com">
         <p class="logo-disconnect-delete">
-          <img class="logo-white" src="../logo/logo.png" alt="logo" />
+          <img class="logo-white" src="../static/logo/logo.png" alt="logo" />
           <span>La team GROUPOMANIA</span>
         </p>
         <p v-if="!reportconfirm" id="span-report-post">
@@ -52,7 +52,7 @@
     <v-col v-else class="d-flex justify-center align-center">
       <v-card class="popup-report-com">
         <p class="logo-disconnect-delete">
-          <img class="logo-white" src="../logo/logo.png" alt="logo" />
+          <img class="logo-white" src="../static/logo/logo.png" alt="logo" />
           <span>La team GROUPOMANIA</span>
         </p>
         <p  id="span-report-post-titre">
@@ -131,12 +131,11 @@ export default {
     userSignalFullname: this.userSignalFullname,
     postSignal :this.postSignal
       }
-      
-      axios.patch(`http://localhost:5000/api/post/postsignal/${this.postSignal}`,sendInfo)
+          this.$axios.patch(`/api/post/postsignal/${this.postSignal}`,sendInfo)
+      // axios.patch(`http://localhost:5000/api/post/postsignal/${this.postSignal}`,sendInfo)
       .then((doc)=>{
           console.log(doc);
           this.reportcheck = []
-
       })
       setTimeout(() => {
         this.$emit('close-modale-report-comfirm')

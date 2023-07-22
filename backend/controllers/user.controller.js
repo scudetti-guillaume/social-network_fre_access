@@ -39,7 +39,7 @@ exports.updateUser = async (req, res) => {
       bio: req.body.bio,
       photo:
         req.file != null
-          ? `${req.protocol}://${req.get("host")}/images/default/${
+          ? `${req.protocol}://${req.get("host")}/${process.env.BASE_IMAGE_PROFIL}/${
               req.file.filename
             }`
           : ``,
@@ -47,7 +47,7 @@ exports.updateUser = async (req, res) => {
     
     const updatePicture = (
       req.file != null
-          ? `${req.protocol}://${req.get("host")}/images/default/${
+        ? `${req.protocol}://${req.get("host")}/${process.env.BASE_IMAGE_PROFIL}/${
               req.file.filename
             }`
           : ``
@@ -216,10 +216,9 @@ exports.delPicUser = (req, res) => {
       const postedBy = post.posterId;
       const connectedUser = req.user;
       if (req.role === 'admin' || connectedUser === postedBy) {
-        let delimg = post.picture.split("images/default")[1];
-        fs.unlink(`images/default/${delimg}`, () => {
+        let delimg = post.picture.split("profil/")[1];
+        fs.unlink(`${process.env.BASE_DELETE_IMAGE_PROFIL}/${delimg}`, () => {
           UserModel.findByIdAndRemove(req.params.id, (err, docs) => {
-            // console.log(req);
             if (!err) {
               res.status(200).json("lalalala photo supprimer");
             } else {

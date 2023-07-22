@@ -10,13 +10,9 @@ function fileFilter(req, file, cb) {
   }
 }
   const storage = multer.diskStorage({
-    // destination : (req,res,cb)=> {cb(null,`images/upload`)},
+    destination: (req, res, cb) => { cb(null, `${process.env.BASE_SERVER}/profil`) },
     filename: function (req, file, cb) { 
-     
-        //  console.log(req);
-       // id du user pour le name \\
        const name = req.user + ".jpg"
-      
         cb(null,name);
       },
   })

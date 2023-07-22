@@ -5,13 +5,7 @@ const ObjectID = require("mongoose").Types.ObjectId;
 const durationTokenLogout = 1;
 
 exports.requireAuth = (req, res, next) => {
-  // const auth = req.headers.cookie;
-  // const token = auth && auth.split("=")[1];
   const token = req.cookies.jwt;
-  // console.log(auth);
-  // console.log(token);
-  // console.log(req.cookies.jwt);
-
 
   if (token ) {
     jwt.verify(token, process.env.TOKEN_SECRET, async (err, decodedToken) => {
@@ -48,8 +42,6 @@ exports.requireAuth = (req, res, next) => {
 
 exports.checkUser = (req, res, next) => {
   const token = req.cookies.jwt;
-  // const auth = req.headers.cookie;
-  // const token = auth && auth.split("=")[1];
   if (token) {
     jwt.verify(token, process.env.TOKEN_SECRET, async (err, decodedToken) => {
       if (err) {
@@ -58,11 +50,8 @@ exports.checkUser = (req, res, next) => {
 
         next();
       } else {
-        // console.log(decodedToken);
         let user = await UserModel.findById(decodedToken.id);
-        //   console.log(decodedToken.id);
         res.locals.user = user;
-        //    console.log("test"+res.locals.user);
         next();
       }
     });

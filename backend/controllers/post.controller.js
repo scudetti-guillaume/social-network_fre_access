@@ -5,6 +5,7 @@ const SignalModel = require("../models/signal.model");
 const CommentModel = require("../models/comment.model");
 const ObjectID = require("mongoose").Types.ObjectId;
 const fs = require("fs");
+const { log } = require("console");
 
 
 // read post end point \\
@@ -33,6 +34,9 @@ exports.createPost = async (req, res) => {
   const finalDate = `posté le ${days} à ${hours}h${minutes}`;
   const followerIdArray = req.body.posterFollower.split(",");
   const followingIdArray = req.body.posterFollowing.split(",");
+  console.log(req.protocol);
+  console.log(req.get("host"));
+  console.log(req);
   const newPost = new PostModel(
    {
     posterId: req.body.posterId,
@@ -44,7 +48,7 @@ exports.createPost = async (req, res) => {
     message: req.body.message,
     picture:
       req.file != null
-        ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+        ? `${req.protocol}://${req.get("host")}/${process.env.BASE_IMAGE_POST}/${req.file.filename}`
         : "",
     video: req.body.video,
     likers: [],
@@ -87,7 +91,7 @@ exports.updatePost = (req, res) => {
         message: req.body.message,
         picture:
           req.file != null
-            ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+            ? `${req.protocol}://${req.get("host")}/${process.env.BASE_IMAGE_POST}/${req.file.filename}`
             : `${req.body.file}`,
         date: finalDate,
       };
@@ -117,7 +121,7 @@ exports.updatePictureUserPost = async (req, res) => {
     const updatedRecord = {
       posterpicture:
         req.file != null
-          ? `${req.protocol}://${req.get("host")}/images/default/${
+          ? `${req.protocol}://${req.get("host")}/${process.env.BASE_IMAGE_POST}/${
               req.file.filename
             }`
           : ``,
@@ -283,6 +287,7 @@ exports.getPostSignal = (req, res) => {
     });
 };
 
+
 // delete post end point \\
 exports.deletePost = (req, res) => {
   if (!ObjectID.isValid(req.params.id))
@@ -294,8 +299,8 @@ exports.deletePost = (req, res) => {
       const postedBy = post.posterId;
       const connectedUser = req.user;
       if (req.role == 'admin' || connectedUser === postedBy) {
-        let delimg = post.picture.split("images/")[1];
-        fs.unlink(`images/${delimg}`, () => {
+        let delimg = post.picture.split("post/")[1];
+        fs.unlink(`${process.env.BASE_DELETE_IMAGE_POST}/${delimg}`, () => {
           PostModel.findByIdAndRemove(req.params.id, (err, docs) => {
             if (!err) {
               res.status(200).json(docs);
@@ -313,6 +318,12 @@ exports.deletePost = (req, res) => {
     });
 };
 
+// const logStream = fs.createWriteStream('../../lesiteduscudo.com/soc/log.log');
+// console.log = (message) => {
+//   logStream.write(`${message}\n`);
+//   process.stdout.write(`${message}\n`);
+// };
+
 // delete picture end point \\
 
 exports.deleteOnePicture = (req, res) => {
@@ -321,8 +332,8 @@ exports.deleteOnePicture = (req, res) => {
       const postedBy = post.posterId;
       const connectedUser = req.user;
       if (req.role === 'admin' || connectedUser === postedBy) {
-        let delimg = post.picture.split("images/")[1];
-        fs.unlink(`images/${delimg}`, (err) => {
+        let delimg = post.picture.split("post/")[1];
+        fs.unlink(`${process.env.BASE_DELETE_IMAGE_POST}/${delimg}`, (err) => {
           if (err) {
             console.log("failed to delete local image:" + err);
           } else {
@@ -346,9 +357,9 @@ exports.deleteOldPicModidify = (req, res) => {
       const connectedUser = req.user
       if (req.role === 'admin'|| connectedUser === postedBy) {
         old = req.body.id;
-        let delimg = old.split("images/")[1];
+        let delimg = old.split("post/")[1];
   
-        fs.unlink(`images/${delimg}`, (err) => {
+        fs.unlink(`${process.env.BASE_DELETE_IMAGE_POST}/${delimg}`, (err) => {
           if (err) {
             console.log("failed to delete local image:" + err);
           } else {

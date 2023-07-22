@@ -5,12 +5,12 @@
     <p> 😭 Vous-êtes sur de vouloir partir ?  😭 </p>
   <nuxt-link class="cancel-disco-btn" to="./" ><v-btn id="btn-notdisco-comfirm" @click="" >non j'ai changer d'avis</v-btn></nuxt-link>
     <p>si tel est votre choix ...</p>   
-    <p class="logo-disconnect"><img class="logo-white-disco" src="../logo/logo.png" alt="logo groupomania" />La team GROUPOMANIA </p>
+    <p class="logo-disconnect"><img class="logo-white-disco" src="../static/logo/logo.png" alt="logo groupomania" />La team GROUPOMANIA </p>
     <v-btn id="btn-deco" @click.prevent="logOut" type=text ><span>Deconnexion</span></v-btn>
   </v-card>
   <v-card class="popup" v-else>
     <p >à bientôt ☺️ </p>
-    <p class="logo-disconnect"><img class="logo-white" src="../logo/logo.png"  alt="logo groupomania" />La team GROUPOMANIA </p>
+    <p class="logo-disconnect"><img class="logo-white" src="../static/logo/logo.png"  alt="logo groupomania" />La team GROUPOMANIA </p>
     <v-btn id="btn-deco-ok" type=text ><span id="btn-deco-ok-span">Deconnecté</span><v-icon class="img-att">mdi-thumb-up-outline</v-icon></v-btn>
   </v-card>
 </v-col>
@@ -29,7 +29,8 @@ export default {
   },
 methods:{
   logOut(){
-    axios.get('http://localhost:5000/api/user/logout')
+   this.$axios.get('/api/user/logout')
+    // axios.get('http://localhost:5000/api/user/logout')
           this.deleteconfirm = false
           setTimeout(() => {
           localStorage.removeItem('sort')
@@ -43,9 +44,6 @@ methods:{
 
 <style lang="scss">
  .overlay {
-  /* display: flex;
-  justify-content: center; */
-  /* align-items: center; */
   width: 100%;
   top: 0px;
   bottom: 0;
@@ -68,8 +66,6 @@ div.popup{
   width: 300px;
   height: fit-content;
   max-height: 200px;
-  // min-height: 200px;
-  // height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -78,7 +74,6 @@ div.popup{
 
 .logo-disconnect{
 display: flex;
-
 }
 
 
@@ -127,7 +122,6 @@ align-items: center;
 color: green;
 margin-bottom: 1%;
 &:hover{
-  // text-shadow: 15px 10px 2px;
   background-color: green;
   color: white;
   font-style: italic;
@@ -136,20 +130,13 @@ margin-bottom: 1%;
 }
 
 a.cancel-disco-btn{
-  // display: flex;
   height: 100%;
   width: 100%;
 text-decoration: none;
 color: green;
 text-shadow: 2px;
-// &:hover{
-//   color:white;
-// }
-
 
 }
-
-
 
 
 </style>

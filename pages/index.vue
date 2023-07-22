@@ -187,7 +187,7 @@
                         @click="(showdel = !showdel), postIdDel(post._id)"
                         title="supprimer votre publication"
                       >
-                        <!-- <v-icon class="delete-icon-main" size="20px">mdi-delete-circle</v-icon> -->
+                
                         Supprimer
                       </button>
                       <button
@@ -196,7 +196,7 @@
                         @click="(showmodify = !showmodify), postIdDel(post._id)"
                         title="modifier votre publication"
                       >
-                        <!-- <v-icon class="pen-icon-main" size="15px">mdi-lead-pencil</v-icon> -->
+                    
                         Modifier
                       </button>
                       <div class="btn-book-main-user">utilisateur</div>
@@ -209,7 +209,7 @@
                         "
                         title="bannir l'utilisateur"
                       >
-                        <!-- <v-icon class="ban-icon-main" size="20px">mdi-delete-circle</v-icon> -->
+                    
                         Bannir
                       </button>
 
@@ -219,7 +219,7 @@
                         @click="(showBan = !showBan), banUserId(post.posterId)"
                         title="debannir l'utilisateur"
                       >
-                        <!-- <v-icon class="ban-icon-main" size="20px">mdi-delete-circle</v-icon> -->
+                
                         Débannir
                       </button>
                     </v-list-item>
@@ -805,20 +805,14 @@ export default {
   events: {},
   methods: {
     getPictureComment(){
-    axios.get('http://localhost:5000/api/user/')
+      this.$axios.get('/api/user/')
+    // axios.get('http://localhost:5000/api/user/')
     .then((res)=>{
     let data = res.data
     data.forEach(pic => {
          console.log(pic.photo);
-        //  console.log(posts);
     });
-
-    
-    
-    
-    
     })
-    
     },
   
     selectPost(index) {
@@ -848,7 +842,6 @@ export default {
         const select = document.querySelectorAll(".deploy-commentUser-card");
         const selectAll = select.forEach((att) => {
           att.attributes[1].textContent = "display: none";
-
         });
       }
     },
@@ -866,10 +859,8 @@ export default {
       } else {
         if (controle == "v-show='writecomment'") {
           this.PostCommentClose(index);
-
         } else {
           this.PostCommentOpen(postid, index);
-
         }
       }
     },
@@ -943,8 +934,8 @@ export default {
           commenterPicture: this.urlpic,
           comment: this.CommentMessage,
         };
-        axios
-          .patch(`http://localhost:5000/api/post/comment-post/${postid}`, data)
+           this.$axios.patch(`/api/post/comment-post/${postid}`, data)
+        // axios.patch(`http://localhost:5000/api/post/comment-post/${postid}`, data)
           .then(() => {
             this.CommentMessage = "";
             document.querySelectorAll(".deploy-commentUser-card")[
@@ -995,12 +986,14 @@ export default {
     },
 
     getPostFollower() {
-      axios
-        .get(`http://localhost:5000/api/post/postfollowing/${this.userid}`)
+     this.$axios.get(`/api/post/postfollowing/${this.userid}`)
+      // axios.get(`http://localhost:5000/api/post/postfollowing/${this.userid}`)
         .then((docs) => {
           this.posts = docs.data;
           if (docs.data[0] === undefined) {
-            axios.get("http://localhost:5000/api/post").then((docs) => {
+           this.$axios.get("/api/post")
+            // axios.get("http://localhost:5000/api/post")
+            .then((docs) => {
               this.posts = docs.data;
             });
             localStorage.removeItem("sort");
@@ -1023,12 +1016,14 @@ export default {
     },
 
     getPostFollowing() {
-      axios
-        .get(`http://localhost:5000/api/post/postfollower/${this.userid}`)
+          this.$axios.get(`/api/post/postfollower/${this.userid}`)
+      // axios.get(`http://localhost:5000/api/post/postfollower/${this.userid}`)
         .then((docs) => {
           this.posts = docs.data;
           if (docs.data[0] === undefined) {
-            axios.get("http://localhost:5000/api/post").then((docs) => {
+             this.$axios.get("/api/post")
+            // axios.get("http://localhost:5000/api/post")
+            .then((docs) => {
               this.posts = docs.data;
             });
             localStorage.removeItem("sort");
@@ -1051,14 +1046,16 @@ export default {
     },
 
     getPostsSignal() {
-      axios
-        .get(`http://localhost:5000/api/post/postsignaladmin/${this.userid}`)
+       this.$axios.get(`/api/post/postsignaladmin/${this.userid}`)
+      // axios.get(`http://localhost:5000/api/post/postsignaladmin/${this.userid}`)
         .then((docs) => {
           console.log(docs);
           this.posts = docs.data;
           console.log(this.posts);
           if (docs.data[0] === undefined) {
-            axios.get("http://localhost:5000/api/post").then((docs) => {
+             this.$axios.get("/api/post")
+            // axios.get("http://localhost:5000/api/post")
+            .then((docs) => {
               this.posts = docs.data;
             });
             localStorage.removeItem("sort");
@@ -1081,12 +1078,14 @@ export default {
     },
 
     getPostIlike() {
-      axios
-        .get(`http://localhost:5000/api/post/postlike/${this.userid}`)
+    this.$axios.get(`/api/post/postlike/${this.userid}`)
+      // axios.get(`http://localhost:5000/api/post/postlike/${this.userid}`)
         .then((doc) => {
           this.posts = doc.data;
           if (doc.data[0] === undefined) {
-            axios.get("http://localhost:5000/api/post").then((docs) => {
+           this.$axios.get("/api/post")
+            // axios.get("http://localhost:5000/api/post")
+            .then((docs) => {
               this.posts = docs.data;
             });
             localStorage.removeItem("sort");
@@ -1109,12 +1108,14 @@ export default {
     },
 
     getPostOwn() {
-      axios
-        .get(`http://localhost:5000/api/post/postby/${this.userid}`)
+     this.$axios.get(`/api/post/postby/${this.userid}`)
+      // axios.get(`http://localhost:5000/api/post/postby/${this.userid}`)
         .then((doc) => {
           this.posts = doc.data;
           if (doc.data[0] === undefined) {
-            axios.get("http://localhost:5000/api/post").then((docs) => {
+          this.$axios.get("/api/post")
+            // axios.get("http://localhost:5000/api/post")
+            .then((docs) => {
               this.posts = docs.data;
             });
             localStorage.removeItem("sort");
@@ -1138,8 +1139,8 @@ export default {
 
     getPosts() {
       localStorage.removeItem("sort");
-      axios
-        .get("http://localhost:5000/api/post")
+            this.$axios.get("/api/post")
+      // axios.get("http://localhost:5000/api/post")
         .then((docs) => {
           this.posts = docs.data;
         })
@@ -1148,9 +1149,8 @@ export default {
         });
     },
     getPostsRefresh() {
-      // localStorage.removeItem('sort')
-      axios
-        .get("http://localhost:5000/api/post")
+      this.$axios.get("/api/post")
+      // axios.get("http://localhost:5000/api/post")
         .then((docs) => {
           this.posts = docs.data;
         })
@@ -1161,8 +1161,6 @@ export default {
 
     getRefresh() {
       this.sortPosts = localStorage.getItem("sort");
-      // this.sortPosts = JSON.parse(localStorage.getItem('sort'))
-      
       switch (this.sortPosts) {
         case "Own":
           this.getPostOwn();
@@ -1184,13 +1182,15 @@ export default {
     clickLike(postId, index) {
       const likeBtn = document.querySelectorAll(".classlikebtn");
       if (likeBtn[index].classList.contains("class-btn-att-unlike")) {
-        axios
-          .patch(`http://localhost:5000/api/post/like-post/${postId}`, {
-            id: this.userid,
-          })
+      this.$axios.patch(`/api/post/like-post/${postId}`, {
+          id: this.userid,
+        })
+        // axios.patch(`http://localhost:5000/api/post/like-post/${postId}`, {
+        //     id: this.userid,
+        //   })
           .then(() => {
-            axios
-              .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+           this.$axios.get(`/api/user/${this.userjwtid}`)
+            // axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
               .then((user) => {
                 this.userLikePostId = user.data.likes;
               })
@@ -1207,13 +1207,15 @@ export default {
             console.log(err);
           });
       } else {
-        axios
-          .patch(`http://localhost:5000/api/post/unlike-post/${postId}`, {
-            id: this.userid,
-          })
+        this.$axios.patch(`/api/post/unlike-post/${postId}`, {
+          id: this.userid,
+        })
+        // axios.patch(`http://localhost:5000/api/post/unlike-post/${postId}`, {
+        //     id: this.userid,
+        //   })
           .then(() => {
-            axios
-              .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+          this.$axios.get(`/api/user/${this.userjwtid}`)
+            // axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
               .then((user) => {
                 this.userLikePostId = user.data.likes;
               })
@@ -1230,7 +1232,6 @@ export default {
             console.log(err);
           });
       }
-      // this.getRefresh()
     },
 
     banUserId(id, postid) {
@@ -1252,18 +1253,17 @@ export default {
     },
 
     getUsers() {
-      axios
-        .get("http://localhost:5000/api/user")
+    this.$axios.get("/api/user")
+      // axios.get("http://localhost:5000/api/user")
         .then((docs) => {})
         .catch((err) => console.log(err));
     },
 
     async deletePost(postId) {
-      await axios
-        .delete(`http://localhost:5000/api/post/${postId}`)
+    await this.$axios.delete(`/api/post/${postId}`)
+      // await axios.delete(`http://localhost:5000/api/post/${postId}`)
         .then((post) => {})
         .catch((err) => console.log(err));
-      // }
     },
 
     getcolor() {
@@ -1273,16 +1273,17 @@ export default {
     },
 
     addFollow(posterId, index) {
-      axios
-        .patch(`http://localhost:5000/api/user/follow/${this.userid}`, {
-          idToFollow: posterId,
-        })
+     this.$axios.patch(`/api/user/follow/${this.userid}`, {
+        idToFollow: posterId,
+      })
+      // axios.patch(`http://localhost:5000/api/user/follow/${this.userid}`, {
+      //     idToFollow: posterId,
+      //   })
         .then(() => {
-          axios
-            .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+        this.$axios.get(`/api/user/${this.userjwtid}`)
+          // axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
             .then((docs) => {
               this.userFollowingId = docs.data.following;
-              // console.log(this.userFollowingId);
             });
           this.getRefresh();
         })
@@ -1292,16 +1293,17 @@ export default {
     },
 
     addUnFollow(posterId) {
-      axios
-        .patch(`http://localhost:5000/api/user/unfollow/${this.userid}`, {
-          idToUnFollow: posterId,
-        })
+    this.$axios.patch(`/api/user/unfollow/${this.userid}`, {
+        idToUnFollow: posterId,
+      })
+      // axios.patch(`http://localhost:5000/api/user/unfollow/${this.userid}`, {
+      //     idToUnFollow: posterId,
+      //   })
         .then(() => {
-          axios
-            .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+             this.$axios.get(`/api/user/${this.userjwtid}`)
+          // axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
             .then((docs) => {
               this.userFollowingId = docs.data.following;
-              // console.log(this.userFollowingId);
             });
           this.getRefresh();
         })
@@ -1312,29 +1314,25 @@ export default {
   },
 
   async mounted() {
-    axios.defaults.withCredentials = true;
+    this.$axios.defaults.withCredentials = true;
     window.addEventListener("scroll", this.handleScroll);
     setTimeout(() => {
       this.showloader = false;
     }, 2500);
     this.userFollowerId = [];
     this.userFollowingId = [];
-
-    await axios
-      .get(`http://localhost:5000/jwtid`)
+    await this.$axios.get(`/jwtid`)
+    // await axios.get(`http://localhost:5000/jwtid`)
       .then((res) => {
-        // console.log(this.userjwtid);
         this.userjwtid = res.data;
         this.show = true;
         this.log = true;
-        // TODO => Insert loader \\
       })
       .catch((error) => {
         console.log(error);
       });
-
-    await axios
-      .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+    await this.$axios.get(`/api/user/${this.userjwtid}`)
+    // await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
       .then((docs) => {
         console.log(docs);
         this.role = docs.data.role;
@@ -1345,8 +1343,6 @@ export default {
         this.userLikePostId = docs.data.likes;
         this.userFollowingId = docs.data.following;
         this.userFollowerId = docs.data.followers;
-        // console.log(this.userFollowingId);
-        // console.log(this.userFollowerId);
       })
       .then(() => {
         this.getRefresh();
@@ -1380,9 +1376,6 @@ div.v-main__wrap {
 #Book {
   display: flex;
   flex-direction: column;
-  // align-items: center;
-  // justify-content: center;
-  // width: 100%;
 }
 
 .center-main {
@@ -1390,7 +1383,6 @@ div.v-main__wrap {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // width: auto;
 }
 
 .card-post {
@@ -1403,15 +1395,10 @@ div.v-main__wrap {
   max-width: 700px;
   min-width: 350px;
   width: 100%;
-
   &:hover {
-    // border-color:green;
-
     transform: scale(1.008);
     transition: ease 0.5s;
   }
-
-  // background-color: red;
 }
 
 .border-card {
@@ -1441,8 +1428,6 @@ div.v-main__wrap {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  //  max-width: 500px;
-  //  margin-right: auto;
   padding-left: 8%;
   width: 100%;
   height: 50px;
@@ -1514,7 +1499,6 @@ div.v-main__wrap {
 }
 
 #btn-post-top {
-  // margin-left: 1%;
   background-color: $tertiary;
   height: 35px;
   width: auto;
@@ -1544,7 +1528,6 @@ div.v-main__wrap {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  // margin-left: auto;
   height: 80px;
   width: 100px;
   padding-top: 0.5%;
@@ -1588,9 +1571,7 @@ div.v-main__wrap {
   border: solid 2px $secondary;
   border-radius: 50%;
   border-color: $primary;
-
   &:hover {
-    // border-color:green;
     transform: scale(1.05);
     transition: ease 0.5s;
   }
@@ -1750,8 +1731,6 @@ button.close-comment-button {
 }
 
 .picture-user-comment {
-  // margin-top: 1.5%;
-  // margin-right: 1%;
   display: flex;
   width: 30px;
   height: 30px;
@@ -1761,7 +1740,6 @@ button.close-comment-button {
   border: solid 2px $secondary;
   border-radius: 50%;
   border-color: $primary;
-
   &:hover {
     transform: scale(1.05);
     transition: ease 0.5s;
@@ -1779,17 +1757,13 @@ button.close-comment-button {
   border: solid 2px rgb(42, 168, 42);
   border-radius: 50%;
   border-color: rgb(42, 168, 42);
-
   &:hover {
-    // border-color:green;
-
     transform: scale(1.05);
     transition: ease 0.5s;
   }
 }
 
 #avatar-empty-book {
-  // margin-top: 5%;
   font-size: 1.8rem;
   display: flex;
   width: 50px;
@@ -1802,11 +1776,8 @@ button.close-comment-button {
   margin-right: 1%;
   background-color: rgb(89, 165, 35);
   color: aliceblue;
-
-  // color:$primary;
   &:hover {
     transform: scale(1.05);
-    // transition: ease 0.5s ;
   }
 }
 
@@ -1820,7 +1791,6 @@ button.close-comment-button {
   border: solid 2px $secondary;
   border-radius: 50%;
   border-color: aliceblue;
-
   &:hover {
     border-color: $primary;
     transform: scale(1.05);
@@ -1839,11 +1809,8 @@ button.close-comment-button {
   border-color: $secondary;
   margin-right: 1%;
   background-color: rgb(89, 165, 35);
-  // color:$primary;
   color: aliceblue;
-
   &:hover {
-    // border-color:green;
     border-color: $primary;
     transform: scale(1.05);
     transition: ease 0.5s;
@@ -1916,14 +1883,12 @@ p.fullname-none {
   border-radius: 15px;
   padding-left: 5px;
   padding-right: 5px;
-  // padding-bottom: 5px;
   color: $secondary;
 
   &:hover {
     border-radius: 10px;
     background-color: $secondary;
     color: $tertiary;
-
     &#btn-post-modify > .pen-icon-main {
       color: $tertiary;
     }
@@ -1941,14 +1906,12 @@ p.fullname-none {
   border-radius: 15px;
   padding-left: 5px;
   padding-right: 5px;
-  // padding-bottom: 5px;
   color: $secondary;
 
   &:hover {
     border-radius: 10px;
     background-color: $secondary;
     color: $tertiary;
-
   }
 }
 
@@ -1968,14 +1931,11 @@ p.fullname-none {
   border-radius: 15px;
   padding-left: 2px;
   padding-right: 5px;
-  // padding-bottom: 5px;
   color: $secondary;
-
   &:hover {
     border-radius: 10px;
     background-color: $secondary;
     color: $tertiary;
-
     &#btn-post-delete > .delete-icon-main {
       color: $tertiary;
     }
@@ -1993,7 +1953,6 @@ p.fullname-none {
   border-radius: 15px;
   padding-left: 2px;
   padding-right: 5px;
-  // padding-bottom: 5px;
   color: $secondary;
 
   &:hover {
@@ -2016,14 +1975,11 @@ p.fullname-none {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  // margin-left: auto;
   height: 80px;
   width: 100px;
   padding-top: 0.5%;
   padding-bottom: 0.5%;
 }
-
-
 
   #btn-post-delete {
   display: none;
@@ -2046,7 +2002,6 @@ p.fullname-none {
     border-radius: 10px;
     background-color: $secondary;
     color: $tertiary;
-
     &#btn-post-delete-bis > .delete-icon-main-bis {
       color: $tertiary;
     }
@@ -2069,22 +2024,16 @@ p.fullname-none {
   border-radius: 15px;
   padding-left: 5px;
   padding-right: 5px;
-  // padding-bottom: 5px;
   color: $secondary;
-
   &:hover {
     border-radius: 10px;
     background-color: $secondary;
     color: $tertiary;
-
     &#btn-post-modify-bis > .pen-icon-main-bis {
       color: $tertiary;
     }
   }
 }
-
-
-
 }
 
 #btn-ban-user {
@@ -2099,14 +2048,12 @@ p.fullname-none {
   border-radius: 15px;
   padding-left: 2px;
   padding-right: 5px;
-  // padding-bottom: 5px;
   color: $secondary;
 
   &:hover {
     border-radius: 10px;
     background-color: $secondary;
     color: $tertiary;
-
     &#btn-ban-user > .ban-icon-main {
       color: $tertiary;
     }
@@ -2119,11 +2066,9 @@ p.fullname-none {
 
 .image-card {
   display: flex;
-
   width: 100%;
   height: 100%;
   padding: 1% 1%;
-  // border-top: solid 2px $secondary;
   border-bottom: solid 2px $secondary;
   border-bottom-left-radius: 5%;
   border-bottom-right-radius: 5%;
@@ -2206,7 +2151,6 @@ p.firstpost {
   flex-wrap: wrap;
   justify-content: center;
   border-top: solid 2px $secondary;
-  // border-bottom: solid 2px $secondary;
   border-top-left-radius: 5%;
   border-top-right-radius: 5%;
   background-color: $tertiary;
@@ -2223,7 +2167,6 @@ p.firstpost {
   justify-content: center;
   width: auto;
   padding-right: 10%;
-
   &:before {
     color: $tertiary;
   }
@@ -2393,11 +2336,9 @@ p.btn-book-main-post {
   justify-content: center;
   width: auto;
   padding-right: 10%;
-
   &:before {
     color: $tertiary;
   }
-
   &:hover {
     color: $secondary;
   }
@@ -2417,13 +2358,11 @@ p.btn-book-main-post {
   width: auto;
   cursor: pointer;
   padding: 2%;
-
   &:hover {
     background-color: $tertiary;
     color: $secondary;
     translate: 3px;
     border: solid 1px $secondary;
-
     &.classfollowbtn.img-att:before {
       color: $secondary;
     }
@@ -2444,13 +2383,11 @@ p.btn-book-main-post {
   width: auto;
   cursor: pointer;
   padding: 2%;
-
   &:hover {
     background-color: $tertiary;
     color: $secondary;
     translate: 3px;
     border: solid 1px $secondary;
-
     &.btn-att-follow > .img-att:before {
       color: $secondary;
     }
@@ -2464,9 +2401,7 @@ p.btn-book-main-post {
   justify-content: center;
   border-radius: 5px;
   height: 30px;
-  // margin-top: 2%;
   margin-right: 1%;
-  // margin-left: auto;
   background-color: $secondary;
   color: $tertiary;
   width: auto;
@@ -2499,7 +2434,6 @@ p.btn-book-main-post {
   width: auto;
   cursor: pointer;
   padding: 2%;
-
   &.btn-att-unfollow > .img-att:before {
     color: $secondary;
   }
@@ -2509,7 +2443,6 @@ p.btn-book-main-post {
     color: $secondary;
     translate: 3px;
     border: solid 1px $secondary;
-
     &.btn-att-unfollow > .img-att:before {
       color: $secondary;
     }
@@ -2523,15 +2456,12 @@ p.btn-book-main-post {
   justify-content: center;
   border-radius: 5px;
   height: 30px;
-  // margin-top: 2%;
-  // margin-left: auto;
   margin-right: 3%;
   background-color: $primary;
   color: $secondary;
   width: auto;
   cursor: pointer;
   padding: 2%;
-
   &.btn-main-unfollow > .img-att:before {
     color: $secondary;
   }
@@ -2541,7 +2471,6 @@ p.btn-book-main-post {
     color: $secondary;
     translate: 3px;
     border: solid 1px $secondary;
-
     &.btn-main-unfollow > .img-att:before {
       color: $secondary;
     }
@@ -2562,13 +2491,11 @@ button.class-btn-att-unlike {
   width: auto;
   cursor: pointer;
   padding: 2%;
-
   &:hover {
     background-color: $tertiary;
     color: $secondary;
     translate: 3px;
     border: solid 1px $secondary;
-
     &.class-btn-att-unlike > .img-att:before {
       color: $secondary;
     }
@@ -2591,11 +2518,9 @@ button.class-btn-att-like {
   width: auto;
   cursor: pointer;
   padding: 2%;
-
   &.class-btn-att-like > .img-att:before {
     color: $secondary;
   }
-
   &:hover {
     background-color: rgb(27, 108, 17);
     color: $secondary;
@@ -2645,7 +2570,7 @@ p.text-att {
   justify-content: center;
   align-items: center;
   margin-bottom: 0px;
-  // padding-right: 20%;
+
 }
 
 p.text-att-comment {
@@ -2654,7 +2579,7 @@ p.text-att-comment {
   justify-content: center;
   align-items: center;
   margin-bottom: 0px;
-  // padding-right: 20%;
+
 }
 
 p.text-att-like {
@@ -2663,7 +2588,7 @@ p.text-att-like {
   justify-content: center;
   align-items: center;
   margin-bottom: 0px;
-  // padding-right: 20%;
+ 
 }
 
 p.text-att-report {
@@ -2672,6 +2597,6 @@ p.text-att-report {
   justify-content: center;
   align-items: center;
   margin-bottom: 0px;
-  // padding-right: 20%;
+
 }
 </style>

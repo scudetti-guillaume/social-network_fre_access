@@ -1,6 +1,5 @@
 
 <template>
-<!-- <div ></div> -->
 <v-card id="card-post"  >
   <div>
       <Load v-show="showloader" @close-modale-loader="showloader = false" @open-modale-loader="true" />
@@ -43,8 +42,6 @@ export default{
     }, 1000);
 
   }
-
-
 }
 
 </script>
@@ -60,7 +57,6 @@ border-color: $secondary;
 };
 
 .card-profil-title {
-// border-radius: 5%;
   border-bottom: solid 2px $primary;
   background-color: $secondary;
 }
@@ -87,13 +83,10 @@ padding-top: 0.5%;
   align-items: center;
   display: flex;
   object-fit: cover;
-  // overflow: hidden;
   max-height: 300px;
   max-width: 500px;
   width: 100%;
-  // padding: 1%;
   border: solid 2px $secondary;
-  // border-bottom: solid 2px $secondary;
   border-radius: 2%;
 }
 .card-img-chat-perso {
@@ -102,13 +95,10 @@ padding-top: 0.5%;
   align-items: center;
   display: flex;
   object-fit: contain;
-  // overflow: hidden;
   max-height: 300px;
   max-width: 200px;
   width: 100%;
-  // padding: 1%;
   border: solid 2px $secondary;
-  // border-bottom: solid 2px $secondary;
   border-radius: 2%;
 }
 

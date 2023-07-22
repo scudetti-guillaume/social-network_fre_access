@@ -3,17 +3,14 @@
         <v-col class=" d-flex  justify-center align-center">
 
             <v-card class="popup-del-com-delbio ">
-                <p class="logo-disconnect-delete"><img class="logo-white" src="../logo/logo.png" alt="logo" />
+                <p class="logo-disconnect-delete"><img class="logo-white" src="../static/logo/logo.png" alt="logo" />
                     <span>La team GROUPOMANIA </span>
                 </p>
                 <p id="span-del-bio"> ⚠️ Vous-êtes sur le point de supprimer votre bio ⚠️ </p>
-                <!-- <p>cette action est irreversible </p> -->
                 <v-btn id="btn-notdelete-comfirm" @click="$emit('close-modale-biodelete')"><span>Retour</span></v-btn>
                 <p class="comfirm-span-delete">si tel est votre choix ...</p>
                 <v-btn @click="$emit('close-modale-biodelete-confirm')" id="btn-delete-comfirm"><span>Continuer</span>
                 </v-btn>
-                <!-- <v-btn v-else id="btn-delete-comfirm"  ><span>c'est fait <v-icon class="delete-icon-main" size="20px">mdi-delete-circle</v-icon ></span></v-btn> -->
-
             </v-card>
         </v-col>
     </div>
@@ -21,89 +18,17 @@
     
     
 <script>
-// import axios from "axios";
 
-// import { KeyObject } from "crypto";
 
 export default {
-    // name: 'Delete',
 
     data() {
         return {
-            // deleteconfirm: false ,
-            // userid:'',
-            // userjwtid:'',
-            // postId:'',
-
 
         }
     },
     methods: {
-        //     closeRecord(){
-        //       this.$emit('!this.modifbio')
 
-        //      this.$emit('close-modale-record')
-        // },
-        // delDeletePost(){
-        //   localStorage.removeItem('categories')
-        // },
-
-
-        //  deletedPost(id) {
-        //       if(localStorage.getItem('categories')) {
-        //       try {
-        //         this.postId = JSON.parse(localStorage.getItem('categories'))
-
-        //    let data = this.userid
-
-        //      axios.delete(`http://localhost:5000/api/post/${this.postId}`,{data : {id : id}}  )
-        //       .then((Post) => {
-
-        //           Post.data.likers.forEach(userDeleteLike=> {
-        //           axios.patch(`http://localhost:5000/api/post/unlike-post/${this.postId}`,{ id: userDeleteLike})
-        //           });
-        //         //   this.getPosts()
-        //         })
-        //         .then(()=>{
-        //            localStorage.removeItem('categories')
-        //           this.deleteconfirm = true
-        //             setTimeout(() => {
-        //             this.$emit('close-modale-delete')
-
-        //             }, 2500); 
-        //         })
-        //         .catch((err) => console.log(err)) 
-        //       }catch(e) {
-        //         localStorage.removeItem('categories')
-        //       }
-        //     }
-        //   },
-        //  },
-
-        //  async mounted(){
-        //      axios.defaults.withCredentials = true;
-        //    await axios.get(`http://localhost:5000/jwtid`)
-        //     .then((res) => {
-
-        //     this.userjwtid = res.data
-        //     console.log(res.data);
-
-        //     }).catch((error)=>{
-        //       console.log(error);
-        //     })
-
-        //    await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
-        //     .then((docs) => {
-
-        //         this.userid = docs.data._id
-        //      console.log(this.userid);
-
-        //     }).catch((error)=>{
-        //       console.log(
-        //        error
-        //       );
-        //     })
-        //   },
 
     }
 }
@@ -134,11 +59,7 @@ export default {
     padding-top: 1%;
     background-color: $secondary;
     margin-top: 250px;
-    // max-width: 300px;
-    // min-width: 300px;
     width: 320px;
-    // max-height: 200px;
-    // min-height: 200px;
     height: 300px;
     display: flex;
     flex-direction: column;
@@ -158,8 +79,6 @@ export default {
     max-width: 350px;
     min-width: 350px;
     width: 350px;
-    //   max-height: 400px;
-    //   min-height: 400px;
     height: 300px;
     display: flex;
     flex-direction: column;

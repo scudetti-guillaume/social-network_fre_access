@@ -39,18 +39,14 @@
         }" title="lien vers le profil de l'utilisateur">
           <p class="link-admin-p">{{ user.firstname }} {{ user.lastname }}</p>
         </nuxt-link>
-       
-          <!-- <span>banni </span><span>{{ user.ban }}</span> -->
           <button v-if="user.ban === false" id="btn-ban-user" @click="
             (showBan = !showBan),
             banUserId(user._id)
           " title="bannir l'utilisateur">
-            <!-- <v-icon class="ban-icon-main" size="20px">mdi-delete-circle</v-icon> -->
             Bannir
           </button>
           <button v-else id="btn-ban-user" @click="(showBan = !showBan), banUserId(user._id)"
             title="debannir l'utilisateur">
-            <!-- <v-icon class="ban-icon-main" size="20px">mdi-delete-circle</v-icon> -->
             Débannir
           </button>
      
@@ -65,16 +61,12 @@
         <span class="admin-signal-post-span">Signalement de publication reçu {{user.postSignalBy.length}}</span>
         </div>
         <div v-for="(signal) in  user.postSignalBy">
-          <!-- <div><span>ID de la publication</span><span>{{ signal.signalPostId }}</span></div>
-          <div><span>signalé par l'utilisateur :</span><span>{{ signal.signalUserId }}</span></div> -->
-          <!-- <div>{{ signal.date }}</div> -->
           <div>
 
             <v-card id="profil-post-admin" v-if="signal.signalPostId === p._id" v-for="(p, index) in posts">
             <span>Publication signalée {{ p.signalBy.length }} fois</span>
               <p class="card-profil-post-p-admin">{{ p.date }}</p>
               <div v-if="p.signalBy.length != 0" class="like-profilmain-user">
-                <!-- <v-icon class="img-like-profilmain">mdi-thumb-down-outline</v-icon> -->                
               </div>
               <div class="btn-post-profil-user">
                 <button class="btn-post-modify-profil" type="submit"
@@ -85,7 +77,6 @@
                   alt="photo" /></div>
               <div v-if="p.message != ''" class="message-profil-user"> {{ p.message }}</div>
             </v-card>
-
           </div>
         </div>
       </v-card>
@@ -135,12 +126,16 @@ export default {
 
   methods: {
     async loginAdmin() {
-      await axios
-        .post("http://localhost:5000/api/user/loginadmin", {
+     await this.$axios.post("/api/user/loginadmin", {
           email: this.email,
           password: this.psw,
           badge: this.badge,
         })
+      // await axios.post("http://localhost:5000/api/user/loginadmin", {
+      //     email: this.email,
+      //     password: this.psw,
+      //     badge: this.badge,
+      //   })
         .then((user) => {
           const userId = user.data.user;
           this.successreg = "Connexion reussit, Bienvenue";
@@ -167,24 +162,23 @@ export default {
     },
 
     getRefresh(){
-     axios.get(`http://localhost:5000/api/post/postsignaladmin/${this.userjwtid}`)
+     this.$axios.get(`/api/post/postsignaladmin/${this.userjwtid}`)
+    //  axios.get(`http://localhost:5000/api/post/postsignaladmin/${this.userjwtid}`)
         .then((res) => {
           this.posts = res.data
           console.log(res);
         });
-
-      axios.get(`http://localhost:5000/api/user/`)
+      this.$axios.get(`/api/user/`)
+      // axios.get(`http://localhost:5000/api/user/`)
         .then((res) => {
           this.users = res.data
           console.log(res);
         });
     },
-    
     postIdDel(post) {
       const parse = JSON.stringify(post);
       localStorage.setItem('categories', parse);
     },
-
   },
 
 
@@ -193,22 +187,21 @@ export default {
     setTimeout(() => {
       this.showloader = false;
     }, 2500);
-
-    await axios
-      .get(`http://localhost:5000/jwtidadmin`)
+    await this.$axios.get(`/jwtidadmin`)
+    // await axios.get(`http://localhost:5000/jwtidadmin`)
       .then((res) => {
         if (res.status === 201) {
           loggedIn = false
         } else {
           this.userjwtid = res.data;
           this.loggedIn = true;
-
-          axios.get(`http://localhost:5000/api/post/postsignaladmin/${this.userjwtid}`)
+          this.$axios.get(`/api/post/postsignaladmin/${this.userjwtid}`)
+          // axios.get(`http://localhost:5000/api/post/postsignaladmin/${this.userjwtid}`)
             .then((res) => {
               this.posts = res.data
             });
-
-          axios.get(`http://localhost:5000/api/user/`)
+   this.$axios.get(`/api/user/`)
+          // axios.get(`http://localhost:5000/api/user/`)
             .then((res) => {
               this.users = res.data
             });
@@ -217,8 +210,6 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-
-
   },
 };
 
@@ -230,8 +221,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  // width: 100vw;
-  // height: 100vh;
 
 }
 
@@ -282,7 +271,6 @@ export default {
 
 .h2-form-admin {
   padding: 5px;
-  //   background-color: rgb(120, 35, 123);
 }
 
 .center-main {
@@ -290,7 +278,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // width: auto;
 }
 
 #center-main-admin {
@@ -335,9 +322,7 @@ export default {
   border-radius: 15px;
   padding-left: 2px;
   padding-right: 5px;
-  // padding-bottom: 5px;
   color: $secondary;
-
   &:hover {
     border-radius: 10px;
     background-color: $secondary;
@@ -381,14 +366,7 @@ p.card-profil-post-p-admin {
   margin: 0;
   padding-left: 1%;
   padding-bottom: 1%;
-  // border: 2px solid $primary;
   cursor: default;
 }
-
-
-
-
-
-
 
 </style>

@@ -1,18 +1,15 @@
 import colors from 'vuetify/es5/util/colors'
-// npm run dev
 
-export default ({
-   server: {
-    port: 3000,
-  },
-// export default {
+export default {
+  // server: {
+  //   port: 3000,
+  // },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: 'Soc-Net',
     title: 'Soc-Net',
     htmlAttrs: {
       lang: 'fr',
-  
     },
     router: {
       prefetchLinks: false
@@ -25,30 +22,22 @@ export default ({
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      // {rel:"preconnect" ,href:"https://fonts.googleapis.com"},
-      // {rel:"preconnect", href:"https://fonts.gstatic.com"},
-      {rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap'},
-
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap'
+      },
     ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    
-   
-    
-  ],
+  css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-
-  ],
+  plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: [{ path: '../components/modifypost.vue', prefetch: false}],
+  components: [{ path: '../components/modifypost.vue', prefetch: false }],
   components: true,
-  
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -60,15 +49,15 @@ export default ({
   modules: [
     '@nuxtjs/axios'
   ],
-  axios:{
-     baseURL:' http://localhost:5000 ',
-
-      },
+  axios: {
+    baseURL:'/soc/backend',
+  },
+  target: 'static',
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     treeShake: true,
-    defaultAssets: {font:{family:'Lato'}},
+    defaultAssets: { font: { family: 'Lato' } },
     customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: true,
@@ -89,9 +78,11 @@ export default ({
     color: 'green',
     height: '5px'
   },
-
+  router: {
+    base: '/soc/'
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
-
-})
+    // publicPath: 'https://lesiteduscudo.com/soc/_nuxt/',
+  },
+}

@@ -5,17 +5,17 @@ const { signUpErrors, signInErrors } = require("../utils/errors.utils");
 const durationTokenLogin1 = 1*1*60 * 60 * 1000;
 const durationTokenLogout = 1;
 
-const createToken = (id,email,badge) => {
-  return jwt.sign({ id,email,badge}, process.env.TOKEN_SECRET, {
+const createToken = (id,email) => {
+  return jwt.sign({ id,email}, process.env.TOKEN_SECRET, {
     expiresIn: "1h", // securité sur la durée du token (journée de travail) //
   });
 };
 
 
 exports.signIn = async (req, res) => {
-  const { email, badge, password } = req.body;
+  const { email, password } = req.body;
   try {
-    const user = await UserModel.login(email, badge, password);
+    const user = await UserModel.login(email,password);
     const token = createToken(user._id);
     res.cookie("jwtadmin", token, {
       // SameSite : None,

@@ -18,8 +18,6 @@
       <button id="btn-del-pic-profil-choice" @click="warningDelPic = !warningDelPic"><v-icon id="btn-del-pic-profil-icon" size="25px">mdi-camera-off</v-icon></button>
       <div class="block-picture-choice">
         <img id="form-picture-profil" :src="urlpic" alt="photo de l'utilisateur"/>
-        <!-- <v-file-input :rules="rules" hide-input accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar" prepend-icon="mdi-camera"
-          label="Avatar" class="camadd">test</v-file-input> -->
           <label class="lab-pic-choice" for="avatar"> 
             <v-icon class="lab-pic-custom-choice" size="25px">mdi-camera-plus</v-icon>
             <input id="avatar" class="form-avatar-profil" type="file" value="" name="avatar" placeholder="votre photo/avatar" @change="picPreview" /> 
@@ -265,8 +263,10 @@ export default {
   methods: {
 
     getBio(){
-       axios
-      .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+      //  axios
+      // .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+       this.$axios
+        .get(`/api/user/${this.userjwtid}`)
       .then((docs) => {
         this.newBioUser = docs.data.bio
       })
@@ -278,12 +278,15 @@ export default {
     deleteUserBio(){
       let formData = new FormData();
       formData.append("bio", this.bio);
-      axios.put(`http://localhost:5000/api/user/${this.userid}`, formData)
+           this.$axios.put(`/api/user/${this.userid}`, formData)
+      // axios.put(`http://localhost:5000/api/user/${this.userid}`, formData)
           .then(()=>{
             this.BioUser = ''
         }).then(()=>{
-          axios
-      .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+              this.$axios
+      .get(`/api/user/${this.userjwtid}`)
+      //     axios
+      // .get(`http://localhost:5000/api/user/${this.userjwtid}`)
       .then((docs) => {
         this.bioUser = docs.data.bio
       })
@@ -312,13 +315,16 @@ export default {
           this.newBioUser.trimStart('')
           let formData = new FormData();
       formData.append("bio", this.newBioUser);
-      axios.put(`http://localhost:5000/api/user/${this.userid}`, formData)
+       this.$axios.put(`/api/user/${this.userid}`, formData)
+      // axios.put(`http://localhost:5000/api/user/${this.userid}`, formData)
           .then(()=>{
             this.newBioUser = ''
           this.modifbio = !this.modifbio
         }).then(()=>{
-          axios
-      .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+            this.$axios
+              .get(`/api/user/${this.userjwtid}`)
+      //     axios
+      // .get(`http://localhost:5000/api/user/${this.userjwtid}`)
       .then((docs) => {
         this.bioUser = docs.data.bio
       })
@@ -359,29 +365,11 @@ export default {
       let formData = new FormData();
       formData.append("fullname", this.fullname);
       formData.append("photo", this.photo);
+      this.$axios
+        .put(`/api/user/${this.userid}`, formData)
 
-       axios
-        .put(`http://localhost:5000/api/user/${this.userid}`, formData)
-        // .then(() => {
-        //   axios.get(`http://localhost:5000/api/post`).then((post) => {
-        //     post.data.forEach((doc) => {
-        //       if (doc.posterId === this.userid) {
-        //         const id = [];
-        //         id.push(doc._id);
-        //         id.forEach((postid) => {
-        //           // console.log(postid);
-        //           // console.log(this.photo);
-        //           let formData = new FormData();
-        //           formData.append("picture", this.photo);
-        //           axios.put(
-        //             `http://localhost:5000/api/post/photo/${postid}`,
-        //             formData
-        //           );
-        //         });
-        //       }
-        //     })
-        //   })
-        // })
+      //  axios
+      //   .put(`http://localhost:5000/api/user/${this.userid}`, formData)
         .catch((errors, test) => {
           this.maxsize = errors.response.data.errors.maxsize;
           this.format = errors.response.data.errors.format;
@@ -413,34 +401,16 @@ export default {
        let formData = new FormData();
       formData.append("photo", this.photo);
       formData.append("posterId",this.userid)
-       axios
-        .put(`http://localhost:5000/api/user/${this.userid}`, formData)
-        // .then(() => {
-          
-        //     axios.get(`http://localhost:5000/api/post`).then((post) => {
-        //     post.data.forEach((doc) => {
-        //       if (doc.posterId === this.userid) {
-        //         const id = [];
-        //         id.push(doc._id);
-        //         id.forEach((postid) => {
-        //           let formData = new FormData();
-        //           formData.append("picture", this.photo);
-        //           axios.put(
-        //             `http://localhost:5000/api/post/photo/${postid}`,
-        //             formData
-        //           );
-        //         });
-        //       }
-        //     });
-        //   })
-        // })
+        this.$axios.put(`/api/user/${this.userid}`, formData)
+      //  axios
+        // .put(`http://localhost:5000/api/user/${this.userid}`, formData)
         .catch((errors, test) => {
           console.log(errors);
         })
         .then(( )=>{
           setTimeout(() => {
             window.location.reload();
-          },1500);
+          },1500);  
         })
     },
 
@@ -471,7 +441,8 @@ export default {
     },
 
     getPosts() {
-      axios.get(`http://localhost:5000/api/post/postby/${this.userjwtid}`)
+    this.$axios.get(`/api/post/postby/${this.userjwtid}`)
+      // axios.get(`http://localhost:5000/api/post/postby/${this.userjwtid}`)
         .then((doc)=>{
           this.pub= doc.data
           console.log(doc.data);
@@ -479,10 +450,13 @@ export default {
     },
 
     getFollowBack(id) {
-      axios.patch(`http://localhost:5000/api/user/follow/${this.userid}`, { idToFollow: id })
+    this.$axios.patch(`/api/user/follow/${this.userid}`, { idToFollow: id })
+      // axios.patch(`http://localhost:5000/api/user/follow/${this.userid}`, { idToFollow: id })
       .then(()=>{
-        axios
-            .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+         this.$axios
+            .get(`/api/user/${this.userjwtid}`)
+        // axios
+        //     .get(`http://localhost:5000/api/user/${this.userjwtid}`)
             .then((docs) => {
               this.follower = docs.data.followers;
               this.following = docs.data.following;
@@ -492,7 +466,8 @@ export default {
             })
         })
         .then(() => {
-            axios.get(`http://localhost:5000/api/user/${id}`)
+            this.$axios.get(`/api/user/${id}`)
+            // axios.get(`http://localhost:5000/api/user/${id}`)
             .then((docs)=>{
               this.followId = docs.data._id
               this.followLastname = docs.data.lastname;
@@ -505,17 +480,21 @@ export default {
     },
 
     getUnFollowBack(id) {
-      axios.patch(`http://localhost:5000/api/user/unfollow/${this.userid}`, { idToUnFollow: id })
+    this.$axios.patch(`/api/user/unfollow/${this.userid}`, { idToUnFollow: id })
+      // axios.patch(`http://localhost:5000/api/user/unfollow/${this.userid}`, { idToUnFollow: id })
         .then(() => {
-          axios
-            .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+           this.$axios
+            .get(`/api/user/${this.userjwtid}`)
+          // axios
+          //   .get(`http://localhost:5000/api/user/${this.userjwtid}`)
             .then((docs) => {
               this.follower = docs.data.followers;
               this.following = docs.data.following;
               // console.log(this.follower);
             }).catch((error) => {console.log(error);
             }).then(() => {
-            axios.get(`http://localhost:5000/api/user/${id}`)
+              this.$axios.get(`/api/user/${id}`)
+            // axios.get(`http://localhost:5000/api/user/${id}`)
             .then((docs)=>{
               this.followId = docs.data._id
               this.followLastname = docs.data.lastname;
@@ -554,9 +533,10 @@ export default {
       this.showloader = false
     }, 1500);
     axios.defaults.withCredentials = true;
-
-    await axios
-      .get(`http://localhost:5000/jwtid`)
+await this.$axios
+      .get(`/jwtid`)
+    // await axios
+    //   .get(`http://localhost:5000/jwtid`)
       .then((res) => {
         this.userjwtid = res.data;
         this.show = true;
@@ -565,9 +545,11 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-
-    await axios
-      .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+    
+    await this.$axios
+        .get(`/api/user/${this.userjwtid}`)
+    // await axios
+    //   .get(`http://localhost:5000/api/user/${this.userjwtid}`)
       .then((docs) => {
         this.userid = docs.data._id;
         this.firstname = docs.data.firstname;
@@ -582,8 +564,8 @@ export default {
       })
       .then(() => {
         this.follower.forEach((i, u, l) => {
-          console.log('testt'+ i);
-          axios.get(`http://localhost:5000/api/user/${i}`)
+          this.$axios.get(`/api/user/${i}`)
+          // axios.get(`http://localhost:5000/api/user/${i}`)
             .then((docs) => {
               this.followId = docs.data._id
               this.followLastname = docs.data.lastname;
@@ -599,7 +581,8 @@ export default {
       })
       .then(() => {
         this.following.forEach((i) => {
-          axios.get(`http://localhost:5000/api/user/${i}`)
+        this.$axios.get(`/api/user/${i}`)
+          // axios.get(`http://localhost:5000/api/user/${i}`)
             .then((docs) => {
               console.log(docs);
               this.followingId = docs.data._id
@@ -614,9 +597,9 @@ export default {
       }).catch((error) => {
         console.log(error);
       })
-
+    this.$axios.get(`/api/post/postby/${this.userjwtid}`)
       
-      axios.get(`http://localhost:5000/api/post/postby/${this.userjwtid}`)
+      // axios.get(`http://localhost:5000/api/post/postby/${this.userjwtid}`)
         .then((doc)=>{
           this.pub= doc.data
           console.log(doc.data);
@@ -754,22 +737,6 @@ button#btn-del-pic-profil-choice {
   display: flex;
   justify-content: center;
 }
-
-// .lab-pic-custom {
-//   position: relative;
-//   top: 80px;
-//   left: -30px;
-//   height: 38px;
-//   width: 38px;
-//   background-color: $tertiary;
-//   border-radius: 50%;
-//   border: solid 2px $primary;
-//   padding-bottom: 2%;
-//   padding-right: 2%;
-//   &:hover {
-//     cursor: pointer;
-//   }
-// }
 
 .form-avatar-profil {
   padding-top: 2%;
@@ -942,8 +909,6 @@ button#btn-confirm-pic-profil-post {
 .form-avatar-profil-url {
   padding-top: 2%;
   display: none;
-  // visibility: none;
-
   &:hover {
     cursor: pointer;
   }
@@ -966,7 +931,6 @@ button#btn-confirm-pic-profil-post {
   justify-content: center;
   font-size: 1.8rem;
   padding-top: 4%;
-  //   padding-left: 1%;
 }
 
 .fullname {
@@ -1001,7 +965,6 @@ p.card-profil-biographie-p {
   margin: 0;
   padding-left: 1%;
   padding-bottom: 2%;
-  // border: 2px solid $secondary;
   cursor: default;
 }
 
@@ -1170,13 +1133,7 @@ p.card-profil-biographie-p {
 }
 
 p.card-profil-friend-p {
-  // display: flex;
-  // justify-content:center;
-  // align-items: center;
   margin: 0;
-  // padding-left: 1%;
-  // padding-bottom: 2%;
-  // border: 2px solid $primary;
   cursor: default;
 }
 p.card-profil-friend-solo {
@@ -1190,16 +1147,10 @@ p.card-profil-friend-solo {
 
 
 p.card-profil-friend-abo {
-  // display: flex;
-  // justify-content:center;
-  // align-items: center;
   margin: 0;
   color: rgb(12, 164, 12);
   font-style: italic;
   font-weight:bold;
-  // padding-left: 1%;
-  // padding-bottom: 2%;
-  // border: 2px solid $primary;
   cursor: default;
 }
 
@@ -1208,7 +1159,6 @@ p.card-profil-friend-abo {
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 1%;
-  // justify-content: center;
   align-items: center;
 }
 
@@ -1233,15 +1183,11 @@ p.card-profil-friend-abo {
   width: 50%;
   margin-bottom: 1%;
   margin-top: 1%;
-
 }
 
 .btn-post-delete-profil {
   width: 100px;
   border: solid 2px $secondary;
-  // margin-top: 1%;
-  // margin-right: 1%;
-  // margin-left: 1%;
   margin-bottom: 1%;
   border-radius: 15px;
   padding-left: 5px;
@@ -1250,7 +1196,6 @@ p.card-profil-friend-abo {
   &:hover {
     background-color: $secondary;
     color: $tertiary;
-
     &.btn-post-delete-profil>.pen-icon {
       color: $tertiary;
     }
@@ -1260,9 +1205,6 @@ p.card-profil-friend-abo {
 .btn-post-modify-profil {
   width: 100px;
   border: solid 2px $secondary;
-  // margin-top: 1%;
-  // margin-right: 1%;
-  // margin-left: 1%;
   margin-bottom: 1%;
   border-radius: 15px;
   padding-left: 5px;
@@ -1271,7 +1213,6 @@ p.card-profil-friend-abo {
   &:hover {
     background-color: $secondary;
     color: $tertiary;
-
   }
 }
 
@@ -1282,14 +1223,10 @@ p.card-profil-friend-abo {
   align-items: center;
   display: flex;
   object-fit: cover;
-  // overflow: hidden;
   max-height: 300px;
   max-width: 500px;
   min-width: 300px;
-  //  width: 100%;
-  // padding: 1%;
   border: solid 2px $secondary;
-  // border-bottom: solid 2px $secondary;
   border-radius:2px;
 }
 
@@ -1336,8 +1273,6 @@ p.card-profil-friend-abo {
   justify-content: center;
   align-items: center;
   &:hover {
-    // border-color:green;
-
     transform: scale(1.03);
     transition: ease 0.5s ;
 
@@ -1357,8 +1292,6 @@ p.card-profil-post-p {
   flex-direction: row;
   margin: 0;
   padding-left: 1%;
-  // padding-bottom: 2%;
-  // border: 2px solid $primary;
   cursor: default;
 }
 

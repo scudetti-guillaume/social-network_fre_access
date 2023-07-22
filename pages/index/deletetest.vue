@@ -3,14 +3,12 @@
 <v-col class=" d-flex  justify-center align-center">
 
 <v-card class="popup-del-com ">
-    <p class="logo-disconnect-delete"><img class="logo-white" src="../../logo/logo.png" alt="logo groupomania" />
+    <p class="logo-disconnect-delete"><img class="logo-white" src="../../static/logo/logo.png" alt="logo groupomania" />
     <span>La team GROUPOMANIA </span>
     </p>
   <p id="span-del-post">  ⚠️ Vous-êtes sur de vouloir supprimer cette publication?  ⚠️ </p>
-   <!-- <p>cette action est irreversible </p> -->
    <v-btn v-if="click" id="btn-notdelete-comfirm" @click="$emit('close-modale-delete'),delDeletePost()" ><span >non j'ai changer d'avis</span></v-btn>
   <p class="comfirm-span-delete">si tel est votre choix ...</p>
-  
 <v-btn v-if="!deleteconfirm" @click="deletedPost(userid)"  id="btn-delete-comfirm"  ><span>Supprimer le post</span></v-btn>
 <v-btn v-else id="btn-delete-comfirm"  ><span>c'est fait <v-icon class="delete-icon-main" size="20px">mdi-delete-circle</v-icon ></span></v-btn>
 
@@ -23,8 +21,6 @@
 <script>
 import axios from "axios";
 
-// import { KeyObject } from "crypto";
-
 export default {
   name: 'Delete',
 
@@ -32,10 +28,6 @@ export default {
 return{
 deleteconfirm: false ,
 click: true,
-// userid:'',
-// userjwtid:'',
-// postId:'',
-
 
 }
   },
@@ -51,12 +43,13 @@ click: true,
         this.postId = JSON.parse(localStorage.getItem('categories'))
   
    let data = this.userid
-   
-     axios.delete(`http://localhost:5000/api/post/${this.postId}`,{data : {id : id}}  )
+       this.$axios.delete(`/api/post/${this.postId}`,{data : {id : id}}  )
+    //  axios.delete(`http://localhost:5000/api/post/${this.postId}`,{data : {id : id}}  )
       .then((Post) => {
            
           Post.data.likers.forEach(userDeleteLike=> {
-          axios.patch(`http://localhost:5000/api/post/unlike-post/${this.postId}`,{ id: userDeleteLike})
+             this.$axios.patch(`/api/post/unlike-post/${this.postId}`,{ id: userDeleteLike})
+          // axios.patch(`http://localhost:5000/api/post/unlike-post/${this.postId}`,{ id: userDeleteLike})
           });
         //   this.getPosts()
         })
@@ -78,7 +71,8 @@ click: true,
  },
  async mounted(){
      axios.defaults.withCredentials = true;
-   await axios.get(`http://localhost:5000/jwtid`)
+        await this.$axios.get(`/jwtid`)
+  //  await axios.get(`http://localhost:5000/jwtid`)
     .then((res) => {
   
     this.userjwtid = res.data
@@ -87,10 +81,9 @@ click: true,
     }).catch((error)=>{
       console.log(error);
     })
-
-   await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
+       await this.$axios.get(`/api/user/${this.userjwtid}`)
+  //  await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
     .then((docs) => {
-   
         this.userid = docs.data._id
      console.log(this.userid);
   
@@ -100,9 +93,7 @@ click: true,
       );
     })
   },
-
 }
-
 
 </script>
 
@@ -127,11 +118,7 @@ z-index: 1000;
   padding-top: 1%;
   background-color: $secondary;
   margin-top: 250px;
-  // max-width: 300px;
-  // min-width: 300px;
   width: 320px;
-  // max-height: 200px;
-  // min-height: 200px;
   height: 280px;
   display: flex;
   flex-direction: column;
@@ -151,8 +138,6 @@ flex-direction: row;
   max-width: 350px;
   min-width: 350px;
   width: 350px;
-//   max-height: 400px;
-//   min-height: 400px;
   height: 300px;
   display: flex;
   flex-direction: column;

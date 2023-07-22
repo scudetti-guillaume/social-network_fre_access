@@ -3,7 +3,7 @@
 <v-card id="card-post-comp"  >
  
       <v-card-text id="card-autor">
-                <img class="picture-user" src="../logo/avatar1.png" alt="logo" />
+                <img class="picture-user" src="../static/logo/logo.png" alt="logo" />
                 <span class="fullname">{{fullname}}</span><span class="post-date"> à posté le :</span><span class="date-now">{{date}}</span><span class="hour-à"> à </span><span class="hour-now">{{hour}}</span>
         </v-card-text>
       <img class="card-img mb-5"
@@ -25,18 +25,10 @@
         <div class="btn-bio">
           <button id="btn-bio-send" type="submit">Enregistrer</button>
           <button id="btn-bio-delete" @click="deletebio">Annuler</button>
-          <!-- <button
-            id="btn-bio-close"
-            @click="deletebio(), (modifbio = !modifbio)"
-          >
-            Fermer
-          </button> -->
         </div>
       </form>
     </v-card-text>
     </v-card>
- 
-
 </template>
 <script>
 
@@ -74,9 +66,7 @@ if(mm<10)
 {
     mm='0'+mm;
 } 
-// today = mm+'-'+dd+'-'+yyyy;
-// today = mm+'/'+dd+'/'+yyyy;
-// today = dd+'-'+mm+'-'+yyyy;
+
 today = dd+'/'+mm+'/'+yyyy;
  return today
       },
@@ -86,7 +76,6 @@ today = dd+'/'+mm+'/'+yyyy;
     let hours = d.getHours()+":" + d.getMinutes();
     return hours
     },
-
 
      fullname: {
       get() {

@@ -6,7 +6,6 @@
       </v-card-text>
       <form method="post" enctype="multipart/form-data" action="/upload" @submit.prevent @mousemove="postValid()">
         <v-card-text id="card-autor-test">
-          <!-- <img class="picture-user-create" src="this.userpicpro" alt="photo de profil"/> -->
           <img v-if="urlpic !== '' && urlpic !== undefined" class="picture-user-create" :src='urlpic'
             alt="photo de l'utilisateur" />
           <div v-else id="avatar-empty-modify">{{ avatarpicempty }}</div>
@@ -50,7 +49,6 @@
             </div>
 
           </div>
-          <!-- <button id="btn-picture-send"     @click.prevent="test" >Enregistrer votre photo</button> -->
           <span class="error-style-span">{{ maxsize }}</span><span class="error-style-span">{{ format }}</span>
           <button id="btn-del-create-pic" v-if="url !== '' || oldpic !== ''"
             @click="delPicPreview(), postValid(), deletePictureModify()">Supprimer</button>
@@ -63,7 +61,6 @@
             placeholder="Ecrivez ici votre commentaire" maxlength="300" @mousemove="postValid(), textValid()"
             @mouseleave="postValid(), textValid()" @mouseenter="postValid(), textValid()"
             @change="postValid(), textValid()" />
-          <!-- <input id="messagetext" v-model="message" name="messagetext" class="card-create-comment" type="text" placeholder="Ecrivez ici votre commentaire" maxlength="300" /> -->
           <div class="btn-bio">
             <button v-if="!createText" @change="postValid()" id="btn-comment-send">Enregistrer le commentaire</button>
             <button v-else><v-icon id="btn-comment-send-icon"> mdi-check-circle</v-icon></button>
@@ -83,15 +80,10 @@ export default {
   name: "modify",
   methods: {
     getPosts() {
-      axios.get("http://localhost:5000/api/post")
+     this.$axios.get("/api/post")
+      // axios.get("http://localhost:5000/api/post")
         .then((docs) => {
-          console.log(docs.data); this.posts = docs.data
-
-          // this.posts.forEach(doc=>{
-          //     this.number = doc.likers.length
-          //     console.log(doc.likers.length);
-
-          //   })
+          this.posts = docs.data
         })
         .catch((err) => { console.log(err); });
     },
@@ -102,7 +94,6 @@ export default {
     },
     postValid() {
       let testRegex = this.message.split(' ').join('')
-
       if (testRegex != '' || this.url != '' || this.oldpic != '') {
         this.message.trimStart('')
         this.validPost = true
@@ -152,10 +143,12 @@ export default {
     },
 
     deletePictureModify() {
-      axios.delete(`http://localhost:5000/api/post/picture/${this.id}`)
-        .then(() => {
-          console.log('ok');
-        }).catch((err) => {
+        this.$axios.delete(`/api/post/picture/${this.id}`)
+      // axios.delete(`http://localhost:5000/api/post/picture/${this.id}`)
+        // .then(() => {
+        //   console.log('ok');
+        // })
+        .catch((err) => {
           console.log(err);
         })
     },
@@ -164,8 +157,6 @@ export default {
     updatePost() {
       let testRegex = this.message.split(' ').join('')
       if (testRegex != '' || this.url !== '' || this.url !== null || this.oldpic !== '') {
-        // console.log(this.oldpic) 
-        // if(this.file == null || this.file == ''){ this.file = this.oldpic }else{this.file }
         if ((this.oldpic == '' && this.url == '') || (this.oldpic == '' && this.url == null)) {
           // axios.delete(`http://localhost:5000/api/post/picture/${this.id}`)
           let formData = new FormData()
@@ -174,15 +165,14 @@ export default {
             formData.append('oldname', this.oldpic),
             formData.append('message', this.message),
             formData.append('file', this.file),
-            // formData.append('role',this.role)
-            axios.put(`http://localhost:5000/api/post/${this.id}`, formData)
+                this.$axios.put(`/api/post/${this.id}`, formData)
+            // axios.put(`http://localhost:5000/api/post/${this.id}`, formData)
 
           this.posted = true
           setTimeout(() => {
             this.$emit('close-modale-modify')
           }, 2500)
-          // })
-          //    .then((doc)=> console.log(doc))
+
 
         } else if (this.file == null || this.file == '') {
           this.file = this.oldpic
@@ -192,8 +182,8 @@ export default {
             formData.append('oldname', this.oldpic),
             formData.append('message', this.message),
             formData.append('file', this.file),
-            // formData.append('role',this.role)
-            axios.put(`http://localhost:5000/api/post/${this.id}`, formData)
+               this.$axios.put(`/api/post/${this.id}`, formData)
+            // axios.put(`http://localhost:5000/api/post/${this.id}`, formData)
               .then(() => {
                 this.posted = true
                 setTimeout(() => {
@@ -201,9 +191,6 @@ export default {
                 }, 2500);
               })
         } else {
-          // let formData = new FormData()
-          //   formData.append('oldname', this.oldpic)
-
 
           let formData = new FormData()
           formData.append('posterId', this.userid),
@@ -211,11 +198,11 @@ export default {
             formData.append('oldname', this.oldpic),
             formData.append('message', this.message),
             formData.append('file', this.file),
-            // formData.append('role',this.role)
-            axios.put(`http://localhost:5000/api/post/${this.id}`, formData)
-
+             this.$axios.put(`/api/post/${this.id}`, formData)
+            // axios.put(`http://localhost:5000/api/post/${this.id}`, formData)
               .then(() => {
-                axios.delete(`http://localhost:5000/api/post/delete-old-pic-modify/${this.id}`, { data: { id: this.oldpic } })
+                    this.$axios.delete(`/api/post/delete-old-pic-modify/${this.id}`, { data: { id: this.oldpic } })
+                // axios.delete(`http://localhost:5000/api/post/delete-old-pic-modify/${this.id}`, { data: { id: this.oldpic } })
                 this.posted = true
                 setTimeout(() => {
                   this.$emit('close-modale-modify')
@@ -232,12 +219,7 @@ export default {
                   this.format = ''
                 }, 3000);
               })
-
-          // console.log(errors.response.data.errors.maxsize);
-          // console.log(errors.response.data.errors.format);    
-
         }
-
 
       } else {
         this.vide = "aie c'est vide"
@@ -254,7 +236,6 @@ export default {
       post: [],
       userjwtid: '',
       userid: '',
-
       avatarpicempty: '',
       urlpic: '',
       posterId: '',
@@ -274,11 +255,7 @@ export default {
       maxsize: '',
       format: '',
       posted: false,
-
       userpicture: '',
-      // biographieP: "C'est vide, Vous n'avez rien à nous raconter ? 😪",
-      // lastname: "",
-      // firstname: "",
     }
   },
 
@@ -320,27 +297,22 @@ export default {
 
   async mounted() {
     axios.defaults.withCredentials = true;
-
-    await axios.get(`http://localhost:5000/jwtid`)
+ await this.$axios.get(`/jwtid`)
+    // await axios.get(`http://localhost:5000/jwtid`)
       .then((res) => {
-        // console.log(res.data);
         this.userjwtid = res.data
         this.show = false
-        // this.log = true
-        // TODO => Insert loader \\ 
       }).catch((error) => {
         console.log(error);
       })
-
-    await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
+    await this.$axios.get(`/api/user/${this.userjwtid}`)
+    // await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
       .then((docs) => {
-        // console.log(docs.data);
         this.role = docs.data.role
         this.userid = docs.data._id
         this.firstname = docs.data.firstname
         this.lastname = docs.data.lastname
         this.urlpic = docs.data.photo
-        // console.log(docs.data.photo)
       }).catch((error) => {
         console.log(error);
       })
@@ -349,30 +321,23 @@ export default {
     if (localStorage.getItem('categories')) {
       try {
         this.postId = JSON.parse(localStorage.getItem('categories'))
-        axios.get(`http://localhost:5000/api/post/${this.postId}`)
+         this.$axios.get(`/api/post/${this.postId}`)
+        // axios.get(`http://localhost:5000/api/post/${this.postId}`)
           .then((docs) => {
-
             this.message = docs.data.message
             this.post = docs.data
             this.oldpic = docs.data.picture
             this.id = docs.data._id
-            console.log(docs.data);
           }).then(() => {
             localStorage.removeItem('categories')
-
           })
-
       } catch (e) {
         localStorage.removeItem('categories')
       }
     }
-
     this.getcolor()
-
-
   },
 }
-
 </script>
 
 <style lang="scss">
@@ -386,7 +351,6 @@ export default {
   left: 0;
   right: 0;
   position: fixed;
-  // visibility: visible;
   opacity: 1;
   background-color: rgba(0, 0, 0, 0.7);
   transition: opacity 0.4s;
@@ -394,13 +358,11 @@ export default {
 }
 
 .card-profil-title {
-  // border-radius: 5%;
   border-bottom: solid 2px $primary;
   background-color: $secondary;
 }
 
 .card-profil-title-h1 {
-
   padding-top: 2%;
   padding-bottom: 1%;
   font-size: 2.5rem;
@@ -415,7 +377,6 @@ export default {
   margin-top: 100px;
   max-width: 950px;
   min-width: 350px;
-  // height: 650px;
   align-items: center;
   justify-content: center;
   background-color: $tertiary;
@@ -432,10 +393,7 @@ export default {
   align-items: center;
   width: 100%;
   padding-top: 2%;
-
 }
-
-;
 
 .poster-info {
   flex-direction: row;
@@ -450,12 +408,10 @@ export default {
   flex-direction: column;
   width: auto;
   height: auto;
-
 }
 
 .lab-pic-icon {
   padding-right: 10px;
-
   &:hover {
     cursor: pointer;
   }
@@ -494,7 +450,6 @@ export default {
 #pic-size {
   display: flex;
   object-fit: cover;
-  // overflow: hidden;
   max-height: 300px;
   max-width: 65vw;
 }
@@ -508,27 +463,23 @@ export default {
   padding-right: 5px;
   padding-bottom: 4px;
   color: $secondary;
-
   &:hover {
     border-radius: 20%;
     background-color: $secondary;
     color: $tertiary;
   }
-
 }
 
 .form-avatar-profil {
   padding-top: 3%;
   display: none;
   visibility: none;
-
   &:hover {
     cursor: pointer;
   }
 }
 
 .picture-user-create {
-  // margin-top: 5%;
   display: flex;
   width: 50px;
   height: 50px;
@@ -542,13 +493,10 @@ export default {
   margin-left: 1%;
   margin-right: auto;
   margin-bottom: 0.5%;
-  // padding-right: auto;
-  // padding-top: 2.5%;
   font-weight: bold;
 }
 
 #avatar-empty-modify {
-  // margin-top: 5%;
   font-size: 1.8rem;
   display: flex;
   width: 50px;
@@ -574,14 +522,11 @@ export default {
   padding-top: 0%;
   padding-left: 1%;
   padding-right: 1%;
-
   &:hover {
     background-color: $secondary;
     border-radius: 10px;
-
     &#back-book>#btn-back {
       color: $tertiary;
-
       &#btn-back>#div-btn-back>#icon-btn-delete {
         color: $tertiary;
       }
@@ -613,26 +558,21 @@ export default {
 .error-style-span {
   color: $primary;
   text-decoration: underline;
-
 }
-
 
 #btn-send-post {
   color: $secondary;
   border: solid 2px $secondary;
   height: 40px;
   width: 85px;
-  // margin-top: 1%;
   margin-right: 1%;
   border-radius: 15px;
   padding-left: 1%;
   padding-right: 1%;
-
   &:hover {
     border-radius: 10px;
     background-color: $secondary;
     color: $tertiary;
-
     &#btn-send-post>#div-btn-send>#icon-btn-send {
       color: $tertiary;
     }
@@ -645,7 +585,6 @@ export default {
   background-color: rgb(38, 145, 49);
   height: 40px;
   width: 100px;
-  // margin-top: 1%;
   margin-right: 1%;
   border-radius: 15px;
   padding-left: 1%;
@@ -654,32 +593,26 @@ export default {
 }
 
 #btn-send-post:disabled {
-
   padding-right: 1rem;
   padding-left: 1rem;
   border-radius: 15px;
-  // margin-top: 20px;
   border: solid 2px $secondary;
   background: #ccc;
-
   &:hover {
     background: #ccc;
     color: red;
   }
 }
 
-
 #div-btn-send {
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 #icon-btn-send {
   padding-right: 7%;
 }
-
 
 .pic-create-post {
   display: flex;
@@ -710,16 +643,12 @@ export default {
   padding: 1%;
 }
 
-;
-
-
 #messagetext-modify {
   width: 100%;
   color: $secondary;
   word-break: break-word;
   border: solid 2px $secondary;
   padding: 1%;
-
   &:focus {
     outline: none;
   }
@@ -748,7 +677,6 @@ h2.comment-title {
   padding-left: 5px;
   padding-right: 5px;
   color: $secondary;
-
   &:hover {
     border-radius: 10px;
     background-color: $secondary;
@@ -764,7 +692,6 @@ h2.comment-title {
   padding-left: 5px;
   padding-right: 5px;
   color: $secondary;
-
   &:hover {
     border-radius: 10px;
     background-color: $secondary;
@@ -780,7 +707,6 @@ h2.comment-title {
   padding-left: 5px;
   padding-right: 5px;
   color: $secondary;
-
   &:hover {
     border-radius: 10px;
     background-color: $secondary;
@@ -796,7 +722,6 @@ h2.comment-title {
   padding-left: 5px;
   padding-right: 5px;
   color: $secondary;
-
   &:hover {
     border-radius: 10px;
     background-color: $secondary;
@@ -812,7 +737,6 @@ h2.comment-title {
   padding-left: 5px;
   padding-right: 5px;
   color: $secondary;
-
   &:hover {
     border-radius: 10px;
     background-color: $secondary;

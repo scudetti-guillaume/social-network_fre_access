@@ -3,7 +3,7 @@
         <v-col class=" d-flex  justify-center align-center">
 
             <v-card class="popup-sort-post ">
-                <p class="logo-disconnect-delete"><img class="logo-white" src="../logo/logo.png" />
+                <p class="logo-disconnect-delete"><img class="logo-white" src="../static/logo/logo.png" />
                     <span id="span-delete-modale">GROUPOMANIA </span>
                 </p>
                 <p id="span-del-bio">Trier les publications par : </p>
@@ -31,21 +31,18 @@
 import axios from "axios";
 export default {
    
-    // name: 'Delete',
     data() {
         return {
             userjwtid: '',
             role:'',
             userid:'',
             admin: false
-          
-
         }
     },
    async mounted() {
            axios.defaults.withCredentials = true;
-           await axios
-             .get(`http://localhost:5000/jwtid`)
+             await this.$axios.get(`/jwtid`)
+        //    await axios.get(`http://localhost:5000/jwtid`)
              .then((res) => {
                this.userjwtid = res.data;
            
@@ -54,9 +51,8 @@ export default {
              .catch((error) => {
                console.log(error);
              });
-        
-           await axios
-             .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+              await this.$axios.get(`/api/user/${this.userjwtid}`)
+        //    await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
              .then((docs) => {
                this.role = docs.data.role;
                this.userid = docs.data._id;
@@ -70,7 +66,6 @@ export default {
                console.log(error);
              });
          },
-  
 }
 
 
@@ -124,11 +119,7 @@ export default {
     padding-top: 1%;
     background-color: $secondary;
     margin-top: 250px;
-    // max-width: 300px;
-    // min-width: 300px;
     width: 320px;
-    // max-height: 200px;
-    // min-height: 200px;
     display: flex;
     height: 300px;
     display: flex;
@@ -137,11 +128,6 @@ export default {
     align-items: center;
 }
 
-// .logo-disconnect-delete {
-//     display: flex;
-//     flex-direction: row;
-// }
-
 .popup {
     padding-bottom: 1%;
     padding-top: 1%;
@@ -149,8 +135,6 @@ export default {
     max-width: 350px;
     min-width: 350px;
     width: 350px;
-    //   max-height: 400px;
-    //   min-height: 400px;
     height: 300px;
     display: flex;
     flex-direction: column;
@@ -163,7 +147,6 @@ export default {
     margin-top: 1%;
 font-style: italic;
 color: $primary;
-
 }
 
 #span-del-bio {

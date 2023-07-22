@@ -1,9 +1,7 @@
 const express = require("express");
 const path = require("path")
 const bodyParser = require("body-parser");
-// const session = require("express-session")
 const cookieParser = require("cookie-parser");
-// const ObjectID = require("mongoose").Types.ObjectId;
 const cors = require("cors");
 const fs = require("fs");
 const userRoutes = require("./routes/user.routes");
@@ -13,8 +11,6 @@ const { requireAuthAdmin } = require("./middleware/authadmin.middleware");
 require("./config/db");
 require("dotenv").config({ path: ".env" });
 
-// const multer = require('multer');
-
 const app = express();
 
 // Cors parametre \\ 
@@ -23,10 +19,8 @@ const corsOptions = {
   Origin: '*' ,
   origin: process.env.CLIENT_URL,
   credentials: true,
-  // allowedHeaders: ["set-cookie", "Content-type"],
   allowedHeaders: ["*", "Content-type"],
   exposeHeaders: ["*"],
-  // exposeHeaders:["set-cookie"] ,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   preflightContinue: false,
 };
@@ -44,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('*', checkUser
 // ,(req,res)=>{ console.log(res.locals.user._id);res.send(res.locals.user._id)}
 ); // TODO 
-app.get('/jwtid', requireAuth, (req,res)=>{
+app.get(`${process.env.BASE_URL}/jwtid`, requireAuth, (req,res)=>{
   if(req.user === ''){
     res.status(201).json(res.data = 'notoken')
   }else{
@@ -52,7 +46,7 @@ app.get('/jwtid', requireAuth, (req,res)=>{
 }
 });
 
-app.get('/jwtidadmin',requireAuthAdmin, (req,res)=>{
+app.get(`${process.env.BASE_URL}/jwtidadmin`,requireAuthAdmin, (req,res)=>{
   if(req.user === ''){
     res.status(201).json(res.data = 'notoken')
   }else{
@@ -60,17 +54,17 @@ app.get('/jwtidadmin',requireAuthAdmin, (req,res)=>{
 }
 });
 
-const dir = "images";
+// const dir = "images";
+const dir = `${process.env.BASE_SERVER}`;
 if (!fs.existsSync(dir)) {fs.mkdirSync(dir)}
-const dirpicture = "images/default";
-if (!fs.existsSync(dirpicture)) {fs.mkdirSync(dirpicture)}
+const dirPictureProfil = `${process.env.BASE_SERVER}/profil`;
+if (!fs.existsSync(dirPictureProfil)) { fs.mkdirSync(dirPictureProfil)}
+const dirPicturePost = `${process.env.BASE_SERVER}/post`;
+if (!fs.existsSync(dirPicturePost)) { fs.mkdirSync(dirPicturePost) }
 
-// static image express \\
-app.use('/images', express.static(path.resolve(__dirname,'..','images')))
- 
 // routes\\
-app.use("/api/user", userRoutes);
-app.use("/api/post", postRoutes);
+app.use(`${process.env.BASE_URL}/api/user`, userRoutes);
+app.use(`${process.env.BASE_URL}/api/post`, postRoutes);
 
 // config serveur \\
 app.listen(process.env.PORT, (port) =>

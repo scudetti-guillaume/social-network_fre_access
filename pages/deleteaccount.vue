@@ -6,7 +6,7 @@
       <p>si tel est votre choix ...</p>
 
       <p class="logo-delacc">
-        <img class="logo-white-delacc" src="../logo/logo.png" alt="logo" />La team
+        <img class="logo-white-delacc" src="../static/logo/logo.png" alt="logo" />La team
         GROUPOMANIA
       </p>
       <p id="del-acc-con" v-if="(deleteconfirm = false)">
@@ -41,13 +41,12 @@ export default {
   },
   methods: {
     async delAccount() {
-      await axios.get("http://localhost:5000/api/post")
+     await this.$axios.get("/api/post")
+      // await axios.get("http://localhost:5000/api/post")
         .then((docpost) => {
           docpost.data.forEach((elt) => {
             if (elt.posterId === this.userjwtid) {
-              // console.log(this.userjwtid); 
               this.posts.push(elt._id);          
-              // console.log(this.posts);
             }
           }) 
         })
@@ -55,41 +54,54 @@ export default {
         .then((Post) => {
           this.posts.forEach((delpost) => {
             let id = this.userjwtid;
-            axios.delete(`http://localhost:5000/api/post/${delpost}`, {
+              this.$axios.delete(`/api/post/${delpost}`, {
                 data: { id: id },
               })
+            // axios.delete(`http://localhost:5000/api/post/${delpost}`, {
+            //     data: { id: id },
+            //   })
                 Post.data.likers.forEach((userDeleteLike) => {
-                      // console.log(delpost);
-                  axios.patch(
-                    `http://localhost:5000/api/post/unlike-post/${delpost}`,
-                    { id: userDeleteLike }
-                  );
+                 this.$axios.patch(
+                `/api/post/unlike-post/${delpost}`,
+                { id: userDeleteLike }
+              );
+                  // axios.patch(
+                  //   `http://localhost:5000/api/post/unlike-post/${delpost}`,
+                  //   { id: userDeleteLike }
+                  // );
                 });
               }).catch((err)=>console.log(err + 'unlike vide'))
           }).catch((err)=>console.log(err + 'post vide'))
-           await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
+            await this.$axios.get(`/api/user/${this.userjwtid}`)
+          //  await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
              .then((docs)=>{
               console.log(docs);
               docs.data.followers.forEach((follow)=>{
-                axios.patch(`http://localhost:5000/api/user/unfollow/${follow}`, { idToUnFollow: this.userjwtid})
+               this.$axios.patch(`/api/user/unfollow/${follow}`, { idToUnFollow: this.userjwtid})
+                // axios.patch(`http://localhost:5000/api/user/unfollow/${follow}`, { idToUnFollow: this.userjwtid})
               })
               docs.data.following.forEach((following) => {
-                console.log(following);
-                axios.patch(`http://localhost:5000/api/user/unfollow/${this.userjwtid}`, { idToUnFollow:following })
+                 this.$axios.patch(`/api/user/unfollow/${this.userjwtid}`, { idToUnFollow:following })
+                // axios.patch(`http://localhost:5000/api/user/unfollow/${this.userjwtid}`, { idToUnFollow:following })
               });
               docs.data.likes.forEach((likesuser)=>{
-                axios.patch(
-                    `http://localhost:5000/api/post/unlike-post/${likesuser}`,
-                    { id: this.userjwtid })
+                this.$axios.patch(`/api/post/unlike-post/${likesuser}`,{ id: this.userjwtid })
+                // axios.patch(
+                //     `http://localhost:5000/api/post/unlike-post/${likesuser}`,
+                //     { id: this.userjwtid })
               })
           }).catch((err)=>{err + 'user vide'})
           
           
           let id = this.userjwtid;
-          axios.delete(`http://localhost:5000/api/user/${this.userjwtid}`
+           this.$axios.delete(`/api/user/${this.userjwtid}`
           ,
            {data: { idrequest: id },}
             )
+          // axios.delete(`http://localhost:5000/api/user/${this.userjwtid}`
+          // ,
+          //  {data: { idrequest: id },}
+          //   )
             .then(() => {
               console.log('je suis la ');
               this.deleteconfirm = true;
@@ -99,16 +111,13 @@ export default {
               }, 2000);
             })
             .catch((err) => console.log(err + 'user non supprimer'));
-          // })
     },
   },
 
   async mounted() {
     axios.defaults.withCredentials = true;
-    // console.log($refs.deletepost.$el)
-
-    await axios
-      .get(`http://localhost:5000/jwtid`)
+   await this.$axios.get(`/jwtid`)
+    // await axios.get(`http://localhost:5000/jwtid`)
       .then((res) => {
         //   console.log(this.userjwtid);
         this.userjwtid = res.data;
@@ -119,16 +128,13 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-
-    await axios
-      .get(`http://localhost:5000/api/user/${this.userjwtid}`)
+    await this.$axios.get(`/api/user/${this.userjwtid}`)
+    // await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
       .then((docs) => {
         this.userid = docs.data._id;
         this.firstname = docs.data.firstname;
         this.lastname = docs.data.lastname;
         this.userpicture = docs.data.pictureprofil;
-        console.log(this.userid);
-        // console.log(this.firstname)
       })
       .catch((error) => {
         console.log(error);
@@ -139,9 +145,6 @@ export default {
 
 <style lang="scss">
 .overlay-delacc {
-  /* display: flex;
-  justify-content: center; */
-  /* align-items: center; */
   width: 100%;
   top: 0px;
   bottom: 0;

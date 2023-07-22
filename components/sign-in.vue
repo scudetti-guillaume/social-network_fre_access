@@ -29,7 +29,7 @@
             <div class="form-popup" id="popup-Form">
               <form @submit.prevent class="form-container">
                 <label for="email">
-                  <h2>Votre mail Soc-Net</h2>
+                  <h2>Votre mail SocialNetwork</h2>
                 </label>
                 <v-spacer />
                 <input
@@ -54,7 +54,7 @@
                 />
                 <v-spacer />
                 <label for="psw">
-                  <h2>Mot de passe Soc-Net</h2>
+                  <h2>Mot de passe SocialNetwork</h2>
                 </label>
                 <v-spacer />
                 <input
@@ -87,7 +87,6 @@
 
 <script>
 import axios from "axios";
-
 import SignUp from "./sign-up.vue";
 
 export default {
@@ -112,19 +111,11 @@ export default {
     async verifyUser() {
        axios.defaults.withCredentials = true;
 
-
-      await axios
-        .post("http://localhost:5000/api/user/login", {
-          email: this.email,
-          password: this.psw,
-          badge: this.badge,
-        })
+  await this.$axios.post("/api/user/login", {email: this.email,password: this.psw,badge: this.badge,})
+      // await axios.post("http://localhost:5000/api/user/login", {email: this.email,password: this.psw,badge: this.badge,})
         .then((user) => {
           const userId = user.data.user;
-          // window.prompt("entrer la clé reçu par mail (n'importe lequel)");
-          // => *TODO capcha ou systeme de mail comfirmation register <= \\
           this.successreg = "Connexion reussit, Bienvenue";
-
           this.show = false;
           setTimeout(() => {
             this.$emit("close-modale", true);
@@ -160,36 +151,12 @@ export default {
 
 <style lang="scss">
 
-// #modal-signin {
-//   width: 100%;
-
-
-// }
-
-// .overlay {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   width: 100%;
-//   top: 0px;
-//   bottom: 0;
-//   left: 0;
-//   right: 0;
-//   position: fixed;
-//   visibility: visible;
-//   opacity: 1;
-//   background-color: rgba(0, 0, 0, 0.7);
-//   transition: opacity 0.4s;
-//   z-index: 10;
-// }
-
 .overlaybis{
   display: flex;
   flex-direction: column;
   max-width: 800px;
   width: 50vw;
   height: auto;
-  
 }
 
 #header-index {
@@ -255,7 +222,6 @@ h2.h2-sign-in {
   height: 50px;
   padding-right: 1rem;
   padding-left: 1rem;
-  // border-radius: 15px;
    border-radius: 10px;
   margin-top: 20px;
   border: solid 2px $secondary;

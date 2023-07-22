@@ -1,81 +1,92 @@
-[{
-  "_id": {
-    "$oid": "62ec8b6e2e65d994834ec316"
+[
+  {
+    "_id": {
+      "$oid": "62ec8b6e2e65d994834ec316"
+    },
+    "lastname": "admin",
+    "firstname": "admin",
+    "email": "admin.admin@socialnetwork.fr",
+    "badge": "1001023"
   },
-  "lastname": "admin",
-  "firstname": "admin",
-  "email": "admin.admin@groupomania.fr",
-  "badge": "1001023"
-},{
-  "_id": {
-    "$oid": "62ec8bb82e65d994834ec317"
+  {
+    "_id": {
+      "$oid": "62ec8bb82e65d994834ec317"
+    },
+    "firstname": "jean",
+    "lastname": "goldman",
+    "email": "jean.goldman@socialnetwork.fr",
+    "badge": "2318964"
   },
-  "firstname": "jean",
-  "lastname": "goldman",
-  "email": "jean.goldman@groupomania.fr",
-  "badge": "2318964"
-},{
-  "_id": {
-    "$oid": "62ec8c022e65d994834ec318"
+  {
+    "_id": {
+      "$oid": "62ec8c022e65d994834ec318"
+    },
+    "firstname": "patricia",
+    "lastname": "kass",
+    "email": "patricia.kass@socialnetwork.fr",
+    "badge": "657894945"
   },
-  "firstname": "patricia",
-  "lastname": "kass",
-  "email": "patricia.kass@groupomania.fr",
-  "badge": "657894945"
-},{
-  "_id": {
-    "$oid": "62ec8c8a2e65d994834ec319"
+  {
+    "_id": {
+      "$oid": "62ec8c8a2e65d994834ec319"
+    },
+    "firstname": "mimi",
+    "lastname": "mathy",
+    "email": "mimi.mathy@socialnetwork.fr",
+    "badge": "657144945"
   },
-  "firstname": "mimi",
-  "lastname": "mathy",
-  "email": "mimi.mathy@groupomania.fr",
-  "badge": "657144945"
-},{
-  "_id": {
-    "$oid": "62ec8cb52e65d994834ec31a"
+  {
+    "_id": {
+      "$oid": "62ec8cb52e65d994834ec31a"
+    },
+    "lastname": "sy",
+    "email": "omar.sy@socialnetwork.fr",
+    "badge": "617415945",
+    "firstname": "omar"
   },
-  "lastname": "sy",
-  "email": "omar.sy@groupomania.fr",
-  "badge": "617415945",
-  "firstname": "omar"
-},{
-  "_id": {
-    "$oid": "62ec8cd72e65d994834ec31b"
+  {
+    "_id": {
+      "$oid": "62ec8cd72e65d994834ec31b"
+    },
+    "lastname": "boon",
+    "email": "dany.boon@socialnetwork.fr",
+    "badge": "61715879645",
+    "firstname": "dany"
   },
-  "lastname": "boon",
-  "email": "dany.boon@groupomania.fr",
-  "badge": "61715879645",
-  "firstname": "dany"
-},{
-  "_id": {
-    "$oid": "62ec8d072e65d994834ec31c"
+  {
+    "_id": {
+      "$oid": "62ec8d072e65d994834ec31c"
+    },
+    "firstname": "simone",
+    "lastname": "veil",
+    "email": "simone.veil@socialnetwork.fr",
+    "badge": "6terf9645"
   },
-  "firstname": "simone",
-  "lastname": "veil",
-  "email": "simone.veil@groupomania.fr",
-  "badge": "6terf9645"
-},{
-  "_id": {
-    "$oid": "62ec8d4b2e65d994834ec31d"
+  {
+    "_id": {
+      "$oid": "62ec8d4b2e65d994834ec31d"
+    },
+    "firstname": "sophie",
+    "lastname": "marceau",
+    "email": "sophie.marceau@socialnetwork.fr",
+    "badge": "6515pozdf45"
   },
-  "firstname": "sophie",
-  "lastname": "marceau",
-  "email": "sophie.marceau@groupomania.fr",
-  "badge": "6515pozdf45"
-},{
-  "_id": {
-    "$oid": "62ece50f2e65d994834ec35d"
+  {
+    "_id": {
+      "$oid": "62ece50f2e65d994834ec35d"
+    },
+    "firstname": "james",
+    "lastname": "blood",
+    "email": "james.blood@socialnetwork.fr",
+    "badge": "6511745rr45"
   },
-  "firstname": "james",
-  "lastname": "blood",
-  "email": "james.blood@groupomania.fr",
-  "badge": "6511745rr45"
-},{
-  "_id": {
-    "$oid": "62fe21cd980c354b3d578ae6"
-  },
-  "lastname": "test",
-  "firstname": "test",
-  "email": "test.test@groupomania.fr",
-  "badge": "00"
-}]
+  {
+    "_id": {
+      "$oid": "62fe21cd980c354b3d578ae6"
+    },
+    "lastname": "test",
+    "firstname": "test",
+    "email": "test.test@socialnetwork.fr",
+    "badge": "00"
+  }
+]

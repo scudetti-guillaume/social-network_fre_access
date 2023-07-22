@@ -29,7 +29,7 @@
               <div class="form-popup" id="popup-Form">
                 <form @submit.prevent class="form-container">
                   <label for="email">
-                    <h2>Votre mail Groupomania</h2>
+                    <h2>Votre mail socialNetwork</h2>
                   </label>
                   <v-spacer />
                   <input
@@ -42,7 +42,7 @@
                   />
                   <v-spacer />
                   <label for="psw">
-                    <h2>Mot de passe Groupomania-socialnetwork</h2>
+                    <h2>Mot de passe socialNetwork</h2>
                   </label>
                   <v-spacer />
                   <input
@@ -100,16 +100,10 @@
       async verifyUser() {
          axios.defaults.withCredentials = true;
   
-  
-        await axios
-          .post("http://localhost:5000/api/user/login", {
-            email: this.email,
-            password: this.psw,
-          })
+   await this.$axios.post("/api/user/login", {email: this.email,password: this.psw,})
+        // await axios.post("http://localhost:5000/api/user/login", {email: this.email,password: this.psw,})
           .then((user) => {
             const userId = user.data.user;
-            // window.prompt("entrer la clé reçu par mail (n'importe lequel)");
-            // => *TODO capcha ou systeme de mail comfirmation register <= \\
             this.successreg = "Connexion reussit, Bienvenue";
   
             this.show = false;

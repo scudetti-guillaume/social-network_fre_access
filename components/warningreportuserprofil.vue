@@ -3,7 +3,7 @@
       <v-col v-if="checkreport == false" class="d-flex justify-center align-center">
         <v-card class="popup-report-com">
           <p class="logo-disconnect-delete">
-            <img class="logo-white" src="../logo/logo.png" alt="logo" />
+            <img class="logo-white" src="../static/logo/logo.png" alt="logo" />
             <span>La team GROUPOMANIA</span>
           </p>
           <p v-if="!reportconfirm" id="span-report-post">
@@ -52,7 +52,7 @@
       <v-col v-else class="d-flex justify-center align-center">
         <v-card class="popup-report-com">
           <p class="logo-disconnect-delete">
-            <img class="logo-white" src="../logo/logo.png" alt="logo" />
+            <img class="logo-white" src="../static/logo/logo.png" alt="logo" />
             <span>La team GROUPOMANIA</span>
           </p>
           <p  id="span-report-post-titre">
@@ -100,8 +100,8 @@
       this.userFromIdP = infoprofil.userFidP
       this.userSignalIdP = infoprofil.userSidP
       this.userSignalFullnameP = infoprofil.userSfullP
-     
-     await axios.get(`http://localhost:5000/api/user/${this.userSignalIdP}`)
+       await this.$axios.get(`/api/user/${this.userSignalIdP}`)
+    //  await axios.get(`http://localhost:5000/api/user/${this.userSignalIdP}`)
           .then((profil) => {
             localStorage.removeItem('info-signal-profil')
             this.signaluser = profil.data.profilSignalBy
@@ -129,7 +129,8 @@
       userSignalId :this.userSignalIdP,
       userSignalFullname: this.userSignalFullnameP,
         }
-        axios.patch(`http://localhost:5000/api/user/signalUser/${this.userSignalIdP}`,sendInfo)
+         this.$axios.patch(`/api/user/signalUser/${this.userSignalIdP}`,sendInfo)
+        // axios.patch(`http://localhost:5000/api/user/signalUser/${this.userSignalIdP}`,sendInfo)
         .then((doc)=>{
             this.signaluser = []
         })
@@ -181,8 +182,6 @@
     max-width: 350px;
     min-width: 350px;
     width: 350px;
-    //   max-height: 400px;
-    //   min-height: 400px;
     height: 300px;
     display: flex;
     flex-direction: column;

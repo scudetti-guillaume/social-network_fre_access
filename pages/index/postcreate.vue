@@ -25,9 +25,7 @@
                   <label v-else class="lab-pic-btn" for="picpost"  >
                     <v-icon  class="lab-pic-icon" size="25px">mdi-camera-plus</v-icon> <span>Modifier une photo</span>
                     <input id="picpost" class="form-avatar-profil" type="file" value="" name="picpost" placeholder="votre photo"
-                          @change="picPreview"/></label>
-    
-                             
+                          @change="picPreview"/></label>                    
               <div class="preview-pic-size"  @change="postValid()" > 
                 <img id="pic-size"  v-if="url" :src="url" @change="postValid()" alt="photo de publication"  >
                 <p v-else  id="pic-size"  @change="postValid()"> c'est vide .... vous n'avez rien à partager ?  😪 </p>
@@ -84,7 +82,6 @@
           this.createText = true
         }
         else{
-    
         this.createText = false
         }
       },
@@ -106,16 +103,9 @@
         },
         
         picPreview(e){
-          // console.log(e);
-          // console.log(this.url);
-          // console.log(this.file.value);
           e.target.value[0].split(" ")
           const pic = e.target.files[0];
-          
           this.file = pic
-    
-    
-    
           this.url = URL.createObjectURL(pic);
           this.validPost = !this.validPost
         },
@@ -133,7 +123,8 @@
               formData.append('role',this.role)
               formData.append('posterFollower',this.userFollowerId)
               formData.append('posterFollowing',this.userFollowingId)
-              axios.post(`http://localhost:5000/api/post`,formData)
+              this.$axios.post(`/api/post`, formData)
+              // axios.post(`http://localhost:5000/api/post`,formData)
               .then(() => {
                 this.posted= true
                 this.validPost = false
@@ -165,15 +156,12 @@
       getcolor(){
         if(this.urlpic === '' || this.urlpic === undefined  ){
        this.avatarpicempty = this.firstname.split('')[0].toLocaleUpperCase()
- 
        }
       }
-      
     },
     
       data(){
         return {
-         
           avatarpicempty:'',
           urlpic:'',
           log:false,
@@ -205,7 +193,6 @@
           role:'',
           userFollowingId: [],
           userFollowerId : [],
-    
         }
         },
     
@@ -252,8 +239,8 @@
       async mounted(){
        axios.defaults.withCredentials = true;
        this.file = []
-    
-       await axios.get(`http://localhost:5000/jwtid`)
+      await this.$axios.get(`/jwtid`)
+      //  await axios.get(`http://localhost:5000/jwtid`)
         .then((res) => {
         this.userjwtid = res.data
         this.show = false
@@ -261,10 +248,9 @@
         }).catch((error)=>{
           console.log(error);
         })
-    
-       await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
+     await this.$axios.get(`/api/user/${this.userjwtid}`)
+      //  await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
         .then((docs) => {
-         
           this.role = docs.data.role
             this.userid = docs.data._id
             this.firstname = docs.data.firstname
@@ -277,10 +263,7 @@
         }).catch((error)=>{
           console.log(error);
         })
-    
-    
       this.getcolor()
-    
       },
     }
     
@@ -324,7 +307,6 @@
       margin-top: 100px;
       max-width: 950px;
       min-width: 350px;
-      // height: 650px;
     align-items: center;
     justify-content: center;
     background-color: $tertiary;
@@ -340,7 +322,6 @@
     align-items: center;
     width: 100%;
     padding-top: 2%;
-    
     };
     
     .poster-info{
@@ -356,7 +337,6 @@
       flex-direction: column;
       width: auto;
       height: auto;
-    
     }
     
     .lab-pic-icon {
@@ -502,10 +482,8 @@
     .error-style-span{
      color:$primary;
      text-decoration: underline;
-    
     }
    
-    
     #btn-send-post{
       color:$secondary;
        border: solid 2px $secondary;
@@ -530,12 +508,10 @@
        background-color: rgb(38, 145, 49);
        height: 40px;
        width:100px ;
-
       margin-right: 1%;
       border-radius: 15px;
       padding-left: 1%;
       padding-right: 1%;
-    
     }
     
     #btn-send-post:disabled{
@@ -543,7 +519,6 @@
       padding-right: 1rem;
       padding-left: 1rem;
       border-radius: 15px;
-      // margin-top: 20px;
       border: solid 2px $secondary;
       background: #ccc;
       &:hover {
@@ -552,17 +527,14 @@
       }
     }
     
-    
     #div-btn-send{
       display: flex;
      justify-content: center;
      align-items: center;
-     
     }
     #icon-btn-send{
       padding-right: 7%;
     }
-    
     
     .pic-create-post{
       display: flex;
@@ -578,13 +550,10 @@
     
     #card-create-picture{
       display: flex;
-      // margin-left: 1.5%;
       color: $secondary;
       padding-top: 1%;
       padding-bottom: 1%;
       justify-content: center;
-  
-    
       }
     
     #card-img{
@@ -595,8 +564,6 @@
     max-height: 200px;
     padding: 1%;
     };
-    
-  
     
     #messagetext-post {
       width: 100%;

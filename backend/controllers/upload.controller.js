@@ -10,7 +10,8 @@ exports.uploadProfil = async (req, res) => {
     UserModel.findByIdAndUpdate(
         req.body.userId,
         {
-            $set : {photo: `${req.protocol}://${req.get("host")}/images/${
+          $set: {
+            photo: `${req.protocol}://${req.get("host")}/soc/backend/images/profil/${
               req.file.filename
             }`  }
         },
