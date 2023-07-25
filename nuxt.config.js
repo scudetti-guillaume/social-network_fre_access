@@ -50,7 +50,8 @@ export default {
     '@nuxtjs/axios'
   ],
   axios: {
-    baseURL:'/soc/backend',
+    baseURL:'/soc_free/backend',
+    // baseURL:'http://localhost:5000/',
   },
   target: 'static',
 
@@ -79,7 +80,7 @@ export default {
     height: '5px'
   },
   router: {
-    base: '/soc/'
+    base: '/soc_free/'
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

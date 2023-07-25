@@ -112,7 +112,6 @@ export default {
        axios.defaults.withCredentials = true;
 
   await this.$axios.post("/api/user/login", {email: this.email,password: this.psw,badge: this.badge,})
-      // await axios.post("http://localhost:5000/api/user/login", {email: this.email,password: this.psw,badge: this.badge,})
         .then((user) => {
           const userId = user.data.user;
           this.successreg = "Connexion reussit, Bienvenue";

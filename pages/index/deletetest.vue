@@ -4,7 +4,7 @@
 
 <v-card class="popup-del-com ">
     <p class="logo-disconnect-delete"><img class="logo-white" src="../../static/logo/logo.png" alt="logo groupomania" />
-    <span>La team GROUPOMANIA </span>
+    <span>La team SocNet</span>
     </p>
   <p id="span-del-post">  ⚠️ Vous-êtes sur de vouloir supprimer cette publication?  ⚠️ </p>
    <v-btn v-if="click" id="btn-notdelete-comfirm" @click="$emit('close-modale-delete'),delDeletePost()" ><span >non j'ai changer d'avis</span></v-btn>
@@ -44,14 +44,11 @@ click: true,
   
    let data = this.userid
        this.$axios.delete(`/api/post/${this.postId}`,{data : {id : id}}  )
-    //  axios.delete(`http://localhost:5000/api/post/${this.postId}`,{data : {id : id}}  )
       .then((Post) => {
            
           Post.data.likers.forEach(userDeleteLike=> {
              this.$axios.patch(`/api/post/unlike-post/${this.postId}`,{ id: userDeleteLike})
-          // axios.patch(`http://localhost:5000/api/post/unlike-post/${this.postId}`,{ id: userDeleteLike})
           });
-        //   this.getPosts()
         })
         .then(()=>{
            localStorage.removeItem('categories')
@@ -72,7 +69,6 @@ click: true,
  async mounted(){
      axios.defaults.withCredentials = true;
         await this.$axios.get(`/jwtid`)
-  //  await axios.get(`http://localhost:5000/jwtid`)
     .then((res) => {
   
     this.userjwtid = res.data
@@ -82,7 +78,6 @@ click: true,
       console.log(error);
     })
        await this.$axios.get(`/api/user/${this.userjwtid}`)
-  //  await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
     .then((docs) => {
         this.userid = docs.data._id
      console.log(this.userid);

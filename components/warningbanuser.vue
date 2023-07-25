@@ -4,7 +4,7 @@
       <v-card class="popup-report-com">
         <p class="logo-disconnect-delete">
           <img class="logo-white" src="../static/logo/logo.png" alt="logo" />
-          <span>La team GROUPOMANIA</span>
+          <span>La team SocNet</span>
         </p>
         <p v-if="!reportconfirm" id="span-report-post-titre">
           <v-icon class="img-flag">mdi-flag</v-icon>
@@ -53,7 +53,7 @@
       <v-card class="popup-report-com">
         <p class="logo-disconnect-delete">
           <img class="logo-white" src="../static/logo/logo.png" alt="logo" />
-          <span>La team GROUPOMANIA</span>
+          <span>La team SocNet</span>
         </p>
         <p id="span-report-post-titre">
           <v-icon class="img-flag">mdi-flag</v-icon>
@@ -71,7 +71,7 @@
       <v-card class="popup-report-com-unban">
         <p class="logo-disconnect-delete">
           <img class="logo-white" src="../static/logo/logo.png" alt="logo" />
-          <span>La team GROUPOMANIA</span>
+          <span>La team SocNet</span>
         </p>
         <p id="span-report-post-titre">
           <v-icon class="img-flag">mdi-flag</v-icon>
@@ -105,7 +105,6 @@ export default {
     this.iduserban = info.idban
     this.idpostban = info.postidban
         this.$axios.get(`/api/user/${this.iduserban}`)
-    // axios.get(`http://localhost:5000/api/user/${this.iduserban}`)
       .then((doc) => {
         console.log(doc);
         localStorage.removeItem('info-ban-user')
@@ -134,7 +133,6 @@ export default {
   methods: {
     banSend() {
       this.$axios.patch(`/api/user/banuser/${this.iduserban}`)
-      // axios.patch(`http://localhost:5000/api/user/banuser/${this.iduserban}`)
         .then((doc) => {
           console.log('utilisateur banni');
         })
@@ -144,7 +142,6 @@ export default {
     },
     unbanSend() {
         this.$axios.patch(`/api/user/unbanuser/${this.iduserban}`)
-      // axios.patch(`http://localhost:5000/api/user/unbanuser/${this.iduserban}`)
         .then((doc) => {
           this.unban = true
           console.log('utilisateur débanni');
@@ -155,14 +152,11 @@ export default {
     },
     deletedPostBan(id) {
       this.banandpublication = true
-      this.$axios.delete(`/post/${this.idpostban}`, { data: { id: id } })
-      // axios.delete(`http://localhost:5000/api/post/${this.idpostban}`, { data: { id: id } })
+      this.$axios.delete(`/api/post/${this.idpostban}`, {data:{id:id}})
         .then((Post) => {
           Post.data.likers.forEach(userDeleteLike => {
              this.$axios.patch(`/api/post/unlike-post/${this.iduserban}`, { id: userDeleteLike }) 
-            // axios.patch(`http://localhost:5000/api/post/unlike-post/${this.iduserban}`, { id: userDeleteLike }) 
             });
-          //   this.getPosts()
         })
     }
   },

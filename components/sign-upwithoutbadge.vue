@@ -28,7 +28,7 @@
                   placeholder="prenom" name="prenom" required />
                 <v-spacer />
                 <label for="email">
-                  <h2 class="titleh2">Votre mail SocialNetwork</h2>
+                  <h2 class="titleh2">Votre mail</h2>
                 </label>
                 <v-spacer />
                 <input style="text-transform:lowercase" v-model="email" class="form-input" type="text"
@@ -38,7 +38,7 @@
 
                 <label for="pass">
                   <h2 class="titleh2">
-                    Mot de passe SocialNetwork
+                    Mot de passe
                   </h2>
                 </label>
 
@@ -74,6 +74,7 @@
                 </div>
                 <div class="errormsg">{{ infomsg }}</div>
                 <div class="successmsg">{{ successreg }}</div>
+                <!-- <div class="errormsg">{{infoerror}}</div> -->
 
                 <v-spacer />
                 <button @click="loginInfo" :disabled="validatedForm" type="submit" class="btn-valid">
@@ -132,7 +133,7 @@ export default {
     mailValidation() {
       // ====== si bug doublebackslash new regexp consum one bs =======\\
       let mail = /^[a-z]+\.[a-z]+@[a-z]+\.[a-z]{2,}$/
-      let testMail = mail.test(this.email)
+      testMail = mail.test(this.email)
       if (testMail = true) {
         this.mailValid = true
       }
@@ -172,34 +173,31 @@ export default {
 
   methods: {
     async loginInfo() {
+
       if (this.psw != this.pswcom) {
-        this.infomsg = "Veuillez vérifier votre mot de passe";
-        return false
+        setTimeout(() => {
+          this.infomsg = "Veuillez vérifier votre mot de passe";
+          return false
+        }, 2500)
       }
       if (this.mailValid = false) {
-        this.infomsg = "il y a une erreur, Réessayer";
-        return false
+        setTimeout(() => {
+          this.infomsg = "il y a une erreur, Réessayer";
+          return false
+        }, 2500)
+
       }
-       await this.$axios
-        .post("/api/user/register", {
-          firstname: this.firstname,
-          lastname: this.lastname,
-          email: this.email,
-          password: this.psw,
-        })
-
-      // await axios
-      //   .post("http://localhost:5000/api/user/register", {
-      //     firstname: this.firstname,
-      //     lastname: this.lastname,
-      //     email: this.email,
-      //     password: this.psw,
-      //   })
-        .then(() => {
-
+      await this.$axios.post("/api/user/register", {
+        firstname: this.firstname,
+        lastname: this.lastname,
+        email: this.email,
+        password: this.psw,
+      })
+        .then((doc) => {
           this.successreg = "Compte creer avec succée, Bienvenue";
-          window.prompt("entrer la clé reçu par mail ( n'importe quel touche)")
+          window.prompt("entrer la clé reçu par mail ( simuler )")
           setTimeout(() => {
+           this.infomsg = ""
             this.firstname = ""
             this.lastname = "",
               this.email = "",
@@ -212,7 +210,7 @@ export default {
           this.lastname = "",
             this.email = "",
             this.psw = "",
-            this.infomsg = error.response.data.error;
+            this.infomsg = error.response.data.errors.email;
           setTimeout(() => {
             this.infomsg = "";
           }, 3000);

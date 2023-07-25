@@ -57,14 +57,14 @@
       </v-list>
     </v-navigation-drawer>
     <v-footer :absolute="!fixed" app>
-      <span>&copy; Groupomania socialNetwork res dev by scud </span>
+      <span>&copy; socialNetwork res dev by scud </span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
 import axios from "axios";
-import SignIn from "../components/sign-in.vue";
+import SignIn from "../components/sign-inwithoutbadge.vue";
 import Waitload from "../components/Waitload.vue";
 
 

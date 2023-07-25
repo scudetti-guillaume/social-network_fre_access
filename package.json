@@ -1,6 +1,5 @@
 {
-  "homepage": "/soc",
-  "name": "groupomania",
+  "name": "socnet_free",
   "version": "1.0.0",
   "private": true,
   "scripts": {

@@ -38,6 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('*', checkUser
 // ,(req,res)=>{ console.log(res.locals.user._id);res.send(res.locals.user._id)}
 ); // TODO 
+
 app.get(`${process.env.BASE_URL}/jwtid`, requireAuth, (req,res)=>{
   if(req.user === ''){
     res.status(201).json(res.data = 'notoken')
@@ -47,14 +48,14 @@ app.get(`${process.env.BASE_URL}/jwtid`, requireAuth, (req,res)=>{
 });
 
 app.get(`${process.env.BASE_URL}/jwtidadmin`,requireAuthAdmin, (req,res)=>{
-  if(req.user === ''){
+  if (req.role === ''){
     res.status(201).json(res.data = 'notoken')
   }else{
   res.status(200).send(res.locals.user._id)
 }
 });
 
-// const dir = "images";
+
 const dir = `${process.env.BASE_SERVER}`;
 if (!fs.existsSync(dir)) {fs.mkdirSync(dir)}
 const dirPictureProfil = `${process.env.BASE_SERVER}/profil`;
@@ -62,11 +63,13 @@ if (!fs.existsSync(dirPictureProfil)) { fs.mkdirSync(dirPictureProfil)}
 const dirPicturePost = `${process.env.BASE_SERVER}/post`;
 if (!fs.existsSync(dirPicturePost)) { fs.mkdirSync(dirPicturePost) }
 
+
 // routes\\
+// ${ process.env.BASE_URL }
 app.use(`${process.env.BASE_URL}/api/user`, userRoutes);
 app.use(`${process.env.BASE_URL}/api/post`, postRoutes);
 
 // config serveur \\
-app.listen(process.env.PORT, (port) =>
-  console.log(`listening on port ${process.env.PORT}`)
+app.listen(() =>
+  console.log(`connected `)
 );

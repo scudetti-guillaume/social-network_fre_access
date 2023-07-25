@@ -4,7 +4,7 @@
 
       <v-card class="popup-del-com ">
         <p class="logo-disconnect-delete"><img class="logo-white" src="../static/logo/logo.png" alt="logo" />
-          <span>La team GROUPOMANIA </span>
+          <span>La team SocNet</span>
         </p>
         <p id="span-del-post"> ⚠️ Vous-êtes sur le point de fermer sans envoyer votre commentaire ⚠️ </p>
         <v-btn id="btn-notdelete-comfirm"

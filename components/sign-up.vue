@@ -57,19 +57,6 @@
                 />
 
                 <v-spacer />
-                <label for="badge">
-                  <h2 class="titleh2">Numéro de badge</h2>
-                </label>
-                <v-spacer />
-                <input
-                  v-model="badge"
-                  class="form-input"
-                  type="text"
-                  placeholder="N° de badge"
-                  name="badge"
-                  required
-                />
-                <v-spacer />
                 <label for="pass">
                   <h2 class="titleh2">
                     Mot de passe SocialNetwork
@@ -83,7 +70,6 @@
                   class="form-input"
                   type="password"
                   placeholder="Votre mot de passe"
-                 
                   required
                 />
                 <div class="rules">
@@ -134,6 +120,7 @@
                 </div>
                 <div class="errormsg">{{ infomsg }}</div>
                 <div class="successmsg">{{ successreg }}</div>
+                  <div class="errormsg">{{ infoerror }}</div>
 
                 <v-spacer />
                 <button
@@ -184,6 +171,7 @@ export default {
       termofuse: false,
       successreg: "",
       infomsg: "",
+      infoerror: "",
       formfull: "",
       firstname: "",
       lastname: "",
@@ -199,8 +187,8 @@ export default {
   computed: {
        mailValidation(){
         // ====== si bug doublebackslash new regexp consum one bs =======\\
-      let mail =  new RegExp('[a-z]+\.[a-z]@socialnetwork.fr')
-      let testMail = mail.test(this.email)
+         let mail = /^[a-z]+\.[a-z]+@[a-z]+\.[a-z]{2,}$/
+      testMail = mail.test(this.email)
     if(testMail = true){
       this.mailValid = true
 
@@ -225,7 +213,6 @@ export default {
       if (
         this.firstname != "" &&
         this.lastname != "" &&
-        this.badge != "" &&
         this.email != "" &&
         this.psw != "" &&
         this.check != false
@@ -234,7 +221,6 @@ export default {
         return false;
       } else {
         this.formfull = "Veuillez completer le formulaire";
-
         return true;
       }
     },
@@ -243,11 +229,15 @@ export default {
   methods: {
     async loginInfo() {
       if (this.psw != this.pswcom) {
+        setTimeout(() => {
         this.infomsg = "Veuillez vérifier votre mot de passe";
+             }, 2500)
         return false
       }
      if(this.mailValid = false){
+      setTimeout(() => {
        this.infomsg = "il y a une erreur, Réessayer";
+           }, 2500)
         return false
      }
        await this.$axios
@@ -278,9 +268,9 @@ export default {
         .catch((error) => {
           this.firstname=""
           this.lastname="",
-           this.badge="",
           this.email="",
          this.psw="",
+           this.infoerror = error.response.data.email
           this.infomsg = error.response.data.error;
             setTimeout(() => {
             this.infomsg = "";
@@ -291,7 +281,6 @@ export default {
  reset(){
          this.firstname=""
           this.lastname=""
-           this.badge=""
           this.email=""
          this.psw=""
          this.termofuse= false

@@ -1,12 +1,12 @@
 <template>
   <div class="overlay">
     <div class="instruction-term" >
-      <h2 class="title-term">Bienvenue sur le reseau social de groupomania</h2>
+      <h2 class="title-term">Bienvenue sur le reseau social de SocNet</h2>
 
       <p>
         Malgré le fait que ce réseau soit un endroit de détente, n'oubliez pas
-        qu'il reste dans le cadre de l'entreprise Groupomania. De ce fait le
-        règlement de Groupomania s'applique ici aussi.
+        qu'il reste dans le cadre de l'entreprise SocNet. De ce fait le
+        règlement de SocNet s'applique ici aussi.
       </p>
 
       <h2 class="title-term">
@@ -29,7 +29,7 @@
       <p class="bold">
         Toute infraction au règlement sera modéré et sanctionné d'un
         bannissement temporaire ou définitif du réseau ET de sanction pouvant
-        aller au licenciement de Groupomania selon la gravité.
+        aller au licenciement de SocNet selon la gravité.
       </p>
 
       <p>
@@ -38,7 +38,7 @@
         adressez à vos collègues de travail.
       </p>
       <p>Team work make dream work,</p>
-      <p>La modération du réseau et La direction Groupomania.</p>
+      <p>La modération du réseau et La direction SocNet.</p>
 
       <button class="btn-term" @click="$emit('close-modal-use')">
         Retour à l'inscription

@@ -29,7 +29,7 @@
               <div class="form-popup" id="popup-Form">
                 <form @submit.prevent class="form-container">
                   <label for="email">
-                    <h2>Votre mail socialNetwork</h2>
+                    <h2>Votre mail</h2>
                   </label>
                   <v-spacer />
                   <input
@@ -42,7 +42,7 @@
                   />
                   <v-spacer />
                   <label for="psw">
-                    <h2>Mot de passe socialNetwork</h2>
+                    <h2>Mot de passe </h2>
                   </label>
                   <v-spacer />
                   <input
@@ -76,7 +76,7 @@
   <script>
   import axios from "axios";
   
-  import SignUp from "./sign-up.vue";
+  import SignUp from "./sign-upwithoutbadge.vue";
   
   export default {
   

@@ -3,7 +3,7 @@
     <v-col class=" d-flex  justify-center align-center">
       <v-card class="popup-del-com-empty ">
         <p class="logo-disconnect-delete"><img class="logo-white" src="../static/logo/logo.png" alt="logo" />
-          <span>La team GROUPOMANIA </span>
+          <span>La team SocNet</span>
         </p>
         <p id="span-del-post"> ⚠️ Oups votre commentaire est vide de chez vide vous ne pouvez pas envoyez ça ⚠️ </p>
         <v-btn id="btn-notdelete-comfirm" @click="$emit('close-modale-comment-empty')"><span>Retour</span></v-btn>

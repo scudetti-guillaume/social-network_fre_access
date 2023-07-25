@@ -4,7 +4,7 @@
 
             <v-card class="popup-del-com-delbio ">
                 <p class="logo-disconnect-delete"><img class="logo-white" src="../static/logo/logo.png" alt="logo" />
-                    <span>La team GROUPOMANIA </span>
+                    <span>La team SocNet</span>
                 </p>
                 <p id="span-del-bio"> ⚠️ Vous-êtes sur le point de supprimer votre bio ⚠️ </p>
                 <v-btn id="btn-notdelete-comfirm" @click="$emit('close-modale-biodelete')"><span>Retour</span></v-btn>

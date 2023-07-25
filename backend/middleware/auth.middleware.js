@@ -5,7 +5,7 @@ const ObjectID = require("mongoose").Types.ObjectId;
 const durationTokenLogout = 1;
 
 exports.requireAuth = (req, res, next) => {
-  const token = req.cookies.jwt;
+  const token = req.cookies.jwt_soc_free;
 
   if (token ) {
     jwt.verify(token, process.env.TOKEN_SECRET, async (err, decodedToken) => {
@@ -14,7 +14,7 @@ exports.requireAuth = (req, res, next) => {
       } else {
         UserModel.findOne({ _id: decodedToken.id, ban: true }, (err, doc) => {
           if (doc) {
-            res.cookie("jwt", "", { maxAge: durationTokenLogout }),
+            res.cookie("jwt_soc_free", "", { maxAge: durationTokenLogout }),
               res.status(400).json("utilisateur banni");
           } else {
             UserModel.findOne({ _id: decodedToken.id ,role : undefined} ,(err,doc)=>{
@@ -41,12 +41,12 @@ exports.requireAuth = (req, res, next) => {
 
 
 exports.checkUser = (req, res, next) => {
-  const token = req.cookies.jwt;
+  const token = req.cookies.jwt_soc_free;
   if (token) {
     jwt.verify(token, process.env.TOKEN_SECRET, async (err, decodedToken) => {
       if (err) {
         res.locals.user = null;
-        res.cookie("jwt", "", { session: false, maxAge: 1 });
+        res.cookie("jwt_soc_free", "", { session: false, maxAge: 1 });
 
         next();
       } else {

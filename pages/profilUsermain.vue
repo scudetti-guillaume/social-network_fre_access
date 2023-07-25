@@ -19,11 +19,6 @@
         </div>
         <span class="fullname-usermain">{{ fullname }}</span>
       </div>
-      <!-- <button class="btn-att-flag-profil-usermain" :class=" checkreport === true ? 'reportPost' 
-                        : 'notReportPost'" @click="(showReportUser = !showReportUser),reportInfoUser(fullname,userid,userfullname,userjwtid )" title="signaler la publication">
-                 <v-icon class="img-att-flag-usermain">mdi-flag-outline</v-icon> 
-                <p class="text-att-report-usermain">Signaler</p>
-              </button> -->
     </v-card-text>
     <v-card-text v-else-if="urlpic !== ''" class="card-profilusermain">
       <div class="block-picture-profilusermain">
@@ -32,11 +27,6 @@
         </div>
         <span class="fullname-profilusermain">{{ fullname }}</span>
       </div>
-      <!-- <button class="btn-att-flag-profil-usermain" :class=" checkreport === true ? 'reportPost' 
-                        : 'notReportPost'" @click="(showReportUser = !showReportUser),reportInfoUser(fullname,userid,userfullname,userjwtid )" title="signaler la publication">
-                 <v-icon class="img-att-flag-usermain">mdi-flag-outline</v-icon> 
-                <p class="text-att-report-usermain">Signaler</p>
-              </button> -->
     </v-card-text>
 
     <v-card-text class="card-profil-biographie">
@@ -396,9 +386,11 @@ export default {
     setTimeout(() => {
       this.showloader = false
     }, 1500);
-    axios.defaults.withCredentials = true;
+    this.$axios.defaults.withCredentials = true;
     let params = window.location.toString()
+    console.log(params);
     let idUserURL = params.split('=')[1]
+     console.log(idUserURL);
     this.id = idUserURL
     await this.$axios.get(`/jwtid`)
       // await axios.get(`http://localhost:5000/jwtid`)
@@ -417,7 +409,7 @@ export default {
           this.userlastname = docs.data.lastname
       }).catch((error) => { console.log(error) });
 
-    await this.$axios.get(`http://localhost:5000/api/user/${this.id}`)
+    await this.$axios.get(`/api/user/${this.id}`)
       // await axios.get(`http://localhost:5000/api/user/${this.id}`)
       .then((docs) => {
         this.signaluser = docs.data.profilSignalBy

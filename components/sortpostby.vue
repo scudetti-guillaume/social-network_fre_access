@@ -4,7 +4,7 @@
 
             <v-card class="popup-sort-post ">
                 <p class="logo-disconnect-delete"><img class="logo-white" src="../static/logo/logo.png" />
-                    <span id="span-delete-modale">GROUPOMANIA </span>
+                    <span id="span-delete-modale">SocNet</span>
                 </p>
                 <p id="span-del-bio">Trier les publications par : </p>
                 <div class="btn-sortby">

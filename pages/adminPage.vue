@@ -8,13 +8,6 @@
           </label>
           <v-spacer />
           <input v-model="email" class="form-admin-input" type="text" placeholder="Votre Email" name="email" required />
-          <label for="badge">
-            <h2>Numéro de badge</h2>
-          </label>
-          <v-spacer />
-          <input v-model="badge" class="form-admin-input" type="text" placeholder="numéro de badge" name="badge"
-            required />
-          <v-spacer />
           <label for="psw">
             <h2>Mot de passe </h2>
           </label>
@@ -129,7 +122,6 @@ export default {
      await this.$axios.post("/api/user/loginadmin", {
           email: this.email,
           password: this.psw,
-          badge: this.badge,
         })
       // await axios.post("http://localhost:5000/api/user/loginadmin", {
       //     email: this.email,
@@ -183,15 +175,16 @@ export default {
 
 
   async mounted() {
-    axios.defaults.withCredentials = true;
+    this.$axios.defaults.withCredentials = true;
     setTimeout(() => {
       this.showloader = false;
     }, 2500);
     await this.$axios.get(`/jwtidadmin`)
     // await axios.get(`http://localhost:5000/jwtidadmin`)
       .then((res) => {
+      console.log(res.status);
         if (res.status === 201) {
-          loggedIn = false
+          this.loggedIn = false
         } else {
           this.userjwtid = res.data;
           this.loggedIn = true;

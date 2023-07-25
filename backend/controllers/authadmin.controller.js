@@ -17,7 +17,7 @@ exports.signIn = async (req, res) => {
   try {
     const user = await UserModel.login(email,password);
     const token = createToken(user._id);
-    res.cookie("jwtadmin", token, {
+    res.cookie("jwtadmin_free", token, {
       // SameSite : None,
       session: false,
       maxAge: durationTokenLogin1,
@@ -28,7 +28,7 @@ exports.signIn = async (req, res) => {
       if (doc) {
          res.status(200).json({ user: user._id, token });
       } else {
-           res.cookie("jwtadmin", "", { maxAge: durationTokenLogout }),
+           res.cookie("jwtadmin_free", "", { maxAge: durationTokenLogout }),
         res.status(400).json("admin banni");
       
       }
@@ -42,6 +42,6 @@ exports.signIn = async (req, res) => {
 // logout end point \\
 
 exports.logout = (req, res) => {
-  res.cookie("jwtadmin", "", { maxAge: durationTokenLogout });
+  res.cookie("jwtadmin_free", "", { maxAge: durationTokenLogout });
   res.redirect("./");
 };

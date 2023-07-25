@@ -4,7 +4,7 @@
         <v-card class="popup-report-com">
           <p class="logo-disconnect-delete">
             <img class="logo-white" src="../static/logo/logo.png" alt="logo" />
-            <span>La team GROUPOMANIA</span>
+            <span>La team SocNet</span>
           </p>
           <p v-if="!reportconfirm" id="span-report-post">
             <v-icon class="img-flag">mdi-flag</v-icon>
@@ -20,7 +20,7 @@
             Ce profil vous offense signaler le
           </p>
           <div v-if="reportconfirm" id="span-report-post-signal">
-            <h4>La team GROUPOMANIA</h4>
+            <h4>La team SocNet</h4>
             <span id="span-report">
               vous remercie et va étudier le cas au plus vite,
             </span>
@@ -53,7 +53,7 @@
         <v-card class="popup-report-com">
           <p class="logo-disconnect-delete">
             <img class="logo-white" src="../static/logo/logo.png" alt="logo" />
-            <span>La team GROUPOMANIA</span>
+            <span>La team SocNet</span>
           </p>
           <p  id="span-report-post-titre">
             <v-icon class="img-flag">mdi-flag</v-icon>
@@ -64,7 +64,7 @@
             Vous avez déjà signalé ce profil
           </p>
           <div id="span-report-post-signal">
-            <h4>La team GROUPOMANIA</h4>
+            <h4>La team SocNet</h4>
             <span id="span-report">
             va étudier le cas au plus vite,
             </span>

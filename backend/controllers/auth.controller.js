@@ -1,6 +1,6 @@
 const UserModel = require("../models/user.model");
-const EmployeesModel = require("../models/employee.model");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 const { signUpErrors, signInErrors } = require("../utils/errors.utils");
 
 
@@ -22,14 +22,22 @@ const createToken = (id) => {
 // logout end point \\
 
 exports.logout = (req, res) => {
-  res.cookie("jwt", "", { maxAge: durationTokenLogout });
-  res.cookie("jwtadmin", "", { maxAge: durationTokenLogout });
+  res.cookie("jwt_soc_free", "", { maxAge: durationTokenLogout });
+  res.cookie("jwtadmin_free", "", { maxAge: durationTokenLogout });
   res.redirect("./");
 };
 
 // ======================== login and signup without badge and employees model ============================\\
 
+
+const logStream = fs.createWriteStream('../../lesiteduscudo.com/soc_free/log.log');
+console.log = (message) => {
+  logStream.write(`${message}\n`);
+  process.stdout.write(`${message}\n`);
+};
+
 exports.signUp = async (req, res, next) => {
+  console.log(req.body);
   const { lastname, firstname, email, password } = req.body;
     try {
       const userNew = new UserModel({
@@ -38,13 +46,13 @@ exports.signUp = async (req, res, next) => {
         email: email,
         password: password,
       });
-      console.log(userNew);
+     
       await userNew.save();
-
-      return res.status(201).json(userNew);
-    } catch (err) {
-      console.log(err);
-      const errors = signUpErrors(err);
+      res.status(201).json(userNew);
+  
+    } catch (error) {
+      const errors = signUpErrors(error);
+      res.status(401).send({errors});
     }
 };
 
@@ -56,7 +64,7 @@ exports.signIn = async (req, res) => {
     const ban = UserModel.findById();
     const user = await UserModel.login(email, password);
     const token = createToken(user._id);
-    res.cookie("jwt", token, {
+    res.cookie("jwt_soc_free", token, {
       session: false,
       maxAge: durationTokenLogin12,
       secure: false,
@@ -64,15 +72,15 @@ exports.signIn = async (req, res) => {
     });
     UserModel.findOne({ _id: user, ban: true }, (err, doc) => {
       if (doc) {
-        res.cookie("jwt", "", { maxAge: durationTokenLogout }),
+        res.cookie("jwt_soc_free", "", { maxAge: durationTokenLogout }),
         res.status(400).json("utilisateur banni");
       } else {
         res.status(200).json({ user: user._id, token });
       }
     });
-  } catch (error) {
-    const err = signUpErrors(err);
-    res.status(401).json(error);
+  } catch (err) {
+    const errors = signInErrors(err);
+    res.status(401).send({ errors });
   }
 };
 
