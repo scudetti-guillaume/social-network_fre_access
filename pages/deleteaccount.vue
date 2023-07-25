@@ -7,7 +7,7 @@
 
       <p class="logo-delacc">
         <img class="logo-white-delacc" src="../static/logo/logo.png" alt="logo" />La team
-        GROUPOMANIA
+        SocNet
       </p>
       <p id="del-acc-con" v-if="(deleteconfirm = false)">
         <span>Compte supprimer avec succée</span>
@@ -18,7 +18,7 @@
           compte</span></v-btn>
       <div v-else id="block-btn-confirm-delacc">
         <span id="span-btn-confirm-delacc">Veuillez confirmer la suppression de votre compte</span>
-        <v-btn id="btn-deco-delacc" @click="window.location.href" type="text"><span>Confirmer la suppression</span></v-btn>
+        <v-btn id="btn-deco-delacc" @click="delAccount()" type="text"><span>Confirmer la suppression</span></v-btn>
       </div>
     </v-card>
   </v-col>
@@ -36,6 +36,7 @@ export default {
       posts: [],
       follow: [],
       unfollow:[],
+      deletePost:[],
 
     };
   },
@@ -90,18 +91,9 @@ export default {
                 //     `http://localhost:5000/api/post/unlike-post/${likesuser}`,
                 //     { id: this.userjwtid })
               })
-          }).catch((err)=>{err + 'user vide'})
-          
-          
+          }).then(()=>{
           let id = this.userjwtid;
-           this.$axios.delete(`/api/user/${this.userjwtid}`
-          ,
-           {data: { idrequest: id },}
-            )
-          // axios.delete(`http://localhost:5000/api/user/${this.userjwtid}`
-          // ,
-          //  {data: { idrequest: id },}
-          //   )
+           this.$axios.delete(`/api/user/${this.userjwtid}`,{data: { idrequest: id },})
             .then(() => {
               console.log('je suis la ');
               this.deleteconfirm = true;
@@ -109,6 +101,7 @@ export default {
                 this.deleteconfirm = true;
                 window.location.href = "./";
               }, 2000);
+            })
             })
             .catch((err) => console.log(err + 'user non supprimer'));
     },

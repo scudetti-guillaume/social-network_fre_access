@@ -345,52 +345,68 @@ exports.unfollow = (req, res) => {
 
 
         // user delete end point \\
-        
-        // exports.userDelete = async (req, res) => {
-        //   console.log(req.body.idrequest);
-        //   if (!ObjectID.isValid(req.params.id))
-        //     return res.status(400).send("utilsateur inconnu :" + req.params.id);
-        //   // try {
-        //   await UserModel.findById(req.params.id, (err, docs) => {
-        //     let token = req.cookies.jwt;
-        //     jwt.verify(token, process.env.TOKEN_SECRET, async (err, decodedToken) => {
-        //       if (err) {
-        //         console.log("no token");
-        //       } else {
-        //         let connectedUser = docs._id.toString().split('new ObjectId("')[0];
-        //         let jwtToken = decodedToken.id;
-        //         // console.log(connectedUser);
-        //         // console.log(jwtToken);
-        //         if (
-        //           jwtToken !== "62f8f745c348ae5b9f081062" &&
-        //           jwtToken !== connectedUser
-        //         ) {
-        //           return res.cookie("jwt", "", { session: false, maxAge: 1 });
-        //         } else {
-        //           console.log("ok");
-        //           let delimg = docs.photo.toString().split("images/default/")[1];
-        //           if (delimg != "") {
-        //             fs.unlink(`images/default/${delimg}`, (err) => {
-        //               if (err) console.log(err);
-        //               else {
-        //                 console.log("photo supprimer");
-        //               }
-        //             });
-        //           } else console.log("utilisateur inconnu: " + err);
-        //         }
-        //       }
-        //     });
-        
-        //     UserModel.deleteOne(req.body.idrequest)
-        //       .exec()
-        //       .then((doc) => {
-        //         if (!doc) {
-        //           return res.stauts(404).end();
-        //         }
-        //         return res
-        //           .status(200)
-        //           .json({ message: "utilisateur supprimer" })
-        //           .end();
-        //       });
-        //   });
-        // };
+    
+exports.userDelete = async (req, res) => {
+  console.log(req.body.idrequest);
+  console.log(req.body);
+  console.log(req.params.id);
+
+  if (!ObjectID.isValid(req.params.id))
+    return res.status(400).send("Utilisateur inconnu :" + req.params.id);
+
+  const postedBy = req.params.id;
+  const connectedUser = req.user;
+
+  if (req.role === 'admin' || connectedUser === postedBy) {
+    try {
+      // Supprimer tous les commentaires avec commenterId égal à req.params.id
+      const updateResult = await PostModel.updateMany(
+        { "comments.commenterId": req.params.id },
+        { $pull: { comments: { commenterId: req.params.id } } }
+      );
+      console.log(updateResult);
+
+      // Supprimer tous les posts ayant le posterId égal à req.params.id
+      const deletePostsResult = await PostModel.deleteMany({ posterId: req.params.id });
+      console.log(deletePostsResult);
+
+      // Supprimer l'utilisateur
+      const user = await UserModel.findById(req.params.id);
+      if (!user) {
+        return res.status(404).json('Erreur: Utilisateur non trouvé.');
+      }
+
+      if (user.photo !== undefined) {
+        let delimg = user.photo.split("profil/")[1];
+        console.log(delimg);
+        if (delimg != "") {
+          fs.unlink(`${process.env.BASE_DELETE_IMAGE_PROFIL}/${delimg}`, (err) => {
+            if (err) console.log(err);
+            else {
+              console.log("Photo supprimée");
+            }
+          });
+        } else {
+          console.log("Utilisateur inconnu: " + err);
+        }
+      }
+
+      const userDeleteResult = await UserModel.findByIdAndRemove(req.params.id);
+      console.log(userDeleteResult);
+
+      if (!userDeleteResult) {
+        return res.status(404).json('Erreur: Utilisateur non trouvé.');
+      }
+
+      // Suppression réussie
+      res.cookie("jwt_soc_free", "", { session: false, maxAge: 1 });
+      return res.status(200).json({ message: "Utilisateur supprimé" });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: "Une erreur s'est produite lors de la suppression de l'utilisateur." });
+    }
+  } else {
+    res.cookie("jwt_soc_free", "", { session: false, maxAge: 1 });
+    res.status(400).json("Non autorisé");
+  }
+};

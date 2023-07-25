@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('*', checkUser
 // ,(req,res)=>{ console.log(res.locals.user._id);res.send(res.locals.user._id)}
 ); // TODO 
-
+// ${ process.env.BASE_URL }
 app.get(`${process.env.BASE_URL}/jwtid`, requireAuth, (req,res)=>{
   if(req.user === ''){
     res.status(201).json(res.data = 'notoken')
@@ -46,7 +46,7 @@ app.get(`${process.env.BASE_URL}/jwtid`, requireAuth, (req,res)=>{
   res.status(200).send(res.locals.user._id)
 }
 });
-
+// ${ process.env.BASE_URL }
 app.get(`${process.env.BASE_URL}/jwtidadmin`,requireAuthAdmin, (req,res)=>{
   if (req.role === ''){
     res.status(201).json(res.data = 'notoken')
@@ -70,6 +70,7 @@ app.use(`${process.env.BASE_URL}/api/user`, userRoutes);
 app.use(`${process.env.BASE_URL}/api/post`, postRoutes);
 
 // config serveur \\
-app.listen(() =>
-  console.log(`connected `)
+// `${process.env.PORT}`
+app.listen((port) =>
+  console.log(`connected ${process.env.PORT}`)
 );

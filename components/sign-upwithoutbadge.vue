@@ -197,13 +197,15 @@ export default {
           this.successreg = "Compte creer avec succée, Bienvenue";
           window.prompt("entrer la clé reçu par mail ( simuler )")
           setTimeout(() => {
-           this.infomsg = ""
-            this.firstname = ""
-            this.lastname = "",
-              this.email = "",
-              this.psw = "",
+
               window.location.href = "./";
           }, 2000);
+            setTimeout(() => {
+              this.firstname = ""
+            this.lastname = "",
+              this.email = "",
+              this.psw = "";
+                }, 2500);
         })
         .catch((error) => {
           this.firstname = ""

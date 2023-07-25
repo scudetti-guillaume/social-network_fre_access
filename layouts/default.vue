@@ -131,7 +131,7 @@ export default {
         {
           icon: "mdi-delete-circle",
           title: "Supprimer mon compte",
-          to: "",
+          to: "/deleteaccount",
         },
       ],
       items: [

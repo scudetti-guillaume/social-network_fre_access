@@ -30,11 +30,11 @@ exports.logout = (req, res) => {
 // ======================== login and signup without badge and employees model ============================\\
 
 
-const logStream = fs.createWriteStream('../../lesiteduscudo.com/soc_free/log.log');
-console.log = (message) => {
-  logStream.write(`${message}\n`);
-  process.stdout.write(`${message}\n`);
-};
+// const logStream = fs.createWriteStream('../../lesiteduscudo.com/soc_free/log.log');
+// console.log = (message) => {
+//   logStream.write(`${message}\n`);
+//   process.stdout.write(`${message}\n`);
+// };
 
 exports.signUp = async (req, res, next) => {
   console.log(req.body);

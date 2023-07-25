@@ -1,5 +1,5 @@
 <template>
-  <div id="main">
+  <div>
     <div id="Book" :key="componentKey">
       <div id="fix-top">
         <div id="fix-top-bis" @click="PostCommentControleClear()" title="creer votre publication">
@@ -35,7 +35,7 @@
       </div>
 
       <div class="center-main" v-if="this.posts[0] != undefined">
-        <v-card class="card-post" v-for="(post, index) in posts" :key="post.id" :index="index"  ref="test">
+        <v-card class="card-post" v-for="(post, index) in posts" :key="post.id" :index="index">
           <div class="border-card">
             <div id="card-autor-book" v-if="post.posterId === userid">
               <div class="name-date-book">
@@ -113,13 +113,10 @@
                         (showBan = !showBan),
                         banUserId(post.posterId, post._id)
                         " title="bannir l'utilisateur">
-
                         Bannir
                       </button>
-
                       <button v-else id="btn-ban-user" @click="(showBan = !showBan), banUserId(post.posterId)"
                         title="debannir l'utilisateur">
-
                         Débannir
                       </button>
                     </v-list-item>
@@ -134,7 +131,7 @@
                   params: { id: `?id=${post.posterId}` },
                 }"><img v-if="post.posterpicture !== '' &&
   post.posterpicture !== 'undefined'
-  " class="picture-user-none" :src="post.posterpicture" alt="photo de l'utilisateur"
+  " class="picture-user-none" :src="post.posterpicture" alt="phtot de l'utilisateur"
                     title="lien vers le profil de l'utilisateur" />
                   <div v-else id="avatar-empty-book-book" title="lien vers le profil de l'utilisateur">
                     {{ post.posterlastname.split("")[0].toLocaleUpperCase() }}
@@ -151,8 +148,8 @@
                 <v-icon class="img-att"> mdi-account-group </v-icon>
                 <p class="text-att">abonné</p>
               </button>
-              <button v-else @click="addFollow(post.posterId, index)" type="submit"
-                class="btn-main-unfollow" title="s'abonner">
+              <button v-else @click="addFollow(post.posterId, index)" type="submit" class="btn-main-unfollow"
+                title="s'abonner">
                 <v-icon class="img-att"> mdi-account-group </v-icon>
                 <p class="text-att">S'abonner</p>
               </button>
@@ -166,8 +163,8 @@
             </div>
             <div v-if="role !== undefined" class="btn-card" id="card-att">
               <button :class="userLikePostId.includes(post._id)
-                ? 'class-btn-att-like'
-                : 'class-btn-att-unlike'
+                  ? 'class-btn-att-like'
+                  : 'class-btn-att-unlike'
                 " @click="clickLike(post._id, index)" class="classlikebtn" title="liker la publication">
                 <v-icon class="img-att">mdi-thumb-up-outline</v-icon>
                 <p class="text-att-like">Like</p>
@@ -188,11 +185,9 @@
                 <v-icon class="img-att"> mdi-account-group </v-icon>
                 <p class="text-att">abonné</p>
               </button>
-              <button v-else="
-                  post.posterId != userid &&
-                  !userFollowingId.includes(post.posterId)
-                " @click="addFollow(post.posterId, index)" type="submit" class="btn-att-unfollow"
-                title="s'abonner">
+              <button v-else-if="post.posterId != userid &&
+                !userFollowingId.includes(post.posterId)
+                " @click="addFollow(post.posterId, index)" type="submit" class="btn-att-unfollow" title="s'abonner">
                 <v-icon class="img-att"> mdi-account-group </v-icon>
                 <p class="text-att">S'abonné</p>
               </button>
@@ -206,8 +201,8 @@
 
             <div v-else class="btn-card" id="card-att">
               <button :class="userLikePostId.includes(post._id)
-                ? 'class-btn-att-like'
-                : 'class-btn-att-unlike'
+                  ? 'class-btn-att-like'
+                  : 'class-btn-att-unlike'
                 " @click="clickLike(post._id, index)" class="classlikebtn" title="liker la publication">
                 <v-icon class="img-att">mdi-thumb-up-outline</v-icon>
                 <p class="text-att-like">Like</p>
@@ -223,8 +218,8 @@
               </button>
 
               <button v-if="post.posterId !== userid" :class="post.signalBy.includes(userid)
-                ? 'reportPost'
-                : 'notReportPost'
+                  ? 'reportPost'
+                  : 'notReportPost'
                 " class="btn-att-flag" @click="
     (showReport = !showReport),
     reportInfo(
@@ -295,7 +290,7 @@
         </v-card>
       </div>
       <div class="center-main" v-else>
-        <v-card class="card-post" >
+        <v-card class="card-post">
           <div class="border-card">
             <div id="card-autor-book-first">
               <span class="firstpost">le {{ date }} à {{ hour }} {{ fullname }} va renter dans un
@@ -974,7 +969,7 @@ export default {
           this.$axios.get(`/api/user/${this.userjwtid}`)
             .then((docs) => {
               this.userFollowingId = docs.data.following;
-            })
+            });
           this.getRefresh();
         })
         .catch((err) => {
@@ -982,7 +977,7 @@ export default {
         });
     },
 
-    addUnFollow(posterId ,index) {
+    addUnFollow(posterId) {
       this.$axios.patch(`/api/user/unfollow/${this.userid}`, {
         idToUnFollow: posterId,
       })
@@ -990,7 +985,7 @@ export default {
           this.$axios.get(`/api/user/${this.userjwtid}`)
             .then((docs) => {
               this.userFollowingId = docs.data.following;
-            })
+            });
           this.getRefresh();
         })
         .catch((err) => {
@@ -1039,6 +1034,12 @@ export default {
   },
 };
 </script>
+
+
+
+
+
+
 
 <style lang="scss">
 #pagetopscroll {
@@ -2090,9 +2091,9 @@ p.btn-book-main-post {
   width: auto;
   cursor: pointer;
   padding: 2%;
+
   &:hover {
     translate: 3px;
-    // border: solid 1px green;
   }
 }
 
@@ -2109,9 +2110,9 @@ p.btn-book-main-post {
   width: auto;
   cursor: pointer;
   padding: 2%;
+
   &:hover {
     translate: 3px;
-    // border: solid 1px green;
   }
 }
 
@@ -2129,12 +2130,13 @@ p.btn-book-main-post {
   width: auto;
   cursor: pointer;
   padding: 2%;
+
   &.btn-att-unfollow>.img-att:before {
     color: $secondary;
   }
+
   &:hover {
     translate: 3px;
-    // border: solid 1px $secondary;
   }
 }
 
@@ -2151,12 +2153,13 @@ p.btn-book-main-post {
   width: auto;
   cursor: pointer;
   padding: 2%;
+
   &.btn-main-unfollow>.img-att:before {
     color: $secondary;
   }
+
   &:hover {
     translate: 3px;
-    // border: solid 1px $tertiary;
   }
 }
 
@@ -2176,8 +2179,8 @@ button.class-btn-att-unlike {
   padding: 2%;
 
   &:hover {
-    // background-color: $tertiary;
-    // color: $secondary;
+    background-color: $tertiary;
+    color: $secondary;
     translate: 3px;
     border: solid 1px $secondary;
 

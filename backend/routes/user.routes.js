@@ -27,6 +27,7 @@ router.patch("/unbanuser/:id",requireAuth,userController.unbanuser)
 router.patch("/signalUser/:id",requireAuth,userController.signalUser)
 router.patch("/follow/:id",requireAuth, userController.follow);
 router.patch("/unfollow/:id",requireAuth, userController.unfollow);
+router.delete("/:id", requireAuth, userController.userDelete);
 
 
 router.post(
