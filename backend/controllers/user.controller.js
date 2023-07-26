@@ -467,11 +467,8 @@ exports.DeletePostBan = async (req, res) => {
         { "comments.commenterId": req.params.id },
         { $pull: { comments: { commenterId: req.params.id } } }
       );
-      console.log(updateResult);
-
       // Supprimer tous les posts ayant le posterId égal à req.params.id
       const deletePostsResult = await PostModel.deleteMany({ posterId: req.params.id });
-      console.log(deletePostsResult);
 
        await UserModel.findByIdAndUpdate(req.params.id,{ $set: {ban: true} },)
     
