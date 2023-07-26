@@ -286,7 +286,7 @@
               </div>
               <div id="message-comment-wrapper">
               <p id="message-comment">{{ comment.comment }}</p>
-              <div class="comment-emote-wrapper" v-if="comment.commenterId === userid">
+              <div class="comment-emote-wrapper" v-if="comment.commenterId === userid || role !== undefined">
                   <button id="btn-post-modify-comment" type="submit" @click="showmodifycomment(indexcomment), getComment(comment._id,userid)"
                         title=" modifier votre publication ">
                         <v-icon class="pen-icon-main-comment" size="15px">mdi-lead-pencil</v-icon>
@@ -302,9 +302,9 @@
           <label for="biographie"  >
             <h2>Commentaire:</h2>
           </label>
-          <textarea  v-model="NewCommentMessage" name="commentaire" class="card-profil-textarea" type="textarea"
+          <textarea  v-model="NewCommentMessage" name="commentaire" class="card-comment-textarea" type="textarea"
             placeholder="votre commentaire" maxlength="200" ></textarea>
-          <div class="btn-bio"  >
+          <div class="btn-commentaire"  >
             <button type="button" id="btn-bio-delete" @click="showclosecomment(indexcomment)" >Annuler</button>
             <button type="button" id="btn-bio-send" @click="postNewComment(comment._id, indexcomment)" >Enregistrer</button>
           </div>
@@ -693,8 +693,6 @@ export default {
     },
     
       postNewComment(commentid, index) {
-      console.log(commentid);
-      console.log(index);
       let testRegex = this.NewCommentMessage.split(' ').join('')
       let data = {
         postCommentId: commentid,
@@ -708,8 +706,6 @@ export default {
       if (testRegex != '') {
         this.$axios.patch(`/api/post/postnewcomment/${commentid}`, data)
           .then((doc) => {
-            console.log(doc.data);
-            this.CommentMessage = doc.data
              this.showclosecomment(index)
              this.getRefresh();
           })
@@ -737,7 +733,6 @@ export default {
     },
     
      showclosecomment(index) {
-      console.log(index);
       this.showmodifycommentIndex = null
       this.getRefresh()
     },
@@ -1775,6 +1770,7 @@ p.fullname-none {
 }
 
 
+
 #btn-post-delete-comment {
   display: flex;
   justify-content: center;
@@ -1828,6 +1824,23 @@ p.fullname-none {
 
 #btn-post-modify-bis {
   display: none;
+}
+
+.card-comment-textarea {
+  width: 100%;
+  color: $secondary;
+  border: solid 2px $tertiary;
+  padding: 1%;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.btn-commentaire{
+display: flex;
+justify-content: space-between;
+align-items: center;
 }
 
 @media (max-width: 750px) {

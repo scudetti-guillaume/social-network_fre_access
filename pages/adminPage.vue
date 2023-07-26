@@ -32,17 +32,26 @@
         }" title="lien vers le profil de l'utilisateur">
           <p class="link-admin-p">{{ user.firstname }} {{ user.lastname }}</p>
         </nuxt-link>
-          <button v-if="user.ban === false" id="btn-ban-user" @click="
-            (showBan = !showBan),
-            banUserId(user._id)
+        <button v-if="user.ban === false" id="btn-ban-user" @click="
+          (showBan = !showBan),
+          banUserId(user._id)
           " title="bannir l'utilisateur">
-            Bannir
-          </button>
-          <button v-else id="btn-ban-user" @click="(showBan = !showBan), banUserId(user._id)"
-            title="debannir l'utilisateur">
-            Débannir
-          </button>
-     
+          Bannir
+        </button>
+        <button v-else id="btn-ban-user" @click="(showBan = !showBan), banUserId(user._id)"
+          title="debannir l'utilisateur">
+          Débannir
+        </button>
+        <button id="btn-delete-all" @click="(showDeleteAll = !showDeleteAll), banUserId(user._id)"
+          title="debannir l'utilisateur">
+          Ban + Supprimer Posts et commentaires
+        </button>
+
+        <button id="btn-delete-post" @click="(showBandef = !showBandef), banUserId(user._id)"
+          title="debannir l'utilisateur">
+          Supprimer l'utilisateur,Posts et commentaires
+        </button>
+
         <div class="admin-signal-profil">
           <span>Signalement de profil reçu {{ user.profilSignalBy.length }}</span>
           <div v-for="(signalProfil) in  user.profilSignalBy">
@@ -51,13 +60,13 @@
           </div>
         </div>
         <div class="admin-signal-post">
-        <span class="admin-signal-post-span">Signalement de publication reçu {{user.postSignalBy.length}}</span>
+          <span class="admin-signal-post-span">Signalement de publication reçu {{ user.postSignalBy.length }}</span>
         </div>
         <div v-for="(signal) in  user.postSignalBy">
           <div>
 
             <v-card id="profil-post-admin" :key="index" v-if="signal.signalPostId === p._id" v-for="(p, index) in posts">
-            <span>Publication signalée {{ p.signalBy.length }} fois</span>
+              <span>Publication signalée {{ p.signalBy.length }} fois</span>
               <p class="card-profil-post-p-admin">{{ p.date }}</p>
               <div v-if="p.signalBy.length != 0" class="like-profilmain-user">
               </div>
@@ -77,7 +86,10 @@
 
     <WarningBanUser v-if="showBan" v-show="showBan" @close-modale-ban-delete="(showBan = false), getRefresh()"
       @close-modale-ban-confirm="(showBan = false), getRefresh()" />
-  <deletepost v-if="showdel" v-show="showdel" @close-modale-delete="showdel = false, getRefresh()" />
+    <deletepost v-if="showdel" v-show="showdel" @close-modale-delete="showdel = false, getRefresh()" />
+    <WarningDeleteUser v-if="showBandef" v-show="showBandef" @close-modale-bandef="showBandef = false, getRefresh()" />
+    <WarningDeleteData v-if="showDeleteAll" v-show="showDeleteAll"
+      @close-modale-deleteAll="showDeleteAll = false, getRefresh()" />
   </div>
 </template>
 
@@ -92,7 +104,10 @@ export default {
     Load,
     WarningBanUser: () =>
       import(/* webpackChunkName:"WWarningBanUser"*/ "../components/warningbanuser.vue"),
-      deletepost: () => import(  /* webpackChunkName:"deletepost"*/"./index/deletetest.vue"),
+    deletepost: () => import(  /* webpackChunkName:"deletepost"*/"./index/deletetest.vue"),
+    WarningDeleteUser: () => import(  /* webpackChunkName:"WarningDeleteUser"*/"../components/warningdeleteuseradmin.vue"),
+    WarningDeleteData: () => import(  /* webpackChunkName:"WarningDeleteData"*/"../components/warningdeletedataadmin.vue"),
+
   },
 
   data() {
@@ -113,21 +128,23 @@ export default {
       posts: '',
       showBan: false,
       showdel: false,
+      showBandef: false,
+      showDeleteAll: false,
 
     }
   },
 
   methods: {
     async loginAdmin() {
-     await this.$axios.post("/api/user/loginadmin", {
-          email: this.email,
-          password: this.psw,
-        })
-      // await axios.post("http://localhost:5000/api/user/loginadmin", {
-      //     email: this.email,
-      //     password: this.psw,
-      //     badge: this.badge,
-      //   })
+      await this.$axios.post("/api/user/loginadmin", {
+        email: this.email,
+        password: this.psw,
+      })
+        // await axios.post("http://localhost:5000/api/user/loginadmin", {
+        //     email: this.email,
+        //     password: this.psw,
+        //     badge: this.badge,
+        //   })
         .then((user) => {
           const userId = user.data.user;
           this.successreg = "Connexion reussit, Bienvenue";
@@ -153,15 +170,15 @@ export default {
       localStorage.setItem("info-ban-user", JSON.stringify(info));
     },
 
-    getRefresh(){
-     this.$axios.get(`/api/post/postsignaladmin/${this.userjwtid}`)
-    //  axios.get(`http://localhost:5000/api/post/postsignaladmin/${this.userjwtid}`)
+    getRefresh() {
+      this.$axios.get(`/api/post/postsignaladmin/${this.userjwtid}`)
+        //  axios.get(`http://localhost:5000/api/post/postsignaladmin/${this.userjwtid}`)
         .then((res) => {
           this.posts = res.data
           console.log(res);
         });
       this.$axios.get(`/api/user/`)
-      // axios.get(`http://localhost:5000/api/user/`)
+        // axios.get(`http://localhost:5000/api/user/`)
         .then((res) => {
           this.users = res.data
           console.log(res);
@@ -173,6 +190,13 @@ export default {
     },
   },
 
+  // deleteAllUser(){
+
+  // /deleteuseradmin
+
+
+
+  // },
 
   async mounted() {
     this.$axios.defaults.withCredentials = true;
@@ -180,21 +204,21 @@ export default {
       this.showloader = false;
     }, 2500);
     await this.$axios.get(`/jwtidadmin`)
-    // await axios.get(`http://localhost:5000/jwtidadmin`)
+      // await axios.get(`http://localhost:5000/jwtidadmin`)
       .then((res) => {
-      console.log(res.status);
+        console.log(res.status);
         if (res.status === 201) {
           this.loggedIn = false
         } else {
           this.userjwtid = res.data;
           this.loggedIn = true;
           this.$axios.get(`/api/post/postsignaladmin/${this.userjwtid}`)
-          // axios.get(`http://localhost:5000/api/post/postsignaladmin/${this.userjwtid}`)
+            // axios.get(`http://localhost:5000/api/post/postsignaladmin/${this.userjwtid}`)
             .then((res) => {
               this.posts = res.data
             });
-   this.$axios.get(`/api/user/`)
-          // axios.get(`http://localhost:5000/api/user/`)
+          this.$axios.get(`/api/user/`)
+            // axios.get(`http://localhost:5000/api/user/`)
             .then((res) => {
               this.users = res.data
             });
@@ -205,6 +229,9 @@ export default {
       });
   },
 };
+
+
+
 
 </script>
 
@@ -286,7 +313,7 @@ export default {
   padding: 2%;
 }
 
-.admin-signal-profil{
+.admin-signal-profil {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -294,7 +321,7 @@ export default {
   padding: 2%;
 }
 
-.admin-signal-post{
+.admin-signal-post {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -316,6 +343,7 @@ export default {
   padding-left: 2px;
   padding-right: 5px;
   color: $secondary;
+
   &:hover {
     border-radius: 10px;
     background-color: $secondary;
@@ -327,7 +355,58 @@ export default {
   }
 }
 
-#profil-post-admin{
+#btn-delete-post {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 350px;
+  border: solid 2px $secondary;
+  margin-top: 1%;
+  margin-right: 1%;
+  border-radius: 15px;
+  padding-left: 2px;
+  padding-right: 5px;
+  color: $secondary;
+
+  &:hover {
+    border-radius: 10px;
+    background-color: $secondary;
+    color: $tertiary;
+
+    &#btn-delete-post>.ban-icon-main {
+      color: $tertiary;
+    }
+  }
+}
+
+
+#btn-delete-all {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 300px;
+  border: solid 2px $secondary;
+  margin-top: 1%;
+  margin-right: 1%;
+  border-radius: 15px;
+  padding-left: 2px;
+  padding-right: 5px;
+  color: $secondary;
+
+  &:hover {
+    border-radius: 10px;
+    background-color: $secondary;
+    color: $tertiary;
+
+    &#btn-delete-all>.ban-icon-main {
+      color: $tertiary;
+    }
+  }
+}
+
+#profil-post-admin {
   display: flex;
   max-width: 480px;
   max-height: 500px;
@@ -339,7 +418,7 @@ export default {
   align-items: center;
   border: 2px solid rgb(151, 153, 160);
   border-radius: 15px;
-  
+
 }
 
 .link-admin {
@@ -360,6 +439,4 @@ p.card-profil-post-p-admin {
   padding-left: 1%;
   padding-bottom: 1%;
   cursor: default;
-}
-
-</style>
+}</style>
