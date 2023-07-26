@@ -251,7 +251,7 @@
                   <button id="btn-comment-delete" @click="deleteComment()">
                     Effacer
                   </button>
-                  <button id="btn-comment-send" type="submit" @click="controlePostComment(post._id, index)">
+                  <button id="btn-comment-send" type="submit" @submit.default @click="controlePostComment(post._id, index)">
                     Envoyer
                   </button>
                 </div>
@@ -281,10 +281,36 @@
                   }}
                 </div>
                 <p id="fullname-comment">
-                  {{ comment.commenterFullname }} à {{ comment.commentDate }}
+                 {{ comment.commenterFullname }} à {{ comment.commentDate }}
                 </p>
               </div>
+              <div id="message-comment-wrapper">
               <p id="message-comment">{{ comment.comment }}</p>
+              <div class="comment-emote-wrapper" v-if="comment.commenterId === userid">
+                  <button id="btn-post-modify-comment" type="submit" @click="showmodifycomment(indexcomment), getComment(comment._id,userid)"
+                        title=" modifier votre publication ">
+                        <v-icon class="pen-icon-main-comment" size="15px">mdi-lead-pencil</v-icon>
+                      </button>
+                      <button id="btn-post-delete-comment" type="button"
+                        title=" supprimer votre publication" @click='deletePostComment(comment._id, userid, indexcomment)'>
+                        <v-icon class="delete-icon-main-comment" size="20px">mdi-delete-circle</v-icon>
+                      </button>
+                  </div>
+              </div>
+              <v-card-text class="deploy-modidify" v-show="showmodifycommentIndex === indexcomment" >
+        <form method="post">
+          <label for="biographie"  >
+            <h2>Commentaire:</h2>
+          </label>
+          <textarea  v-model="NewCommentMessage" name="commentaire" class="card-profil-textarea" type="textarea"
+            placeholder="votre commentaire" maxlength="200" ></textarea>
+          <div class="btn-bio"  >
+            <button type="button" id="btn-bio-delete" @click="showclosecomment(indexcomment)" >Annuler</button>
+            <button type="button" id="btn-bio-send" @click="postNewComment(comment._id, indexcomment)" >Enregistrer</button>
+          </div>
+        </form>
+      </v-card-text>
+              
             </v-card-text>
           </v-card>
         </v-card>
@@ -361,8 +387,9 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+
 import Load from "../components/Waitload.vue";
+
 
 export default {
   name: "Book",
@@ -413,6 +440,7 @@ export default {
       avatarpicempty: "",
       avatarpicemptyNone: "",
       log: false,
+      showmodifycommentIndex:null,
       showsort: false,
       showdelete: false,
       showmodify: false,
@@ -434,6 +462,7 @@ export default {
       urlpic: "",
       image: "",
       CommentMessage: "",
+      NewCommentMessage: "",
       comdelpost: "",
       like: "",
       userLikePostId: [],
@@ -628,6 +657,7 @@ export default {
       let testRegex = this.CommentMessage.split(" ").join("");
       if (testRegex != "") {
         this.commentValid = true;
+        console.log(commentValid);
         return true;
       } else {
         this.commentValid = false;
@@ -661,7 +691,66 @@ export default {
         }, 2000);
       }
     },
+    
+      postNewComment(commentid, index) {
+      console.log(commentid);
+      console.log(index);
+      let testRegex = this.NewCommentMessage.split(' ').join('')
+      let data = {
+        postCommentId: commentid,
+        commenterId: this.userid,
+        commenterFirstname: this.firstname,
+        commenterLastname: this.lastname,
+        commenterFullname: this.fullname,
+        commenterPicture: this.urlpic,
+        comment: this.NewCommentMessage,
+      };
+      if (testRegex != '') {
+        this.$axios.patch(`/api/post/postnewcomment/${commentid}`, data)
+          .then((doc) => {
+            console.log(doc.data);
+            this.CommentMessage = doc.data
+             this.showclosecomment(index)
+             this.getRefresh();
+          })
+      } else {
+        this.warningRecordCommentEmpty = true;
+        setTimeout(() => {
+          this.commentValid = true;
+        }, 2000);
+      }
+    },
+    
+     deletePostComment(commentid,userid, index) {
+      console.log(commentid);
+      console.log(index);
+        this.$axios.delete(`/api/post/deletecommentpost/${commentid}`, {data :{userid}})
+          .then(() => {
+             this.showclosecomment(index)
+             this.getRefresh();
+          })
+    },
+    
+    showmodifycomment(index) {
+    console.log(index);
+    this.showmodifycommentIndex = index
+    },
+    
+     showclosecomment(index) {
+      console.log(index);
+      this.showmodifycommentIndex = null
+      this.getRefresh()
+    },
 
+    
+    getComment(commentid, userid){
+      this.$axios.get(`/api/post/getcomment/${commentid}`)
+    .then((doc)=>{
+     console.log(doc.data);
+     this.NewCommentMessage = doc.data
+    })
+  },
+  
     reportInfo(postid, usfn, usid, uffn, ufid) {
       const info = {
         post: postid,
@@ -1380,6 +1469,10 @@ button.close-comment-button {
 .title-card-comment-posted {
   display: flex;
   align-items: center;
+  justify-content: left;
+  width: 100%;
+  height: auto;
+  margin-bottom: 1%;
 }
 
 #fullname-comment {
@@ -1391,15 +1484,34 @@ button.close-comment-button {
   cursor: default;
 }
 
+#message-comment-wrapper {
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-direction: row;
+margin-bottom: 2%;
+max-width: 100%;
+height: auto;
+}
+
+.comment-emote-wrapper{
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: row;
+margin-left: 2%;
+}
+
 #message-comment {
   display: flex;
   justify-content: left;
   align-items: center;
-  margin-left: 40px;
-  padding-left: 10px;
+  min-width: 90%;
+  margin-bottom: 0px;
   font-size: small;
   border-style: dotted;
   border-color: $tertiary;
+  padding: 1%;
 }
 
 #avatar-empty-card-comment {
@@ -1588,6 +1700,30 @@ p.fullname-none {
   }
 }
 
+#btn-post-modify-comment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border: solid 2px $secondary;
+  margin-top: 3%;
+  margin-right: 1%;
+  border-radius: 15px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: $secondary;
+  &:hover {
+    border-radius: 10px;
+    // background-color: $secondary;
+    // color: $tertiary;
+    &#btn-post-modify>.pen-icon-main {
+      color: $tertiary;
+    }
+  }
+}
+
+
 #btn-post-modify-admin {
   display: flex;
   justify-content: center;
@@ -1637,6 +1773,33 @@ p.fullname-none {
     }
   }
 }
+
+
+#btn-post-delete-comment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 30px;
+  border: solid 2px $secondary;
+  margin-top: 1%;
+  margin-right: 1%;
+  border-radius: 15px;
+  padding-left: 2px;
+  padding-right: 2px;
+  color: $secondary;
+  &:hover {
+    border-radius: 10px;
+    &#btn-post-delete>.delete-icon-main-comment {
+      color: $tertiary;
+    }
+  }
+}
+
+.delete-icon-main-comment {
+  padding-right: 0%;
+}
+
 
 #btn-post-delete-admin {
   display: flex;

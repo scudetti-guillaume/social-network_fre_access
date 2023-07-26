@@ -5,7 +5,7 @@ const SignalModel = require("../models/signal.model");
 const CommentModel = require("../models/comment.model");
 const ObjectID = require("mongoose").Types.ObjectId;
 const fs = require("fs");
-const { log } = require("console");
+
 
 
 // read post end point \\
@@ -66,7 +66,7 @@ exports.createPost = async (req, res) => {
     return res.status(400).send(err.message);
   }
   }  else {
-  res.cookie('jwt','', { session:false, maxAge: 1 })
+    res.cookie('jwt_soc_free','', { session:false, maxAge: 1 })
   res.status(400).json("erreur d'utlisateur");
   
 }
@@ -105,7 +105,7 @@ exports.updatePost = (req, res) => {
         }
       );
     } else { 
-      res.cookie('jwt','', { session:false, maxAge: 1 })
+      res.cookie('jwt_soc_free','', { session:false, maxAge: 1 })
       res.status(400).json("expulsion");
     }
   });
@@ -310,7 +310,7 @@ exports.deletePost = (req, res) => {
           });
         });
       } else {
-        res.cookie('jwt','',{ExpiresIn:1}).status(400).json("erreur de personne")
+        res.cookie('jwt_soc_free','',{ExpiresIn:1}).status(400).json("erreur de personne")
       }
     })
     .catch((err) => {
@@ -341,7 +341,7 @@ exports.deleteOnePicture = (req, res) => {
           }
         });
       } else {
-        res.cookie("jwt", "", { session: false, maxAge: 1 })
+        res.cookie("jwt_soc_free", "", { session: false, maxAge: 1 })
         res.status(400).json("erreur onepic")
       }
     })
@@ -367,7 +367,7 @@ exports.deleteOldPicModidify = (req, res) => {
           }
         });
       }else{
-        res.cookie("jwt", "", { session: false, maxAge: 1 });
+        res.cookie("jwt_soc_free", "", { session: false, maxAge: 1 });
         res.status(400).json("erreur onepicuser");
       }
     })
@@ -418,7 +418,7 @@ exports.likePost = (req, res) => {
     }
       })
   }else{
-    res.cookie('jwt','',{maxAge: 1 }).status(404).json("erreur d'utilisateur")    
+    res.cookie('jwt_soc_free','',{maxAge: 1 }).status(404).json("erreur d'utilisateur")    
   }
 };
 
@@ -467,7 +467,7 @@ exports.commentPost = (req, res) => {
     res.status(400).send("publication inconnu :" + req.params.id);
     const postedBy = req.body.commenterId
     if(postedBy !== req.user){
-      res.cookie('jwt','',{maxAge:1}).status(400).json("erreur d'utilisateur")
+      res.cookie('jwt_soc_free','',{maxAge:1}).status(400).json("erreur d'utilisateur")
     }else{
   PostModel.findById(req.params.id)
     .then((post) => {
@@ -551,51 +551,105 @@ exports.commentPost = (req, res) => {
 
 //---------------------------end non implant ------------\\
 
-// editCommentpost end point \\
-// exports.editCommentPost = (req, res) => {
-//   if (!ObjectID.isValid(req.params.id))
-//     return res.status(400).send("utilsateur inconnu :" + req.params.id);
-//   try {
-//     return PostModel.findById(req.params.id, (err, docs) => {
-//       // console.log(Comment);
-//       const Comment = docs.comments.find((comment) =>
-//         comment._id.equals(req.body.commentId)
-//       );
 
-//       if (!Comment) return res.status(404).json("Commentaire non trouver");
-//       Comment.text = req.body.text;
-//       return docs.save((err) => {
-//         if (!err) return res.status(200).send(docs);
-//         return res.status(500).send(err.message);
-//       });
-//     });
-//   } catch (err) {
-//     return res.status(400).send(err.message);
-//   }
-// };
+exports.getComment= async (req, res) => {
+  // console.log(req.params.id);
+  // console.log(req.user);
+  const commenterId = req.user
+  if (!ObjectID.isValid(req.user)) { res.status(400).send("utilsateur inconnu :" + req.user)}
+  
+    PostModel.findOne({ "comments._id": req.params.id }, (err, doc) => {
+        const comment = doc.comments.find((comment) => comment._id.toString() === req.params.id);
+        if (comment) {
+          res.status(200).json(comment.comment) 
+        } else {
+          res.status(400).json('erreur')
+        }
+      }
+    );
+};
 
-// // deleteCommentpost end point \
-// exports.deleteCommentPost = (req, res) => {
-//   if (!ObjectID.isValid(req.params.id))
-//     return res.status(400).send("utilsateur inconnu :" + req.params.id);
+exports.commentNewPost = (req, res) => {
+  if (!ObjectID.isValid(req.params.id))
+    res.status(400).send("publication inconnu :" + req.params.id);
+  const postedBy = req.body.commenterId
+  if (postedBy !== req.user) {
+    res.cookie('jwt_soc_free', '', { maxAge: 1 }).status(400).json("erreur d'utilisateur")
+  } else {
+    const date = new Date(Date.now());
+          const days = date.toLocaleDateString();
+          const minutes = String(date.getMinutes()).padStart(2, "0");
+          const hours = String(date.getHours()).padStart(2, "0");
+          const finalDate = `modifié le ${days} à ${hours}:${minutes}`;
+    PostModel.updateOne(
+      { "comments._id": req.params.id },
+      { $set: { "comments.$.comment": req.body.comment, "comments.$.commentDate": finalDate } },(err,doc)=>{
+      if(doc){
+      console.log(doc);
+          const newComment = new CommentModel({
+            postCommentId: req.body.postCommentId,
+            commenterId: req.body.commenterId,
+            commenterFirstname: req.body.commenterFirstname,
+            commenterLastname: req.body.commenterLastname,
+            commenterFullname: req.body.commenterFullname,
+            commenterPicture: req.body.commenterPicture,
+            commentLikers: req.body.commentLikers,
+            commentDate: finalDate,
+            comment: req.body.comment,
+          });
+          try {
+            const CommentRecord = newComment.save();
+          } catch (err) {
+            res.status(400).json(err)
+          }
+          UserModel.findByIdAndUpdate(
+            req.user,
+            {
+              $push: {
+                comments: {
+                  commentId: req.body.postCommentId,
+                  postCommentId: req.body.commenterId,
+                  postCommentFullname: req.body.commenterFullname,
+                  comment: req.body.comment,
+                  commentDate: finalDate,
+                },
+              },
+            },
+            { new: true, upsert: true, setDefaultsOnInsert: true },
+            (err, docs) => {
+              if (err) res.status(400).json(err);
+            }
+          );
+    
+      }
+        res.status(200).json(doc)
+    }
+ 
+    );
+    
+  }
+};
 
-//   try {
-//     return PostModel.findByIdAndUpdate(
-//       req.params.id,
-//       {
-//         $pull: {
-//           comments: {
-//             _id: req.body.commentId,
-//           },
-//         },
-//       },
-//       { new: true },
-//       (err, docs) => {
-//         if (!err) return res.send(docs);
-//         else return res.status(400).send(err);
-//       }
-//     );
-//   } catch (err) {
-//     return res.status(400).send(err);
-//   }
-// };
+// deleteCommentpost end point \
+exports.deleteCommentPost = (req, res) => {
+  if (!ObjectID.isValid(req.params.id)) {return res.status(400).send("utilsateur inconnu :" + req.params.id);}
+  console.log(req.params.id);
+  const postedBy = req.body.userid
+  const connectedUser = req.user
+  if (req.role === 'admin' || connectedUser === postedBy) {
+    try {
+      PostModel.findOneAndUpdate({ "comments._id": req.params.id },
+        { $pull: { comments: { _id: req.params.id } } },
+        (err, docs) => {
+          console.log(docs);
+          if (!err) return res.status(200).json('ok');
+          else return res.status(400).json(err);
+        }
+      );
+    } catch (err) {
+      return res.status(400).json(err);
+    }
+  } else {
+   res.cookie('jwt_soc_free', '', { maxAge: 1 }).status(400).json("erreur d'utilisateur")
+}
+};

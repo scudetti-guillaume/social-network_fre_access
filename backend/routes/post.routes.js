@@ -21,6 +21,7 @@ router.delete('/:id',requireAuth, postController.deletePost);
 router.patch('/like-post/:id',requireAuth, postController.likePost);
 router.patch('/unlike-post/:id',requireAuth, postController.unLikePost);
 
+
 // router manage picture post + multer errors \\
 
 router.delete('/picture/:id',requireAuth,postController.deleteOnePicture)
@@ -32,8 +33,10 @@ router.put('/photo/:id',requireAuth,(req, res, next) => {photo(req, res, functio
 } else {next();}});},postController.updatePictureUserPost )
 
 // gestion des commentaire\\
-
+router.get('/getcomment/:id', requireAuth, postController.getComment)
 router.patch('/comment-post/:id',requireAuth, postController.commentPost);
+router.patch('/postnewcomment/:id',requireAuth, postController.commentNewPost);
+router.delete('/deletecommentpost/:id', requireAuth, postController.deleteCommentPost);
 
 
 module.exports = router;

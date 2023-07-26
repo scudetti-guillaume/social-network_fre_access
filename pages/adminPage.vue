@@ -25,7 +25,7 @@
     </v-card>
 
     <div v-else class="center-main">
-      <v-card id="center-main-admin" v-for="(user, index) in users" :index="index">
+      <v-card id="center-main-admin" :key="index" v-for="(user, index) in users" :index="index">
         <nuxt-link class="link-admin" :to="{
           name: 'profilUserAdmin-id',
           params: { id: `?id=${user._id}` },
@@ -56,7 +56,7 @@
         <div v-for="(signal) in  user.postSignalBy">
           <div>
 
-            <v-card id="profil-post-admin" v-if="signal.signalPostId === p._id" v-for="(p, index) in posts">
+            <v-card id="profil-post-admin" :key="index" v-if="signal.signalPostId === p._id" v-for="(p, index) in posts">
             <span>Publication signalée {{ p.signalBy.length }} fois</span>
               <p class="card-profil-post-p-admin">{{ p.date }}</p>
               <div v-if="p.signalBy.length != 0" class="like-profilmain-user">

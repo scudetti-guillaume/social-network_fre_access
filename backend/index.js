@@ -39,7 +39,7 @@ app.get('*', checkUser
 // ,(req,res)=>{ console.log(res.locals.user._id);res.send(res.locals.user._id)}
 ); // TODO 
 // ${ process.env.BASE_URL }
-app.get(`${process.env.BASE_URL}/jwtid`, requireAuth, (req,res)=>{
+app.get(`/jwtid`, requireAuth, (req,res)=>{
   if(req.user === ''){
     res.status(201).json(res.data = 'notoken')
   }else{
@@ -47,7 +47,7 @@ app.get(`${process.env.BASE_URL}/jwtid`, requireAuth, (req,res)=>{
 }
 });
 // ${ process.env.BASE_URL }
-app.get(`${process.env.BASE_URL}/jwtidadmin`,requireAuthAdmin, (req,res)=>{
+app.get(`/jwtidadmin`,requireAuthAdmin, (req,res)=>{
   if (req.role === ''){
     res.status(201).json(res.data = 'notoken')
   }else{
@@ -66,11 +66,11 @@ if (!fs.existsSync(dirPicturePost)) { fs.mkdirSync(dirPicturePost) }
 
 // routes\\
 // ${ process.env.BASE_URL }
-app.use(`${process.env.BASE_URL}/api/user`, userRoutes);
-app.use(`${process.env.BASE_URL}/api/post`, postRoutes);
+app.use(`/api/user`, userRoutes);
+app.use(`/api/post`, postRoutes);
 
 // config serveur \\
 // `${process.env.PORT}`
-app.listen((port) =>
+app.listen(`${process.env.PORT}`,(port) =>
   console.log(`connected ${process.env.PORT}`)
 );
