@@ -3,7 +3,7 @@
      pour vous connecter en tant qu'administateur : 
        mail : admin@admin.fr,
        mot de passe : aA@12345
-    sinon vous librre de créer votre propre utilisateur
+    sinon vous libre de créer votre propre utilisateur
 
 ## features : 
     - like / dislike
