@@ -1,3 +1,26 @@
+ ## Présentation du projet :
+     SocialNetwork est un réseau en accès libre :
+     pour vous connecter en tant qu'administateur : 
+       mail : admin@admin.fr,
+       mot de passe : aA@12345
+    sinon vous librre de créer votre propre utilisateur
+
+## features : 
+    - like / dislike
+    - systéme d'abonnement
+    - personalisation du profil 
+    - système de viste de profil personnalisé
+    - système de commentaires
+    - système de signalement par post et par utilisateur
+    - système de tri des posts par préférences 
+    - suppression de profil 
+    - panel admin : 
+       - suppression de post 
+       - suppression de commentaire
+       - suppression de photo
+       - suppression de profil 
+       - ban de profil et déban 
+    
   ## Installation : 
 
     Installation de node JS :
@@ -27,11 +50,3 @@
       => se rendre à l'adresse http://localhost:3000/ 
      
      
-   ## Précision :
-        ### Dans le dossier mongoDBdump vous trouverez la base données ainsi que les employées déjà crée.
-        ### Une collection employees Mondodb à été crée avec les employé(e)s simulé car pour se pourvoir creer un compte il faut etre enregistrer dans la collection employees.
-        ci dessous vous trouverez la liste des employées, vous pouvez bien sur en ajouter ou retirer.
-        vous trouverez les données necessaire pour l'enregistrement et la connection des utilisateurs et la connection de l'administrateur.
-        ### Un administrateur peut etre ajouter, pour cela definisez dans la collection ```users```  la clé valeur => role : 'admin' à l'utilisateur souhaité.
-        ### Pour supprimer cette option de controle des usagers rendez-vous :
-        dans le dossier: backend/controllers puis dans le fichier : auth.controllers ligne 30 ,et suivez les instructions.
