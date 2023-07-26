@@ -37,7 +37,6 @@ exports.logout = (req, res) => {
 // };
 
 exports.signUp = async (req, res, next) => {
-  console.log(req.body);
   const { lastname, firstname, email, password } = req.body;
     try {
       const userNew = new UserModel({

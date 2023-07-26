@@ -263,10 +263,8 @@ export default {
       const likeBtn = document.querySelectorAll('.classlikebtn')
       if (likeBtn[index].classList.contains('class-btn-unlike-userprofil')) {
         this.$axios.patch(`/api/post/like-post/${postId}`, { id: this.userjwtid })
-          // axios.patch(`http://localhost:5000/api/post/like-post/${postId}`, { id: this.userjwtid })
           .then(() => {
             this.$axios.get(`/api/user/${this.id}`)
-              // axios.get(`http://localhost:5000/api/user/${this.id}`)
               .then((user) => {
                 this.userLikePostId = user.data.likes
               }).catch((err) => { console.log(err) })
@@ -275,10 +273,8 @@ export default {
           }).catch((err) => { console.log(err) })
       } else {
         this.$axios.patch(`/api/post/unlike-post/${postId}`, { id: this.userjwtid })
-          // axios.patch(`http://localhost:5000/api/post/unlike-post/${postId}`, { id: this.userjwtid })
           .then(() => {
             this.$axios.get(`/api/user/${this.id}`)
-              // axios.get(`http://localhost:5000/api/user/${this.id}`)
               .then((user) => {
                 this.userLikePostId = user.data.likes
               }).catch((err) => { console.log(err) })
@@ -302,19 +298,15 @@ export default {
 
     getPosts() {
       this.$axios.get(`/api/post/postby/${this.id}`)
-        // axios.get(`http://localhost:5000/api/post/postby/${this.id}`)
         .then((doc) => {
           this.pub = doc.data
-          console.log(doc.data);
         }).catch((err) => { console.log(err); });
     },
 
     getFollowBack(id) {
       this.$axios.patch(`/api/user/follow/${this.userjwtid}`, { idToFollow: id })
-        // axios.patch(`http://localhost:5000/api/user/follow/${this.userjwtid}`, { idToFollow: id })
         .then(() => {
           this.$axios.get(`/api/user/${this.id}`)
-            // axios.get(`http://localhost:5000/api/user/${this.id}`)
             .then((docs) => {
               this.follower = docs.data.followers;
               this.following = docs.data.following;
@@ -324,7 +316,6 @@ export default {
             })
             .then(() => {
               this.$axios.get(`/api/user/${this.userjwtid}`)
-                // axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
                 .then((docs) => {
                   this.followId = docs.data._id
                   this.followLastname = docs.data.lastname;
@@ -346,10 +337,8 @@ export default {
 
     getUnFollowBack(id) {
       this.$axios.patch(`/api/user/unfollow/${this.userjwtid}`, { idToUnFollow: id })
-        // axios.patch(`http://localhost:5000/api/user/unfollow/${this.userjwtid}`, { idToUnFollow: id })
         .then(() => {
           this.$axios.get(`/api/user/${this.id}`)
-            // axios.get(`http://localhost:5000/api/user/${this.id}`)
             .then((docs) => {
               this.follower = docs.data.followers;
               this.following = docs.data.following;
@@ -359,9 +348,7 @@ export default {
             })
             .then(() => {
               this.$axios.get(`/api/user/${this.userjwtid}`)
-                // axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
                 .then((docs) => {
-                  // console.log(docs);
                   this.followId = docs.data._id
                   this.followLastname = docs.data.lastname;
                   this.followFirstname = docs.data.firstname;
@@ -388,12 +375,9 @@ export default {
     }, 1500);
     this.$axios.defaults.withCredentials = true;
     let params = window.location.toString()
-    console.log(params);
     let idUserURL = params.split('=')[1]
-     console.log(idUserURL);
     this.id = idUserURL
     await this.$axios.get(`/jwtid`)
-      // await axios.get(`http://localhost:5000/jwtid`)
       .then((res) => {
         this.userjwtid = res.data;
         this.show = true;
@@ -403,14 +387,12 @@ export default {
         console.log(error);
       });
     await this.$axios.get(`/api/user/${this.userjwtid}`)
-      // await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
       .then((docs) => {
         this.userfirstname = docs.data.firstname,
           this.userlastname = docs.data.lastname
       }).catch((error) => { console.log(error) });
 
     await this.$axios.get(`/api/user/${this.id}`)
-      // await axios.get(`http://localhost:5000/api/user/${this.id}`)
       .then((docs) => {
         this.signaluser = docs.data.profilSignalBy
         this.userid = docs.data._id;
@@ -432,7 +414,6 @@ export default {
       .then(() => {
         this.follower.forEach((i, u, l) => {
           this.$axios.get(`/api/user/${i}`)
-            // axios.get(`http://localhost:5000/api/user/${i}`)
             .then((docs) => {
               this.followId = docs.data._id
               this.followLastname = docs.data.lastname;
@@ -454,9 +435,7 @@ export default {
       .then(() => {
         this.following.forEach((i) => {
           this.$axios.get(`/api/user/${i}`)
-            // axios.get(`http://localhost:5000/api/user/${i}`)
             .then((docs) => {
-              console.log(docs);
               this.followingId = docs.data._id
               this.followingLastname = docs.data.lastname;
               this.followingFirstname = docs.data.firstname;
@@ -471,10 +450,8 @@ export default {
         console.log(error);
       })
     this.$axios.get(`/api/post/postby/${this.id}`)
-      // axios.get(`http://localhost:5000/api/post/postby/${this.id}`)
       .then((doc) => {
         this.pub = doc.data
-        console.log(doc.data);
       })
     this.getcolor();
   },

@@ -267,8 +267,6 @@ export default {
     getBio() {
       this.$axiosaxios
         .get(`/api/user/${this.userid}`)
-        //  axios
-        // .get(`http://localhost:5000/api/user/${this.userid}`)
         .then((docs) => {
           this.newBioUser = docs.data.bio
         })
@@ -281,14 +279,11 @@ export default {
       let formData = new FormData();
       formData.append("bio", this.bio);
       this.$axios.put(`/api/user/${this.userid}`, formData)
-        // axios.put(`http://localhost:5000/api/user/${this.userid}`, formData)
         .then(() => {
           this.BioUser = ''
         }).then(() => {
           this.$axios
             .get(`/api/user/${this.userid}`)
-            //     axios
-            // .get(`http://localhost:5000/api/user/${this.userid}`)
             .then((docs) => {
               this.bioUser = docs.data.bio
             })
@@ -299,7 +294,6 @@ export default {
     },
 
     deletebio() {
-      console.log(this.bio);
       this.newBioUser = this.bioUser;
     },
 
@@ -336,7 +330,6 @@ export default {
     getPosts() {
       this.pub = []
       this.$axios.get(`/api/post`)
-        // axios.get(`http://localhost:5000/api/post`)
         .then((docs) => {
           docs.data.forEach((doc) => {
             if (doc.posterId === this.userid) {
@@ -344,10 +337,7 @@ export default {
               id.push(doc._id);
               id.forEach((postid) => {
                 this.$axios.get(`/api/post/${postid}`)
-                  // axios
-                  //   .get(`http://localhost:5000/api/post/${postid}`)
                   .then((doc) => {
-                    console.log(doc.data._id);
                     this.pub.push(doc.data);
                     this.pub.sort(function (a, b) {
                       return new Date(b.createdAt) - new Date(a.createdAt);
@@ -370,24 +360,17 @@ export default {
       formData.append("photo", this.photo);
       formData.append("posterId", this.userid)
       this.$axios.put(`/api/user/${this.userid}`, formData)
-        //  axios
-        //   .put(`http://localhost:5000/api/user/${this.userid}`, formData)
         .then(() => {
           this.$axios.get(`/api/post`)
-            // axios.get(`http://localhost:5000/api/post`)
             .then((post) => {
               post.data.forEach((doc) => {
                 if (doc.posterId === this.userid) {
                   const id = [];
                   id.push(doc._id);
                   id.forEach((postid) => {
-                    // console.log(postid);
-                    // console.log(this.photo);
                     let formData = new FormData();
                     formData.append("picture", this.photo);
-                    console.log(this.photo);
                     this.$axios.put(`/api/post/photo/${postid}`, formData);
-                    // axios.put(`http://localhost:5000/api/post/photo/${postid}`,formData);
                   });
                 }
               });
@@ -402,10 +385,8 @@ export default {
 
     getFollowBack(id) {
       this.$axios.patch(`/api/user/follow/${this.userjwtid}`, { idToFollow: id })
-        // axios.patch(`http://localhost:5000/api/user/follow/${this.userjwtid}`, { idToFollow: id })
         .then(() => {
           this.$axios.get(`/api/user/${this.id}`)
-            // axios.get(`http://localhost:5000/api/user/${this.id}`)
             .then((docs) => {
               this.follower = docs.data.followers;
               this.following = docs.data.following;
@@ -416,7 +397,6 @@ export default {
             })
             .then(() => {
               this.$axios.get(`/api/user/${this.userjwtid}`)
-                // axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
                 .then((docs) => {
                   this.followId = docs.data._id
                   this.followLastname = docs.data.lastname;
@@ -427,8 +407,6 @@ export default {
                   if (this.follower.includes(this.userjwtid)) {
                     this.followBack = true
                     this.newfollow = false
-                    console.log(this.followBack);
-                    console.log(this.newfollow);
                   }
 
                 });
@@ -441,10 +419,8 @@ export default {
 
     getUnFollowBack(id) {
       this.$axios.patch(`/api/user/unfollow/${this.userjwtid}`, { idToUnFollow: id })
-        // axios.patch(`http://localhost:5000/api/user/unfollow/${this.userjwtid}`, { idToUnFollow: id })
         .then(() => {
           this.$axios.get(`/api/user/${this.id}`)
-            // axios.get(`http://localhost:5000/api/user/${this.id}`)
             .then((docs) => {
               this.follower = docs.data.followers;
               this.following = docs.data.following;
@@ -454,7 +430,6 @@ export default {
             })
             .then(() => {
               this.$axios.get(`/api/user/${this.userjwtid}`)
-                // axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
                 .then((docs) => {
                   this.followId = docs.data._id
                   this.followLastname = docs.data.lastname;
@@ -486,7 +461,6 @@ export default {
     this.id = idUserURL
 
     await this.$axios.get(`/jwtid`)
-      // await axios.get(`http://localhost:5000/jwtid`)
       .then((res) => {
         this.userjwtid = res.data;
         this.show = true;
@@ -496,7 +470,6 @@ export default {
         console.log(error);
       });
     await this.$axios.get(`/api/user/${this.id}`)
-      // await axios.get(`http://localhost:5000/api/user/${this.id}`)
       .then((docs) => {
         this.userid = docs.data._id;
         this.firstname = docs.data.firstname;
@@ -514,7 +487,6 @@ export default {
       .then(() => {
         this.follower.forEach((i, u, l) => {
           this.$axios.get(`/api/user/${i}`)
-            // axios.get(`http://localhost:5000/api/user/${i}`)
             .then((docs) => {
               this.followId = docs.data._id
               this.followLastname = docs.data.lastname;
@@ -534,9 +506,7 @@ export default {
       .then(() => {
         this.following.forEach((i) => {
           this.$axios.get(`/api/user/${i}`)
-            // axios.get(`http://localhost:5000/api/user/${i}`)
             .then((docs) => {
-              console.log(docs);
               this.followingId = docs.data._id
               this.followingLastname = docs.data.lastname;
               this.followingFirstname = docs.data.firstname;
@@ -550,10 +520,8 @@ export default {
         console.log(error);
       })
     this.$axios.get(`/api/post/postby/${this.id}`)
-      // axios.get(`http://localhost:5000/api/post/postby/${this.id}`)
       .then((doc) => {
         this.pub = doc.data
-        console.log(doc.data);
       })
     this.getcolor();
   },

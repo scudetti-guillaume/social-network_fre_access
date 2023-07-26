@@ -132,9 +132,7 @@ export default {
     postSignal :this.postSignal
       }
           this.$axios.patch(`/api/post/postsignal/${this.postSignal}`,sendInfo)
-      // axios.patch(`http://localhost:5000/api/post/postsignal/${this.postSignal}`,sendInfo)
       .then((doc)=>{
-          console.log(doc);
           this.reportcheck = []
       })
       setTimeout(() => {

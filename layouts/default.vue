@@ -78,7 +78,6 @@ export default {
   methods: {
 
     getcolor() {
-      // console.log("get" + this.avatarpicempty);
       this.avatarpicempty = this.firstname.split("")[0].toLocaleUpperCase();
     },
   },
@@ -144,11 +143,8 @@ export default {
   async mounted() {
     await this.$axios
       .get(`/jwtid`)
-      // await axios
-      //   .get(`https://lesiteduscudo.com/soc/backend/jwtid`)
       .then((res) => {
         if (res.data == "notoken") {
-          console.log(res);
           this.showloader = true;
           this.show = true;
         } else {
@@ -159,8 +155,6 @@ export default {
 
           this.$axios
             .get(`/api/user/${this.userjwtid}`)
-            // axios
-            //   .get(`https://lesiteduscudo.com/soc/backend/api/user/${this.userjwtid}`)
             .then((data) => {
               this.firstname = data.data.firstname;
               this.urlpic = data.data.photo;

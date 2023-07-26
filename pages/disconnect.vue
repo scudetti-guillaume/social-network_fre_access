@@ -30,7 +30,6 @@ export default {
 methods:{
   logOut(){
    this.$axios.get('/api/user/logout')
-    // axios.get('http://localhost:5000/api/user/logout')
           this.deleteconfirm = false
           setTimeout(() => {
           localStorage.removeItem('sort')

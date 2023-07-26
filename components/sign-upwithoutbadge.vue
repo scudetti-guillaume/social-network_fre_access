@@ -233,7 +233,7 @@ export default {
   },
 
 };
-  // console.log(this.psw);
+
 </script>
   
 <style lang="scss">

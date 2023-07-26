@@ -101,7 +101,6 @@
       this.userSignalIdP = infoprofil.userSidP
       this.userSignalFullnameP = infoprofil.userSfullP
        await this.$axios.get(`/api/user/${this.userSignalIdP}`)
-    //  await axios.get(`http://localhost:5000/api/user/${this.userSignalIdP}`)
           .then((profil) => {
             localStorage.removeItem('info-signal-profil')
             this.signaluser = profil.data.profilSignalBy

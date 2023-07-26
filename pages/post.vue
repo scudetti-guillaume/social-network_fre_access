@@ -47,7 +47,6 @@ export default{
     },
  methods: {
     deletebio() {
-      console.log(this.bio);
       this.bio = "";
     },
  },

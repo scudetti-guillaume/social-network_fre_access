@@ -1,9 +1,9 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  server: {
-    port: 3000,
-  },
+  // server: {
+  //   port: 3000,
+  // },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: 'Soc-Net',
@@ -50,10 +50,10 @@ export default {
     '@nuxtjs/axios'
   ],
   axios: {
-    // baseURL:'/soc_free/backend',
-    baseURL:'http://localhost:5000',
+    baseURL:'/soc_free/backend',
+    // baseURL:'http://localhost:5000',
   },
-  // target: 'static',
+  target: 'static',
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -79,9 +79,9 @@ export default {
     color: 'green',
     height: '5px'
   },
-  // router: {
-  //   base: '/soc_free/'
-  // },
+  router: {
+    base: '/soc_free/'
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },

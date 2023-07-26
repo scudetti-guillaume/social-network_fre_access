@@ -58,7 +58,6 @@ export default {
         this.idpostban = info.postidban
         this.$axios.get(`/api/user/${this.iduserban}`)
             .then((doc) => {
-                console.log(doc);
                 localStorage.removeItem('info-ban-user')
                 this.firstname = doc.data.firstname
                 this.lastname = doc.data.lastname
@@ -80,8 +79,8 @@ export default {
         banSend() {
             this.$axios.post(`api/user/deletepostbanadmin/${this.iduserban}`)
                 .then((doc) => {
-                    this.reportconfirm2 = true,
-                        console.log('utilisateur banni');
+                    this.reportconfirm2 = true;
+    
                 })
             setTimeout(() => {
                 this.$emit('close-modale-deleteAll')

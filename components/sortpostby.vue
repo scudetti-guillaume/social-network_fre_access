@@ -40,9 +40,8 @@ export default {
         }
     },
    async mounted() {
-           axios.defaults.withCredentials = true;
+           this.$axios.defaults.withCredentials = true;
              await this.$axios.get(`/jwtid`)
-        //    await axios.get(`http://localhost:5000/jwtid`)
              .then((res) => {
                this.userjwtid = res.data;
            
@@ -52,7 +51,6 @@ export default {
                console.log(error);
              });
               await this.$axios.get(`/api/user/${this.userjwtid}`)
-        //    await axios.get(`http://localhost:5000/api/user/${this.userjwtid}`)
              .then((docs) => {
                this.role = docs.data.role;
                this.userid = docs.data._id;

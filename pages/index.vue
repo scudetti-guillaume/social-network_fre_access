@@ -551,7 +551,6 @@ export default {
         .then((res) => {
           let data = res.data
           data.forEach(pic => {
-            console.log(pic.photo);
           });
         })
     },
@@ -594,7 +593,6 @@ export default {
       const resetMessage = document.querySelectorAll(
         ".deploy-commentUser-card"
       )[index].firstElementChild[0].value;
-      console.log(resetMessage);
       if (resetMessage !== "") {
         this.WarningDoubleComment = true;
       } else {
@@ -657,7 +655,6 @@ export default {
       let testRegex = this.CommentMessage.split(" ").join("");
       if (testRegex != "") {
         this.commentValid = true;
-        console.log(commentValid);
         return true;
       } else {
         this.commentValid = false;
@@ -718,8 +715,6 @@ export default {
     },
     
      deletePostComment(commentid,userid, index) {
-      console.log(commentid);
-      console.log(index);
         this.$axios.delete(`/api/post/deletecommentpost/${commentid}`, {data :{userid}})
           .then(() => {
              this.showclosecomment(index)
@@ -728,7 +723,6 @@ export default {
     },
     
     showmodifycomment(index) {
-    console.log(index);
     this.showmodifycommentIndex = index
     },
     
@@ -839,9 +833,7 @@ export default {
     getPostsSignal() {
       this.$axios.get(`/api/post/postsignaladmin/${this.userid}`)
         .then((docs) => {
-          console.log(docs);
           this.posts = docs.data;
-          console.log(this.posts);
           if (docs.data[0] === undefined) {
             this.$axios.get("/api/post")
               .then((docs) => {
@@ -1097,7 +1089,6 @@ export default {
       });
     await this.$axios.get(`/api/user/${this.userjwtid}`)
       .then((docs) => {
-        console.log(docs);
         this.role = docs.data.role;
         this.userid = docs.data._id;
         this.firstname = docs.data.firstname;

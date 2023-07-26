@@ -269,7 +269,6 @@ exports.getPostSignal = (req, res) => {
         UserModel.findById(req.body.userSignalId,{postSignalBy:
           {$elemMatch :
             {signalPostid :req.body.postSignal, signalUserId : req.body.userFromId}}},(err,doc)=>{
-              console.log(doc.postSignalBy[0]);
            if (doc.postSignalBy[0] != undefined ) console.log('publication deja signalé')
            else {
            UserModel.findByIdAndUpdate(req.body.userSignalId,
@@ -336,9 +335,7 @@ exports.deleteOnePicture = (req, res) => {
         fs.unlink(`${process.env.BASE_DELETE_IMAGE_POST}/${delimg}`, (err) => {
           if (err) {
             console.log("failed to delete local image:" + err);
-          } else {
-            console.log("successfully deleted local image");
-          }
+          } 
         });
       } else {
         res.cookie("jwt_soc_free", "", { session: false, maxAge: 1 })
@@ -362,8 +359,6 @@ exports.deleteOldPicModidify = (req, res) => {
         fs.unlink(`${process.env.BASE_DELETE_IMAGE_POST}/${delimg}`, (err) => {
           if (err) {
             console.log("failed to delete local image:" + err);
-          } else {
-            console.log("successfully deleted local image");
           }
         });
       }else{
