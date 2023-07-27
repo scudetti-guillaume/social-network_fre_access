@@ -356,18 +356,28 @@ exports.userDelete = async (req, res) => {
 
   if (req.role === 'admin' || connectedUser === postedBy) {
     try {
-      // Supprimer tous les commentaires avec commenterId égal à req.params.id
-      const updateResult = await PostModel.updateMany(
+      await PostModel.updateMany(
         { "comments.commenterId": req.params.id },
         { $pull: { comments: { commenterId: req.params.id } } }
       );
-      console.log(updateResult);
+      
+      await PostModel.deleteMany({ posterId: req.params.id });
 
-      // Supprimer tous les posts ayant le posterId égal à req.params.id
-      const deletePostsResult = await PostModel.deleteMany({ posterId: req.params.id });
-      console.log(deletePostsResult);
+      await PostModel.updateMany(
+        { likers: req.params.id },
+        { $pull: { likers: req.params.id } }
+      );
 
-      // Supprimer l'utilisateur
+      await UserModel.updateMany(
+        { followers: req.params.id },
+        { $pull: { followers: req.params.id } }
+      );
+
+      await UserModel.updateMany(
+        { following: req.params.id },
+        { $pull: { following: req.params.id } }
+      );
+
       const user = await UserModel.findById(req.params.id);
       if (!user) {
         return res.status(404).json('Erreur: Utilisateur non trouvé.');
@@ -417,31 +427,32 @@ exports.DeleteUserAdmin = async (req, res) => {
 
   if (req.role === 'admin') {
     try {
-      // Supprimer tous les commentaires avec commenterId égal à req.params.id
-      const updateResult = await PostModel.updateMany(
+      await PostModel.updateMany(
         { "comments.commenterId": req.params.id },
         { $pull: { comments: { commenterId: req.params.id } } }
       );
-      console.log(updateResult);
 
-      // Supprimer tous les posts ayant le posterId égal à req.params.id
-      const deletePostsResult = await PostModel.deleteMany({ posterId: req.params.id });
-      console.log(deletePostsResult);
+      await PostModel.deleteMany({ posterId: req.params.id });
 
-      // Supprimer l'utilisateur
-      const user = await UserModel.findById(req.params.id);
-      if (!user) {
-        return res.status(404).json('Erreur: Utilisateur non trouvé.');
-      }
+      await PostModel.updateMany(
+        { likers: req.params.id },
+        { $pull: { likers: req.params.id } }
+      );
 
-      const userDeleteResult = await UserModel.findByIdAndRemove(req.params.id);
-      console.log(userDeleteResult);
+      await UserModel.updateMany(
+        { followers: req.params.id },
+        { $pull: { followers: req.params.id } }
+      );
 
-      if (!userDeleteResult) {
-        return res.status(404).json('Erreur: Utilisateur non trouvé.');
-      }
+      await UserModel.updateMany(
+        { following: req.params.id },
+        { $pull: { following: req.params.id } }
+      );
 
-      return res.status(200).json({ message: "Utilisateur supprimé" });
+
+      await UserModel.findByIdAndRemove(req.params.id);
+
+      res.status(200).json({ message: "Utilisateur supprimé" });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ message: "Une erreur s'est produite lors de la suppression de l'utilisateur." });

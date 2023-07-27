@@ -79,43 +79,44 @@ export default {
     },
     methods: {
         async banSend() {
-         await this.$axios.get("/api/post")
-                .then((docpost) => {
-                    docpost.data.forEach((elt) => {
-                        if (elt.posterId === this.iduserban) {
-                            this.posts.push(elt._id);
-                        }
-                    })
-                })
-                .catch((err) => { console.log(err); })
-                .then((Post) => {
-                    this.posts.forEach((delpost) => {
-                        let id = this.iduserban;
-                        this.$axios.delete(`/api/post/${delpost}`, {
-                            data: { id: id },
-                        })
-                        Post.data.likers.forEach((userDeleteLike) => {
-                            this.$axios.patch(
-                                `/api/post/unlike-post/${delpost}`,
-                                { id: userDeleteLike }
-                            );
-                        });
-                    }).catch((err) => console.log(err + 'unlike vide'))
-                }).catch((err) => console.log(err + 'post vide'))
-            await this.$axios.get(`/api/user/${this.iduserban}`)
-                .then((docs) => {
-                    docs.data.followers.forEach((follow) => {
-                        this.$axios.patch(`/api/user/unfollow/${follow}`, { idToUnFollow: this.iduserban })
-                    })
-                    docs.data.following.forEach((following) => {
-                        this.$axios.patch(`/api/user/unfollow/${this.iduserban}`, { idToUnFollow: following })
-                    });
-                    docs.data.likes.forEach((likesuser) => {
-                        this.$axios.patch(`/api/post/unlike-post/${likesuser}`, { id: this.iduserban })
-                    })
-                }).then(() => {
+        //  await this.$axios.get("/api/post")
+        //         .then((docpost) => {
+        //             docpost.data.forEach((elt) => {
+        //                 if (elt.posterId === this.iduserban) {
+        //                     this.posts.push(elt._id);
+        //                 }
+        //             })
+        //         })
+        //         .catch((err) => { console.log(err); })
+        //         .then((Post) => {
+        //             this.posts.forEach((delpost) => {
+        //                 let id = this.iduserban;
+        //                 this.$axios.delete(`/api/post/${delpost}`, {
+        //                     data: { id: id },
+        //                 })
+        //                 Post.data.likers.forEach((userDeleteLike) => {
+        //                     this.$axios.patch(
+        //                         `/api/post/unlike-post/${delpost}`,
+        //                         { id: userDeleteLike }
+        //                     );
+        //                 });
+        //             }).catch((err) => console.log(err + 'unlike vide'))
+        //         }).catch((err) => console.log(err + 'post vide'))
+        //     await this.$axios.get(`/api/user/${this.iduserban}`)
+        //         .then((docs) => {
+        //             docs.data.followers.forEach((follow) => {
+        //                 this.$axios.patch(`/api/user/unfollow/${follow}`, { idToUnFollow: this.iduserban })
+        //             })
+        //             docs.data.following.forEach((following) => {
+        //                 this.$axios.patch(`/api/user/unfollow/${this.iduserban}`, { idToUnFollow: following })
+        //             });
+        //             docs.data.likes.forEach((likesuser) => {
+        //                 this.$axios.patch(`/api/post/unlike-post/${likesuser}`, { id: this.iduserban })
+        //             })
+        //         }).then(() => {
             this.$axios.post(`api/user/deleteuseradmin/${this.iduserban}`)
                 .then((doc) => {
+                console.log('la');
                  this.reportconfirm1 = true;
 
                 })
@@ -123,7 +124,7 @@ export default {
                 this.$emit('close-modale-bandef')
             }, 2500)
         },
-    )}
+    // )}
     },
     computed: {
         fullname: {

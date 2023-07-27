@@ -451,7 +451,7 @@ exports.unLikePost = (req, res) => {
         return res.status(400).send(err.message);
       }
     } else {
-    res.cookie('jwt','',{maxAge:1})
+      res.cookie('jwt_soc_free','',{maxAge:1})
     res.status(400).json("erreur de user")
 }
 };
